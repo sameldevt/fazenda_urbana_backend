@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using _.VerdeViva.Models.DTOS.Dashboard;
+
+namespace _.VerdeViva.Models.Entities.Dashboard;
+
+public class ContatoMensagem
+{
+    public string Nome {get; set;}
+    public string Sobrenome {get; set;}
+    public string Email {get; set;}
+    public string Mensagem {get; set;}
+
+    private ContatoMensagem()
+    {
+
+    }
+
+    public static ContatoMensagem From(ContatoMensagemDTO contatoMensagemDTO)
+    {
+        ContatoMensagem contatoMensagem = new ContatoMensagem
+        {
+            Nome = contatoMensagemDTO.Nome,
+            Sobrenome = contatoMensagemDTO.Sobrenome,
+            Email = contatoMensagemDTO.Email,
+            Mensagem = contatoMensagemDTO.Mensagem
+        };
+
+        return contatoMensagem;
+    }
+}
