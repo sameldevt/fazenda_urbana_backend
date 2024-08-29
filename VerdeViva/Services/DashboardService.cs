@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using _.VerdeViva.Data.Repositories.Dashboard;
-using _.VerdeViva.Data.Repositories.Cliente;
 using _.VerdeViva.Models.DTOS.Dashboard;
 using _.VerdeViva.Models.Entities.Dashboard.Cliente;
+using _.VerdeViva.Data.Repositories.DashboardRepository;
+using _.VerdeViva.Data.Repositories.ClienteRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -26,6 +26,24 @@ public class DashboardService
     public void SalvarContatoMensagem(ContatoMensagemDTO contatoMensagemDTO)
     {
         _dashboardRepository.SalvarContatoMensagem(contatoMensagemDTO);
+    }
+
+    public async Task<string> EfetuarCadastro(EfetuarCadastroDTO efetuarCadastroDTO)
+    {
+        string EmailUsuario = efetuarCadastroDTO.Email;
+
+        var UsuarioBanco = await _usuarioRepository.BuscarPorEmail(EmailUsuario);
+
+        if(UsuarioBanco != null)
+        {
+            return "Usuário já cadastrado.";
+        }
+
+        var usuario = Usuario.From(efetuarCadastroDTO);
+
+        _usuarioRepository.Cadastrar(usuario);
+
+        return "Usuário cadastrado com sucesso.";
     }
 
     public async Task<string> EfetuarLogin(EfetuarLoginDTO efetuarLoginDTO)

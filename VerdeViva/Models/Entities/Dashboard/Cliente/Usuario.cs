@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using _.VerdeViva.Models.DTOS.Dashboard;
+using _.VerdeViva.Models.Entities.Loja;
 
 namespace _.VerdeViva.Models.Entities.Dashboard.Cliente;
 
@@ -19,9 +21,31 @@ public class Usuario
     [Required]
     public string Senha { get; set; }
 
-    [Required]
+     // Relacionamento um-para-muitos com Pedido
+    public ICollection<Pedido> Pedidos { get; set; }
+
     public Contato Contato { get; set; }
-    
-    [Required]
+
     public Endereco Endereco { get; set; }
+
+    private Usuario(){
+
+    }
+
+    public static Usuario From(EfetuarCadastroDTO efetuarCadastroDTO)
+    {
+        Contato contato = new Contato
+        {
+            Email = efetuarCadastroDTO.Email,
+            Telefone = efetuarCadastroDTO.Telefone
+        };
+
+        Usuario usuario = new Usuario{
+            Nome = efetuarCadastroDTO.NomeCompleto,
+            Senha = efetuarCadastroDTO.Senha,
+            Contato = contato,
+        };
+
+        return usuario;
+    }
 }

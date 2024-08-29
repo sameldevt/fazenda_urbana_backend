@@ -9,13 +9,13 @@ namespace _.VerdeViva.Models.Entities.Dashboard.Cliente;
 
 public class Contato
 {
-    [Key, ForeignKey("Usuario")]
-    public int UsuarioId { get; set; }
+    [Key]
+    public int UsuarioId { get; set; }  // Este é tanto a chave primária quanto a estrangeira
 
-    [Required]
     public string Telefone { get; set; }
-    
-    [Required]
+
     public string Email { get; set; }
-    public Usuario Usuario {get; set;}
+
+    [ForeignKey("UsuarioId")]
+    public Usuario Usuario {get; set;}  // Define a relação com Usuario
 }

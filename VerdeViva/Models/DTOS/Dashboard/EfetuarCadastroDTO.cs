@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace _.VerdeViva.Models.DTOS.Dashboard
 {
-    public record CadastroDTO(
+    public record EfetuarCadastroDTO(
         string NomeCompleto,
         string Telefone,
         string Email,

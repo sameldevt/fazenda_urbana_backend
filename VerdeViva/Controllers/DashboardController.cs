@@ -19,24 +19,35 @@ public class DashboardController : ControllerBase
         _dashboardService = dashboardService;
     }
 
-    [HttpPost("fale-conosco")]
-    public IActionResult FaleConosco([FromBody] ContatoMensagemDTO contatoMensagemDTO)
+    [HttpPost("enviar-contato-mensagem")]
+    public IActionResult EnviarContatoMensagem([FromBody] ContatoMensagemDTO contatoMensagemDTO)
     {
         _dashboardService.SalvarContatoMensagem(contatoMensagemDTO);
 
         return CreatedAtAction(
-            actionName: nameof(FaleConosco),
+            actionName: nameof(EnviarContatoMensagem),
             value: "Mensagem recebida com sucesso"
         );
     }
 
-    [HttpPost("entrar")]
-    public async Task<IActionResult> Entrar([FromBody] EfetuarLoginDTO efetuarLoginDTO)
+    [HttpPost("efetuar-login")]
+    public async Task<IActionResult> EfetuarLogin([FromBody] EfetuarLoginDTO efetuarLoginDTO)
     {
         string message = await _dashboardService.EfetuarLogin(efetuarLoginDTO);
 
         return CreatedAtAction(
-            actionName: nameof(Entrar),
+            actionName: nameof(EfetuarLogin),
+            value: message
+        );
+    }
+
+    [HttpPost("efetuar-cadastro")]
+    public async Task<IActionResult> EfetuarCadastro([FromBody] EfetuarCadastroDTO efetuarCadastroDTO)
+    {
+        string message = await _dashboardService.EfetuarCadastro(efetuarCadastroDTO);
+
+        return CreatedAtAction(
+            actionName: nameof(EfetuarCadastro),
             value: message
         );
     }
