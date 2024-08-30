@@ -23,6 +23,8 @@ namespace _.VerdeViva.Models.Entities.Producao
         [Required]
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
 
+        public ICollection<Produto> Produtos { get; set; }
+
         private Categoria()
         {
 

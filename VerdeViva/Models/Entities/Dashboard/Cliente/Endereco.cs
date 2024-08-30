@@ -10,22 +10,29 @@ namespace _.VerdeViva.Models.Entities.Dashboard.Cliente;
 public class Endereco
 {
     [Key]
-    public int UsuarioId { get; set; }  // Este é tanto a chave primária quanto a estrangeira
+    public int Id {get; set;}
 
+    [Required]
+    public int FkUsuario { get; set; } 
+
+    [Required]
     public string Logradouro {get; set;}
 
+    [Required]
     public string Numero {get; set;}
 
+    [Required]
     public string Cidade {get; set;}
 
+    [Required]
     public string CEP {get; set;}
     
     public string Complemento {get; set;}
 
+    [Required]
     public string Estado {get; set;}
     
     public string InformacoesAdicionais {get; set;}
 
-    [ForeignKey("UsuarioId")]
-    public Usuario Usuario {get; set;}  // Define a relação com Usuario
+    public Usuario Usuario {get; set;} 
 }

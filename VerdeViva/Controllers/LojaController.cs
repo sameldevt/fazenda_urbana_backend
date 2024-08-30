@@ -20,9 +20,9 @@ public class LojaController : ControllerBase
     }
 
     [HttpGet("buscar/{nome}")]
-    public async Task<IActionResult> Buscar([FromRoute] string nome)
+    public IActionResult Buscar([FromRoute] string nome)
     {
-        var produto = await _lojaService.Buscar(nome);
+        var produto = _lojaService.Buscar(nome);
 
         if(produto == null)
         {
@@ -33,9 +33,9 @@ public class LojaController : ControllerBase
     }
 
     [HttpGet("buscar-todos")]
-    public async Task<IActionResult> BuscarTodos()
+    public IActionResult BuscarTodos()
     {
-        var produtos = await _lojaService.BuscarTodos();
+        var produtos = _lojaService.BuscarTodos();
 
         return Ok(produtos);
     }

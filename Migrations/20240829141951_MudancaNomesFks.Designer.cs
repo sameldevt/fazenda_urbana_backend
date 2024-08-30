@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using _.VerdeViva.Data;
@@ -11,9 +12,11 @@ using _.VerdeViva.Data;
 namespace _.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829141951_MudancaNomesFks")]
+    partial class MudancaNomesFks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +43,9 @@ namespace _.Migrations
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("fk_usuario")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -88,9 +94,12 @@ namespace _.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("fk_usuario")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FkUsuario")
+                    b.HasIndex("fk_usuario")
                         .IsUnique();
 
                     b.ToTable("tb_endereco", (string)null);
@@ -160,6 +169,9 @@ namespace _.Migrations
                     b.Property<int>("FkUsuario")
                         .HasColumnType("integer");
 
+                    b.Property<int>("fk_usuario")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FkUsuario");
@@ -176,6 +188,12 @@ namespace _.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("fk_pedido")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("fk_produto")
                         .HasColumnType("integer");
 
                     b.HasKey("FkPedido", "FkProduto");
@@ -209,34 +227,6 @@ namespace _.Migrations
                     b.ToTable("tb_categoria", (string)null);
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Caloria")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Fibra")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Gordura")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Proteina")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("carboidrato")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tb_nutriente", (string)null);
-                });
-
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>
                 {
                     b.Property<int>("Id")
@@ -250,9 +240,6 @@ namespace _.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("FkCategoria")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FkNutriente")
                         .HasColumnType("integer");
 
                     b.Property<string>("ImagemUrl")
@@ -272,12 +259,12 @@ namespace _.Migrations
                     b.Property<int>("QuantidadeEstoque")
                         .HasColumnType("integer");
 
+                    b.Property<int>("fk_categoria")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FkCategoria");
-
-                    b.HasIndex("FkNutriente")
-                        .IsUnique();
+                    b.HasIndex("fk_categoria");
 
                     b.ToTable("tb_produto", (string)null);
                 });
@@ -288,7 +275,8 @@ namespace _.Migrations
                         .WithOne("Contato")
                         .HasForeignKey("_.VerdeViva.Models.Entities.Dashboard.Cliente.Contato", "FkUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_usuario");
 
                     b.Navigation("Usuario");
                 });
@@ -297,7 +285,7 @@ namespace _.Migrations
                 {
                     b.HasOne("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", "Usuario")
                         .WithOne("Endereco")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Dashboard.Cliente.Endereco", "FkUsuario")
+                        .HasForeignKey("_.VerdeViva.Models.Entities.Dashboard.Cliente.Endereco", "fk_usuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -308,9 +296,7 @@ namespace _.Migrations
                 {
                     b.HasOne("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", "Usuario")
                         .WithMany("Pedidos")
-                        .HasForeignKey("FkUsuario")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FkUsuario");
 
                     b.Navigation("Usuario");
                 });
@@ -319,15 +305,11 @@ namespace _.Migrations
                 {
                     b.HasOne("_.VerdeViva.Models.Entities.Loja.Pedido", "Pedido")
                         .WithMany("PedidoProdutos")
-                        .HasForeignKey("FkPedido")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FkPedido");
 
                     b.HasOne("_.VerdeViva.Models.Entities.Producao.Produto", "Produto")
                         .WithMany("PedidoProdutos")
-                        .HasForeignKey("FkProduto")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FkProduto");
 
                     b.Navigation("Pedido");
 
@@ -337,20 +319,12 @@ namespace _.Migrations
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>
                 {
                     b.HasOne("_.VerdeViva.Models.Entities.Producao.Categoria", "Categoria")
-                        .WithMany("Produtos")
-                        .HasForeignKey("FkCategoria")
+                        .WithMany()
+                        .HasForeignKey("fk_categoria")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_.VerdeViva.Models.Entities.Producao.Nutriente", "Nutriente")
-                        .WithOne("Produto")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Producao.Produto", "FkNutriente")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Nutriente");
                 });
 
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", b =>
@@ -367,16 +341,6 @@ namespace _.Migrations
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.Pedido", b =>
                 {
                     b.Navigation("PedidoProdutos");
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Categoria", b =>
-                {
-                    b.Navigation("Produtos");
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
-                {
-                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>

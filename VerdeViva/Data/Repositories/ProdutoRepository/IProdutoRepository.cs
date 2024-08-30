@@ -8,7 +8,7 @@ namespace _.VerdeViva.Data.Repositories.ProdutoRepository;
 
 public interface IProdutoRepository
 {
-    Task<List<Produto>> BuscarTodos();
-    Task<Produto> Buscar(string nomeProduto); 
+    List<Produto> BuscarTodos();
+    Produto Buscar(string nomeProduto); 
     bool Cadastrar(Produto produto);  
 }

@@ -21,7 +21,6 @@ public class Usuario
     [Required]
     public string Senha { get; set; }
 
-     // Relacionamento um-para-muitos com Pedido
     public ICollection<Pedido> Pedidos { get; set; }
 
     public Contato Contato { get; set; }

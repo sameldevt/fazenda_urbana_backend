@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using _.VerdeViva.Models.Entities.Dashboard.Cliente;
@@ -9,12 +11,11 @@ namespace _.VerdeViva.Models.Entities.Loja;
 
 public class Pedido
 {
-    public int PedidoId { get; set; } // Chave Primária
-    public DateTime Data { get; set; } // Data do pedido
-    // Chave estrangeira para Usuario
-    public int UsuarioId { get; set; }
+    [Key]
+    public int Id { get; set; } 
+    public DateTime Data { get; set; } 
+    public int FkUsuario { get; set; }
     public Usuario Usuario { get; set; }
 
-    // Relacionamento muitos-para-muitos com Produto
     public ICollection<PedidoProduto> PedidoProdutos { get; set; }
 }

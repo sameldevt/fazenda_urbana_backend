@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using _.VerdeViva.Data;
@@ -11,9 +12,11 @@ using _.VerdeViva.Data;
 namespace _.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829192224_NutrienteSemConstraint4")]
+    partial class NutrienteSemConstraint4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,6 +266,9 @@ namespace _.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("NutrienteId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("PrecoQuilo")
                         .HasColumnType("numeric");
 
@@ -276,8 +282,7 @@ namespace _.Migrations
 
                     b.HasIndex("FkCategoria");
 
-                    b.HasIndex("FkNutriente")
-                        .IsUnique();
+                    b.HasIndex("NutrienteId");
 
                     b.ToTable("tb_produto", (string)null);
                 });
@@ -343,9 +348,9 @@ namespace _.Migrations
                         .IsRequired();
 
                     b.HasOne("_.VerdeViva.Models.Entities.Producao.Nutriente", "Nutriente")
-                        .WithOne("Produto")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Producao.Produto", "FkNutriente")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("NutrienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -372,11 +377,6 @@ namespace _.Migrations
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Categoria", b =>
                 {
                     b.Navigation("Produtos");
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
-                {
-                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>

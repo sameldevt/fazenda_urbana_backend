@@ -16,16 +16,16 @@ public class ProdutoRepository : IProdutoRepository
         _context = context;
     }
     
-    public async Task<List<Produto>> BuscarTodos()
+    public List<Produto> BuscarTodos()
     {
-        return await _context.Produto.ToListAsync();
+        return _context.Produto.ToList();
     }
 
-    public async Task<Produto> Buscar(string nomeProduto)
+    public Produto Buscar(string nomeProduto)
     {
-    var produto = await _context.Produto.FirstOrDefaultAsync(p => p.Nome == nomeProduto);
+        var produto = _context.Produto.FirstOrDefault(p => p.Nome == nomeProduto);
 
-    return produto;
+        return produto;
     }
 
 

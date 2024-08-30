@@ -17,9 +17,11 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Produto> Produto { get; set; } // Corrigido: nome consistente
-    public DbSet<ContatoMensagem> Mensagem { get; set; } // Corrigido: nome consistente
-    public DbSet<Usuario> Usuario { get; set; } // Corrigido: nome consistente
+    public DbSet<Produto> Produto { get; set; } 
+
+    public DbSet<Nutriente> Nutriente {get; set;}
+    public DbSet<ContatoMensagem> Mensagem { get; set; } 
+    public DbSet<Usuario> Usuario { get; set; } 
     public DbSet<Categoria> Categoria { get; set; }
     public DbSet<Pedido> Pedido { get; set; }
     public DbSet<PedidoProduto> PedidoProduto { get; set; }
@@ -27,7 +29,6 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configuração das tabelas
         modelBuilder.Entity<Contato>().ToTable("tb_contato");
         modelBuilder.Entity<Endereco>().ToTable("tb_endereco");
         modelBuilder.Entity<Produto>().ToTable("tb_produto");
@@ -36,41 +37,51 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Categoria>().ToTable("tb_categoria");
         modelBuilder.Entity<Pedido>().ToTable("tb_pedido");
         modelBuilder.Entity<PedidoProduto>().ToTable("tb_pedido_produto");
+        modelBuilder.Entity<Nutriente>().ToTable("tb_nutriente");
 
-        // Configuração de relacionamento um-para-um entre Usuario e Contato
         modelBuilder.Entity<Usuario>()
             .HasOne(u => u.Contato)
             .WithOne(c => c.Usuario)
-            .HasForeignKey<Contato>(c => c.UsuarioId)
-            .OnDelete(DeleteBehavior.Cascade); // Configura a exclusão em cascata
+            .HasForeignKey<Contato>(c => c.FkUsuario)
+            .OnDelete(DeleteBehavior.Cascade); 
 
-        // Configuração de relacionamento um-para-um entre Usuario e Endereco
         modelBuilder.Entity<Usuario>()
             .HasOne(u => u.Endereco)
             .WithOne(e => e.Usuario)
-            .OnDelete(DeleteBehavior.Cascade); // Configura a exclusão em cascata
+            .HasForeignKey<Endereco>(e => e.FkUsuario)
+            .OnDelete(DeleteBehavior.Cascade); 
 
-        // Configuração do relacionamento muitos-para-muitos usando a entidade de junção
         modelBuilder.Entity<PedidoProduto>()
-            .HasKey(pp => new { pp.PedidoId, pp.ProdutoId });
+            .HasKey(pp => new { pp.FkPedido, pp.FkProduto });
 
         modelBuilder.Entity<PedidoProduto>()
             .HasOne(pp => pp.Pedido)
             .WithMany(p => p.PedidoProdutos)
-            .HasForeignKey(pp => pp.PedidoId)
-            .IsRequired(false); // Torna opcional
+            .HasForeignKey(pp => pp.FkPedido)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<PedidoProduto>()
             .HasOne(pp => pp.Produto)
             .WithMany(p => p.PedidoProdutos)
-            .HasForeignKey(pp => pp.ProdutoId)
-            .IsRequired(false); // Torna opcional
+            .HasForeignKey(pp => pp.FkProduto)
+            .OnDelete(DeleteBehavior.Restrict);
 
-        // Configuração do relacionamento um-para-muitos entre Usuario e Pedido
         modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Usuario)
             .WithMany(u => u.Pedidos)
-            .HasForeignKey(p => p.UsuarioId)
-            .IsRequired(false); // Torna opcional
+            .HasForeignKey(p => p.FkUsuario)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Produto>()
+            .HasOne(p => p.Nutriente)
+            .WithOne(n => n.Produto)
+            .HasForeignKey<Produto>(p => p.FkNutriente)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Produto>()
+            .HasOne(p => p.Categoria)
+            .WithMany(c => c.Produtos)
+            .HasForeignKey(p => p.FkCategoria)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

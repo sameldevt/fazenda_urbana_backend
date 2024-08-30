@@ -5,6 +5,7 @@ using _.VerdeViva.Data.Repositories.DashboardRepository;
 using _.VerdeViva.Data.Repositories.ProdutoRepository;
 using _.VerdeViva.Data.Repositories.CategoriaRepository;
 using Microsoft.EntityFrameworkCore;
+using _.VerdeViva.Data.Repositories.NutrienteRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<INutrienteRepository, NutrienteRepository>();
 
 builder.Services.AddScoped<LojaService>();
 builder.Services.AddScoped<ProducaoService>();

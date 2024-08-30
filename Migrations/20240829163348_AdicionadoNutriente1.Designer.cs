@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using _.VerdeViva.Data;
@@ -11,9 +12,11 @@ using _.VerdeViva.Data;
 namespace _.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240829163348_AdicionadoNutriente1")]
+    partial class AdicionadoNutriente1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,7 +348,7 @@ namespace _.Migrations
                     b.HasOne("_.VerdeViva.Models.Entities.Producao.Nutriente", "Nutriente")
                         .WithOne("Produto")
                         .HasForeignKey("_.VerdeViva.Models.Entities.Producao.Produto", "FkNutriente")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -376,7 +379,8 @@ namespace _.Migrations
 
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
                 {
-                    b.Navigation("Produto");
+                    b.Navigation("Produto")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>

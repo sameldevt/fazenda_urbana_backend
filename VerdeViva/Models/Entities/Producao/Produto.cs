@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using _.VerdeViva.Models.DTOS.Producao;
 using _.VerdeViva.Models.Entities.Loja;
+using Npgsql.Replication;
 
 namespace _.VerdeViva.Models.Entities.Producao
 {
@@ -17,6 +18,9 @@ namespace _.VerdeViva.Models.Entities.Producao
 
         [Required]
         public string Nome { get; set; }
+
+        [Required]
+        public string Descricao {get; set;}
         
         [Required]
         public decimal PrecoUnitario { get; set; }
@@ -28,14 +32,18 @@ namespace _.VerdeViva.Models.Entities.Producao
         public int QuantidadeEstoque { get; set; }
 
         public string ImagemUrl {get; set;}
-        
-        public int CategoriaId { get; set; }
 
         [Required]
-        [ForeignKey("CategoriaId")]
+        public int FkNutriente {get; set;}
+
+        public Nutriente Nutriente {get; set;}
+
+        [Required]
+        public int FkCategoria {get; set;}
+
+        [Required]     
         public Categoria Categoria { get; set; }
 
-        // Relacionamento muitos-para-muitos com Pedido
         public ICollection<PedidoProduto> PedidoProdutos { get; set; }
 
         private Produto(){
@@ -46,14 +54,16 @@ namespace _.VerdeViva.Models.Entities.Producao
         {
             Produto produto = new Produto{
                 Nome = cadastrarProdutoDTO.Nome,
+                Descricao = cadastrarProdutoDTO.Descricao,
                 PrecoUnitario = cadastrarProdutoDTO.PrecoUnitario,
                 PrecoQuilo = cadastrarProdutoDTO.PrecoQuilo,
                 QuantidadeEstoque = cadastrarProdutoDTO.QuantidadeEstoque,
                 ImagemUrl = cadastrarProdutoDTO.ImagemUrl,
                 Categoria = categoria,
+                Nutriente = cadastrarProdutoDTO.Nutriente
             };
 
             return produto;
-        }
+        } 
     }
 }
