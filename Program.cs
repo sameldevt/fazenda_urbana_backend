@@ -1,11 +1,10 @@
-using _.VerdeViva.Data;
-using _.VerdeViva.Services;
-using _.VerdeViva.Data.Repositories.ClienteRepository;
-using _.VerdeViva.Data.Repositories.DashboardRepository;
-using _.VerdeViva.Data.Repositories.ProdutoRepository;
-using _.VerdeViva.Data.Repositories.CategoriaRepository;
 using Microsoft.EntityFrameworkCore;
-using _.VerdeViva.Data.Repositories.NutrienteRepository;
+using Microsoft.OpenApi.Models;
+using _.Data;
+using _.Web.Repositories;
+using _.Web.Services;
+using _.Desktop.Services;
+using _.Desktop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,24 +12,56 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Adiciona serviços ao contêiner
-builder.Services.AddControllers();
-
+// Registro de repositórios
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IEstoqueRepository, EstoqueRepository>();
+builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-builder.Services.AddScoped<INutrienteRepository, NutrienteRepository>();
+builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+builder.Services.AddScoped<IPerfilRepository, PerfilRepository>();
+builder.Services.AddScoped<IManagerProdutoRepository, ManagerProdutoRepository>();
+builder.Services.AddScoped<IFaleConoscoRepository, FaleConoscoRepository>();
 
-builder.Services.AddScoped<LojaService>();
-builder.Services.AddScoped<ProducaoService>();
-builder.Services.AddScoped<DashboardService>();
+
+// Registro de serviços com as interfaces correspondentes
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<ICarrinhoService, CarrinhoService>();
+builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+builder.Services.AddScoped<IPerfilService, PerfilService>();
+builder.Services.AddScoped<IManagerProdutoService, ManagerProdutoService>();
+builder.Services.AddScoped<IEstoqueService, EstoqueService>();
+builder.Services.AddScoped<IFornecedorService, FornecedorService>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+
+// Configuração do JSON para preservar referências circulares
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
+
+// Configuração do Swagger para documentação da API
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API de Compra de Produtos Orgânicos", Version = "v1" });
+});
 
 var app = builder.Build();
 
-// Configura o pipeline de requisições HTTP
-app.UseAuthorization();
-app.MapControllers();
+// Configuração do pipeline de requisições HTTP
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API de Compra de Produtos Orgânicos v1"));
+}
 
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

@@ -2750,24 +2750,27 @@
     ]
   },
   "packageFolders": {
-    "/home/developer/.nuget/packages/": {}
+    "C:\\Users\\samue\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/opt/dev/workspace/vscode/fazenda_urbana/backend/fazenda_urbana.csproj",
+      "projectUniqueName": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\fazenda_urbana.csproj",
       "projectName": "fazenda_urbana",
-      "projectPath": "/opt/dev/workspace/vscode/fazenda_urbana/backend/fazenda_urbana.csproj",
-      "packagesPath": "/home/developer/.nuget/packages/",
-      "outputPath": "/opt/dev/workspace/vscode/fazenda_urbana/backend/obj/",
+      "projectPath": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\fazenda_urbana.csproj",
+      "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/developer/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2835,7 +2838,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/opt/dev/dotnet/dotnet-sdk/dotnet-sdk-8.0.401-linux-x64/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

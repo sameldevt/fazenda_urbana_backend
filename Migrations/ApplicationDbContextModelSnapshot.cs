@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using _.VerdeViva.Data;
+using _.Data;
 
 #nullable disable
 
@@ -22,170 +22,7 @@ namespace _.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Contato", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("FkUsuario")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkUsuario")
-                        .IsUnique();
-
-                    b.ToTable("tb_contato", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Endereco", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CEP")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Complemento")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("FkUsuario")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("InformacoesAdicionais")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Logradouro")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkUsuario")
-                        .IsUnique();
-
-                    b.ToTable("tb_endereco", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tb_usuario", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.ContatoMensagem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Mensagem")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Sobrenome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tb_contato_mensagem", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.Pedido", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("FkUsuario")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkUsuario");
-
-                    b.ToTable("tb_pedido", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.PedidoProduto", b =>
-                {
-                    b.Property<int>("FkPedido")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FkProduto")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("integer");
-
-                    b.HasKey("FkPedido", "FkProduto");
-
-                    b.HasIndex("FkProduto");
-
-                    b.ToTable("tb_pedido_produto", (string)null);
-                });
-
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Categoria", b =>
+            modelBuilder.Entity("_.Desktop.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,19 +34,68 @@ namespace _.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias", (string)null);
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clientes", (string)null);
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Contato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telefone")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tb_categoria", (string)null);
+                    b.HasIndex("ClienteId")
+                        .IsUnique();
+
+                    b.ToTable("Contato");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
+            modelBuilder.Entity("_.Desktop.Models.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,116 +103,399 @@ namespace _.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Caloria")
-                        .HasColumnType("numeric");
+                    b.Property<string>("CEP")
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("Fibra")
-                        .HasColumnType("numeric");
+                    b.Property<string>("Cidade")
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("Gordura")
-                        .HasColumnType("numeric");
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("integer");
 
-                    b.Property<decimal>("Proteina")
-                        .HasColumnType("numeric");
+                    b.Property<string>("Complemento")
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("carboidrato")
-                        .HasColumnType("numeric");
+                    b.Property<string>("Estado")
+                        .HasColumnType("text");
+
+                    b.Property<string>("InformacoesAdicionais")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tb_nutriente", (string)null);
+                    b.HasIndex("ClienteId")
+                        .IsUnique();
+
+                    b.ToTable("Endereco");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>
+            modelBuilder.Entity("_.Desktop.Models.Fornecedor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("ContatoPrincipal")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Observações")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telefone")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fornecedores", (string)null);
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.InformacoesNutricionais", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Calorias")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Carboidratos")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Fibras")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Gorduras")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Proteinas")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdutoId")
+                        .IsUnique();
+
+                    b.ToTable("InformacoesNutricionais", (string)null);
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.ItemPedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("PreçoUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("ItemPedido");
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DataEntrega")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataPedido")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EnderecoEntrega")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("FormaPagamento")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Notas")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Pedidos", (string)null);
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Produto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("FkCategoria")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FkNutriente")
-                        .HasColumnType("integer");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.Property<string>("ImagemUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<decimal>("PrecoQuilo")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("PrecoUnitario")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("QuantidadeEstoque")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FkCategoria");
+                    b.HasIndex("CategoriaId");
 
-                    b.HasIndex("FkNutriente")
+                    b.ToTable("Produtos", (string)null);
+                });
+
+            modelBuilder.Entity("_.Web.Models.Carrinho", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Carrinho");
+                });
+
+            modelBuilder.Entity("_.Web.Models.FaleConosco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataEnvio")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<bool>("Respondido")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MensagensFaleConosco", (string)null);
+                });
+
+            modelBuilder.Entity("_.Web.Models.ItemCarrinho", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarrinhoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("PrecoUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarrinhoId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("ItensCarrinho");
+                });
+
+            modelBuilder.Entity("_.Web.Models.Perfil", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DataNascimento")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DocumentoIdentidade")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("InformacoesAdicionais")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId")
                         .IsUnique();
 
-                    b.ToTable("tb_produto", (string)null);
+                    b.ToTable("Perfis", (string)null);
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Contato", b =>
+            modelBuilder.Entity("_.Desktop.Models.Contato", b =>
                 {
-                    b.HasOne("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", "Usuario")
+                    b.HasOne("_.Desktop.Models.Cliente", "Cliente")
                         .WithOne("Contato")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Dashboard.Cliente.Contato", "FkUsuario")
+                        .HasForeignKey("_.Desktop.Models.Contato", "ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Endereco", b =>
+            modelBuilder.Entity("_.Desktop.Models.Endereco", b =>
                 {
-                    b.HasOne("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", "Usuario")
+                    b.HasOne("_.Desktop.Models.Cliente", "Cliente")
                         .WithOne("Endereco")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Dashboard.Cliente.Endereco", "FkUsuario")
+                        .HasForeignKey("_.Desktop.Models.Endereco", "ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.Pedido", b =>
+            modelBuilder.Entity("_.Desktop.Models.InformacoesNutricionais", b =>
                 {
-                    b.HasOne("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", "Usuario")
-                        .WithMany("Pedidos")
-                        .HasForeignKey("FkUsuario")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("_.Desktop.Models.Produto", "Produto")
+                        .WithOne("InformacoesNutricionais")
+                        .HasForeignKey("_.Desktop.Models.InformacoesNutricionais", "ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.PedidoProduto", b =>
+            modelBuilder.Entity("_.Desktop.Models.ItemPedido", b =>
                 {
-                    b.HasOne("_.VerdeViva.Models.Entities.Loja.Pedido", "Pedido")
-                        .WithMany("PedidoProdutos")
-                        .HasForeignKey("FkPedido")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("_.Desktop.Models.Pedido", "Pedido")
+                        .WithMany("Itens")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_.VerdeViva.Models.Entities.Producao.Produto", "Produto")
-                        .WithMany("PedidoProdutos")
-                        .HasForeignKey("FkProduto")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("_.Desktop.Models.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pedido");
@@ -334,54 +503,98 @@ namespace _.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>
+            modelBuilder.Entity("_.Desktop.Models.Pedido", b =>
                 {
-                    b.HasOne("_.VerdeViva.Models.Entities.Producao.Categoria", "Categoria")
-                        .WithMany("Produtos")
-                        .HasForeignKey("FkCategoria")
+                    b.HasOne("_.Desktop.Models.Cliente", "Cliente")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_.VerdeViva.Models.Entities.Producao.Nutriente", "Nutriente")
-                        .WithOne("Produto")
-                        .HasForeignKey("_.VerdeViva.Models.Entities.Producao.Produto", "FkNutriente")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Produto", b =>
+                {
+                    b.HasOne("_.Desktop.Models.Categoria", "Categoria")
+                        .WithMany("Produtos")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
-
-                    b.Navigation("Nutriente");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Dashboard.Cliente.Usuario", b =>
+            modelBuilder.Entity("_.Web.Models.Carrinho", b =>
                 {
-                    b.Navigation("Contato")
+                    b.HasOne("_.Desktop.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Endereco")
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("_.Web.Models.ItemCarrinho", b =>
+                {
+                    b.HasOne("_.Web.Models.Carrinho", "Carrinho")
+                        .WithMany("Itens")
+                        .HasForeignKey("CarrinhoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pedidos");
+                    b.HasOne("_.Desktop.Models.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrinho");
+
+                    b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Loja.Pedido", b =>
+            modelBuilder.Entity("_.Web.Models.Perfil", b =>
                 {
-                    b.Navigation("PedidoProdutos");
+                    b.HasOne("_.Desktop.Models.Cliente", "Cliente")
+                        .WithOne("Perfil")
+                        .HasForeignKey("_.Web.Models.Perfil", "ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Categoria", b =>
+            modelBuilder.Entity("_.Desktop.Models.Categoria", b =>
                 {
                     b.Navigation("Produtos");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Nutriente", b =>
+            modelBuilder.Entity("_.Desktop.Models.Cliente", b =>
                 {
-                    b.Navigation("Produto");
+                    b.Navigation("Contato");
+
+                    b.Navigation("Endereco");
+
+                    b.Navigation("Pedidos");
+
+                    b.Navigation("Perfil");
                 });
 
-            modelBuilder.Entity("_.VerdeViva.Models.Entities.Producao.Produto", b =>
+            modelBuilder.Entity("_.Desktop.Models.Pedido", b =>
                 {
-                    b.Navigation("PedidoProdutos");
+                    b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("_.Desktop.Models.Produto", b =>
+                {
+                    b.Navigation("InformacoesNutricionais");
+                });
+
+            modelBuilder.Entity("_.Web.Models.Carrinho", b =>
+                {
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }
