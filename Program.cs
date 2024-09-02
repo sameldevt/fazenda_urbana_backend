@@ -45,7 +45,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Configuração do Swagger para documentação da API
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API de Compra de Produtos Orgânicos", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Fazenda Urbana VerdeViva", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -55,7 +55,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API de Compra de Produtos Orgânicos v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Fazenda Urbana VerdeViva"));
 }
 
 app.UseHttpsRedirection();
