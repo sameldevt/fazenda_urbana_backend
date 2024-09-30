@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using _.Desktop.Models;
-using _.Web.Models;
+using Model.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace _.Data;
+namespace Data;
 
 public class ApplicationDbContext : DbContext
 {
@@ -21,7 +20,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Fornecedor> Fornecedores { get; set; }
-    public DbSet<Perfil> Perfils { get; set; } 
     public DbSet<ItemCarrinho> ItensCarrinho { get; set; }
     public DbSet<FaleConosco> FaleConosco { get; set; }
 
@@ -204,28 +202,6 @@ public class ApplicationDbContext : DbContext
 
             entity.Property(f => f.DataCadastro)
                   .IsRequired();
-        });
-
-        // Configuração da entidade Perfil
-        modelBuilder.Entity<Perfil>(entity =>
-        {
-            entity.ToTable("Perfis");
-
-            entity.HasKey(p => p.Id);
-
-            entity.HasOne(p => p.Cliente)
-                  .WithOne(c => c.Perfil)
-                  .HasForeignKey<Perfil>(p => p.ClienteId); // Corrigido de Endereco para Perfil
-
-            entity.Property(p => p.DataNascimento)
-                  .IsRequired();
-
-            entity.Property(p => p.DocumentoIdentidade)
-                  .IsRequired()
-                  .HasMaxLength(50);
-
-            entity.Property(p => p.InformacoesAdicionais)
-                  .HasMaxLength(500); // Limite aumentado para Informações Adicionais
         });
 
         modelBuilder.Entity<FaleConosco>(entity =>

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace _.ExceptionHandler;
+namespace ExceptionHandler;
 
 public class ExceptionHandlingMiddleware
 {
