@@ -1,8 +1,8 @@
 ﻿using Model.Entities;
 using Services;
 using Microsoft.AspNetCore.Mvc;
-using Model.Dtos;
 using Microsoft.IdentityModel.Tokens;
+using Model.Dtos;
 
 namespace Controllers
 {
@@ -18,9 +18,9 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<ProdutoDto>>> ListarTodos()
+        public async Task<ActionResult<IEnumerable<VisualizarProdutoDto>>> BuscarTodos()
         {
-            var produtos = await _produtoService.ListarTodosAsync();
+            var produtos = await _produtoService.BuscarTodosAsync();
             if (produtos.IsNullOrEmpty())
             {
                 return NotFound("Nenhum produto encontrado.");
@@ -30,7 +30,7 @@ namespace Controllers
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<ProdutoDto>> Buscar(int id)
+        public async Task<ActionResult<VisualizarProdutoDto>> Buscar(int id)
         {
             var produto = await _produtoService.BuscarPorIdAsync(id);
             if (produto == null)
@@ -41,21 +41,21 @@ namespace Controllers
             return Ok(produto);
         }
 
-        [HttpPost("adicionar-novo")]
-        public async Task<ActionResult<ProdutoDto>> AdicionarNovo([FromBody] ProdutoDto produtoDto)
+        [HttpPost("cadastrar")]
+        public async Task<ActionResult<VisualizarProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
         {
-            ProdutoDto produto = await _produtoService.AdicionarNovoAsync(produtoDto);
+            VisualizarProdutoDto produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
             if (produto == null)
             {
                 return NotFound("Cadastro mal-sucedido.");
             }
-            return Created(nameof(AdicionarNovo), produtoDto);
+            return Created(nameof(Cadastrar), produto);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<ProdutoDto>> Atualizar([FromBody] ProdutoDto produtoDto)
+        public async Task<ActionResult<VisualizarProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
         {
-            var produtoAtualizado = await _produtoService.AtualizarAsync(produtoDto);
+            var produtoAtualizado = await _produtoService.AtualizarAsync(atualizarProdutoDto);
             if (produtoAtualizado == null)
             {
                 return NotFound("Atualização mal-sucedida.");
@@ -64,7 +64,7 @@ namespace Controllers
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<ProdutoDto>> Remover(int id)
+        public async Task<ActionResult<VisualizarProdutoDto>> Remover(int id)
         {
             var produtoRemovido = await _produtoService.RemoverAsync(id);
             if (produtoRemovido == null)

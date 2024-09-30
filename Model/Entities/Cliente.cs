@@ -17,7 +17,6 @@ namespace Model.Entities
 
         public virtual Contato Contato { get; set; }
         public virtual Endereco Endereco { get; set; }
-        //public virtual Perfil Perfil { get; set; }
 
         public virtual ICollection<Pedido> Pedidos { get; set; } = new HashSet<Pedido>();
     }

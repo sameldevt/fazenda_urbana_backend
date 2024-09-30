@@ -1,15 +1,16 @@
-﻿using Model.Entities;
+﻿using Model.Dtos;
+using Model.Entities;
 using Repositories;
 
 namespace Services
 {
     public interface IClienteService
     {
-        Task<IEnumerable<Cliente>> ListarTodosAsync();
-        Task<Cliente> BuscarPorIdAsync(int id);
-        Task AdicionarAsync(Cliente cliente);
-        Task AtualizarAsync(int id, Cliente cliente);
-        Task RemoverAsync(int id);
+        Task<IEnumerable<ClienteDto>> ListarTodosAsync();
+        Task<ClienteDto> BuscarPorIdAsync(int id);
+        Task<ClienteDto> AdicionarAsync(ClienteDto cliente);
+        Task<ClienteDto> AtualizarAsync(ClienteDto cliente);
+        Task<ClienteDto> RemoverAsync(int id);
     }
 
     public class ClienteService : IClienteService
@@ -21,22 +22,29 @@ namespace Services
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<IEnumerable<Cliente>> ListarTodosAsync()
+        public async Task<IEnumerable<ClienteDto>> ListarTodosAsync()
         {
-            return await _clienteRepository.ListarTodosAsync();
+            var clientes = await _clienteRepository.ListarTodosAsync();
+
+            var clientesDto = new List<ClienteDto>();
+
+            foreach (var cliente in clientes)
+            {
+                var clienteDto = ClienteDto.FromCliente(cliente);
+            }
         }
 
-        public async Task<Cliente> BuscarPorIdAsync(int id)
+        public async Task<ClienteDto> BuscarPorIdAsync(int id)
         {
             return await _clienteRepository.BuscarPorIdAsync(id);
         }
 
-        public async Task AdicionarAsync(Cliente cliente)
+        public async Task<ClienteDto> AdicionarAsync(ClienteDto cliente)
         {
             await _clienteRepository.AdicionarAsync(cliente);
         }
 
-        public async Task AtualizarAsync(int id, Cliente cliente)
+        public async Task<ClienteDto> AtualizarAsync(ClienteDto cliente)
         {
             var clienteExistente = await _clienteRepository.BuscarPorIdAsync(id);
             if (clienteExistente != null)
@@ -48,7 +56,7 @@ namespace Services
             }
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<ClienteDto> RemoverAsync(int id)
         {
             await _clienteRepository.RemoverAsync(id);
         }

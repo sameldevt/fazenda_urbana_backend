@@ -1,6 +1,7 @@
 ﻿using Model.Entities;
 using Services;
 using Microsoft.AspNetCore.Mvc;
+using Model.Dtos;
 
 namespace Controllers
 {
@@ -16,7 +17,7 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<Cliente>>> ListarTodos()
+        public async Task<ActionResult<IEnumerable<ClienteDto>>> ListarTodos()
         {
             var clientes = await _clienteService.ListarTodosAsync();
             return Ok(clientes);
@@ -32,22 +33,22 @@ namespace Controllers
             return Ok(cliente);
         }
 
-        [HttpPost("adicionar")]
-        public async Task<ActionResult> Adicionar([FromBody] Cliente cliente)
+        [HttpPost("cadastrar")]
+        public async Task<ActionResult<ClienteDto>> Cadastrar([FromBody] ClienteDto cliente)
         {
             await _clienteService.AdicionarAsync(cliente);
             return CreatedAtAction(nameof(Buscar), new { id = cliente.Id }, cliente);
         }
 
-        [HttpPut("atualizar/{id}")]
-        public async Task<ActionResult> Atualizar(int id, [FromBody] Cliente cliente)
+        [HttpPut("atualizar")]
+        public async Task<ActionResult<ClienteDto>> Atualizar([FromBody] ClienteDto cliente)
         {
-            await _clienteService.AtualizarAsync(id, cliente);
+            await _clienteService.AtualizarAsync(cliente);
             return NoContent();
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult> Remover(int id)
+        public async Task<ActionResult<ClienteDto>> Remover(int id)
         {
             await _clienteService.RemoverAsync(id);
             return NoContent();

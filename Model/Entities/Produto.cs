@@ -57,7 +57,7 @@ namespace Model.Entities
 
         public virtual Produto Produto { get; set; }
 
-        public int Calorias { get; set; }
+        public decimal Calorias { get; set; }
         public decimal Proteinas { get; set; }
         public decimal Carboidratos { get; set; }
         public decimal Fibras { get; set; }

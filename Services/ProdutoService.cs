@@ -6,13 +6,13 @@ namespace Services
 {
     public interface IProdutoService
     {
-        Task<ProdutoDto> BuscarPorIdAsync(int id);
-        Task<List<ProdutoDto>> ListarTodosAsync();
-        Task<ProdutoDto> BuscarPorNomeAsync(string nome);
+        Task<VisualizarProdutoDto> BuscarPorIdAsync(int id);
+        Task<List<VisualizarProdutoDto>> BuscarTodosAsync();
+        Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome);
         Task<List<Categoria>> ListarCategoriasAsync();
-        Task<ProdutoDto> AdicionarNovoAsync(ProdutoDto produtoDto);
-        Task<ProdutoDto> AtualizarAsync(ProdutoDto produtoDto);
-        Task<ProdutoDto> RemoverAsync(int id);
+        Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
+        Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
+        Task<VisualizarProdutoDto> RemoverAsync(int id);
     }
 
     public class ProdutoService : IProdutoService
@@ -24,28 +24,27 @@ namespace Services
             _repository = repository;
         }
 
-        public async Task<List<ProdutoDto>> ListarTodosAsync()
+        public async Task<List<VisualizarProdutoDto>> BuscarTodosAsync()
         {
             var produtos = await _repository.ListarTodosAsync();
 
-            var listaProdutoDto = new List<ProdutoDto>();
+            var listaProdutoDto = new List<VisualizarProdutoDto>();
 
             foreach(Produto p in produtos)
             {
-                ProdutoDto produtoDto = ProdutoDto.FromProduto(p);
-                listaProdutoDto.Add(produtoDto);
+                var produto = VisualizarProdutoDto.ConverterProduto(p);
             }
 
             return listaProdutoDto;
         }
 
-        public async Task<ProdutoDto> BuscarPorNomeAsync(string nome)
+        public async Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome)
         {
             Produto produto = await _repository.BuscarPorNomeAsync(nome);
 
             if (produto != null)
             {
-                return ProdutoDto.FromProduto(produto);
+                return VisualizarProdutoDto.ConverterProduto(produto);
             }
 
             return null;
@@ -54,63 +53,73 @@ namespace Services
         public Task<List<Categoria>> ListarCategoriasAsync() =>
             _repository.ListarCategoriasAsync();
 
-        public async Task<ProdutoDto> BuscarPorIdAsync(int id)
+        public async Task<VisualizarProdutoDto> BuscarPorIdAsync(int id)
         {
             Produto produto = await _repository.BuscarPorIdAsync(id);
 
-            var produtoDto = ProdutoDto.FromProduto(produto);
-            return produtoDto;
+            return VisualizarProdutoDto.ConverterProduto(produto);
         }
 
-        public async Task<ProdutoDto> AdicionarNovoAsync(ProdutoDto produtoDto)
+        public async Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            Categoria categoria = await _repository.BuscarCategoriaPorNome(produtoDto.Categoria);
+            Categoria categoria = await _repository.BuscarCategoriaPorNome(cadastrarProdutoDto.NomeCategoria);
 
             Produto produto = new Produto
             {
-                Nome = produtoDto.Nome,
-                Descricao = produtoDto.Descricao,
-                PrecoUnitario = produtoDto.PrecoUnitario,
-                PrecoQuilo = produtoDto.PrecoQuilo,
-                QuantidadeEstoque = produtoDto.QuantidadeEstoque,
-                ImagemUrl = produtoDto.ImagemUrl,
+                Nome = cadastrarProdutoDto.Nome,
+                Descricao = cadastrarProdutoDto.Descricao,
+                PrecoUnitario = cadastrarProdutoDto.PrecoUnitario,
+                PrecoQuilo = cadastrarProdutoDto.PrecoQuilo,
+                QuantidadeEstoque = cadastrarProdutoDto.QuantidadeEstoque,
+                ImagemUrl = cadastrarProdutoDto.ImagemUrl,
                 Categoria = categoria,
                 InformacoesNutricionais = new InformacoesNutricionais
                 {
-                    Calorias = produtoDto.InformacoesNutricionais.Calorias,
-                    Proteinas = produtoDto.InformacoesNutricionais.Proteinas,
-                    Carboidratos = produtoDto.InformacoesNutricionais.Carboidratos,
-                    Fibras = produtoDto.InformacoesNutricionais.Fibras,
-                    Gorduras = produtoDto.InformacoesNutricionais.Gorduras,
+                    Calorias = cadastrarProdutoDto.Calorias,
+                    Proteinas = cadastrarProdutoDto.Proteinas,
+                    Carboidratos = cadastrarProdutoDto.Carboidratos,
+                    Fibras = cadastrarProdutoDto.Fibras,
+                    Gorduras = cadastrarProdutoDto.Gorduras,
                 }
              };
 
             var novoProduto = await _repository.AdicionarNovoAsync(produto);
 
-            return ProdutoDto.FromProduto(novoProduto);
+            return VisualizarProdutoDto.ConverterProduto(novoProduto);
         }
 
-        public async Task<ProdutoDto> AtualizarAsync(ProdutoDto produtoDto)
+        public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
         {
-            var produtoExistente = await _repository.BuscarPorNomeAsync(produtoDto.Nome);
+            var produtoBanco = await _repository.BuscarPorNomeAsync(atualizarProdutoDto.Nome);
             
-            if (produtoExistente != null)
+            if (produtoBanco != null)
             {
-                produtoExistente.Nome = produtoDto.Nome;
-                produtoExistente.Descricao = produtoDto.Descricao;
-                produtoExistente.PrecoUnitario = produtoDto.PrecoUnitario;
-                produtoExistente.PrecoQuilo = produtoDto.PrecoQuilo;
-                await _repository.AtualizarAsync(produtoExistente);
+                produtoBanco.Nome = atualizarProdutoDto.Nome;
+                produtoBanco.Descricao = atualizarProdutoDto.Descricao;
+                produtoBanco.PrecoUnitario = atualizarProdutoDto.PrecoUnitario;
+                produtoBanco.PrecoQuilo = atualizarProdutoDto.PrecoQuilo;
+                produtoBanco.QuantidadeEstoque = atualizarProdutoDto.QuantidadeEstoque;
+                produtoBanco.ImagemUrl = atualizarProdutoDto.ImagemUrl;
+                produtoBanco.InformacoesNutricionais = new InformacoesNutricionais
+                {
+                    Calorias = atualizarProdutoDto.Calorias,
+                    Proteinas = atualizarProdutoDto.Proteinas,
+                    Carboidratos = atualizarProdutoDto.Carboidratos,
+                    Fibras = atualizarProdutoDto.Fibras,
+                    Gorduras = atualizarProdutoDto.Gorduras,
+                };
+
+                await _repository.AtualizarAsync(produtoBanco);
             }
 
-            return ProdutoDto.FromProduto(produtoExistente);
+            return VisualizarProdutoDto.ConverterProduto(produtoBanco);
         }
 
-        public async Task<ProdutoDto> RemoverAsync(int id)
+        public async Task<VisualizarProdutoDto> RemoverAsync(int id)
         {
             Produto produto = await _repository.RemoverAsync(id);
 
-            return ProdutoDto.FromProduto(produto);
+            return VisualizarProdutoDto.ConverterProduto(produto);
         }
     }
 
