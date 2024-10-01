@@ -251,9 +251,6 @@ C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_u
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.MvcApplicationPartsAssemblyInfo.cs
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.MvcApplicationPartsAssemblyInfo.cache
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.sourcelink.json
-C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.dll
-C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\refint\fazenda_urbana.dll
-C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.pdb
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\bin\Debug\net8.0\appsettings.Development.json
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\bin\Debug\net8.0\appsettings.json
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\bin\Debug\net8.0\fazenda_urbana.exe
@@ -379,5 +376,8 @@ C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\staticweb
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\staticwebassets.pack.json
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\scopedcss\bundle\fazenda_urbana.styles.css
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_.636E6330.Up2Date
+C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.dll
+C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\refint\fazenda_urbana.dll
+C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.pdb
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.genruntimeconfig.cache
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\ref\fazenda_urbana.dll

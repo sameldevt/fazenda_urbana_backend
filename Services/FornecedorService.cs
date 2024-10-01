@@ -1,15 +1,17 @@
-﻿using Model.Entities;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Model.Dtos;
+using Model.Entities;
 using Repositories;
 
 namespace Services
 {
     public interface IFornecedorService
     {
-        Task<IEnumerable<Fornecedor>> ListarTodosAsync();
-        Task<Fornecedor> BuscarPorIdAsync(int id);
-        Task AdicionarAsync(Fornecedor fornecedor);
-        Task AtualizarAsync(int id, Fornecedor fornecedor);
-        Task RemoverAsync(int id);
+        Task<IEnumerable<VisualizarFornecedorDto>> BuscarTodosAsync();
+        Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id);
+        Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto);
+        Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualzarFornecedorDto);
+        Task<VisualizarFornecedorDto> RemoverAsync(int id);
     }
 
     public class FornecedorService : IFornecedorService
@@ -21,37 +23,93 @@ namespace Services
             _fornecedorRepository = fornecedorRepository;
         }
 
-        public async Task<IEnumerable<Fornecedor>> ListarTodosAsync()
+        public async Task<IEnumerable<VisualizarFornecedorDto>> BuscarTodosAsync()
         {
-            return await _fornecedorRepository.ListarTodosAsync();
-        }
+            var fornecedores = await _fornecedorRepository.ListarTodosAsync();
+            var fornecedoresDto = new List<VisualizarFornecedorDto>();
 
-        public async Task<Fornecedor> BuscarPorIdAsync(int id)
-        {
-            return await _fornecedorRepository.BuscarPorIdAsync(id);
-        }
-
-        public async Task AdicionarAsync(Fornecedor fornecedor)
-        {
-            await _fornecedorRepository.AdicionarAsync(fornecedor);
-        }
-
-        public async Task AtualizarAsync(int id, Fornecedor fornecedor)
-        {
-            var fornecedorExistente = await _fornecedorRepository.BuscarPorIdAsync(id);
-            if (fornecedorExistente != null)
+            foreach(Fornecedor f in fornecedores)
             {
-                fornecedorExistente.Nome = fornecedor.Nome;
-                fornecedorExistente.Email = fornecedor.Email;
-                await _fornecedorRepository.AtualizarAsync(fornecedorExistente);
+                var fornecedorDto = VisualizarFornecedorDto.ConverterObjeto(f);
+                fornecedoresDto.Add(fornecedorDto);
             }
+
+            return fornecedoresDto;
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id)
         {
-            await _fornecedorRepository.RemoverAsync(id);
+            var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
+        
+            if(fornecedor != null)
+            {
+                return VisualizarFornecedorDto.ConverterObjeto(fornecedor);
+            }
+
+            return null;
+        }
+
+        public async Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto)
+        {
+            var fornecedor = ConverterDto(cadastrarFornecedorDto);
+
+            if(await _fornecedorRepository.CadastrarAsync(fornecedor))
+            {
+                return VisualizarFornecedorDto.ConverterObjeto(fornecedor);
+            }
+            
+            return null;
+        }
+
+        public async Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualizarFornecedorDto)
+        {
+            var id = atualizarFornecedorDto.Id;
+
+            var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
+
+            if (fornecedor != null)
+            {
+                fornecedor.Nome = atualizarFornecedorDto.Nome;
+                fornecedor.CNPJ = atualizarFornecedorDto.CNPJ;
+                fornecedor.Endereco = atualizarFornecedorDto.Endereco;
+                fornecedor.Telefone = atualizarFornecedorDto.Telefone;
+                fornecedor.Email = atualizarFornecedorDto.Email;
+                fornecedor.Website = atualizarFornecedorDto.Website;
+                fornecedor.ContatoPrincipal = atualizarFornecedorDto.ContatoPrincipal;
+                fornecedor.Observacoes = atualizarFornecedorDto.Observacoes;
+                fornecedor.DataCadastro = atualizarFornecedorDto.DataCadastro;
+
+                await _fornecedorRepository.AtualizarAsync(fornecedor);
+            }
+
+            return VisualizarFornecedorDto.ConverterObjeto(fornecedor);
+        }
+
+        public async Task<VisualizarFornecedorDto> RemoverAsync(int id)
+        {
+            var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
+
+            if (await _fornecedorRepository.RemoverAsync(fornecedor))
+            {
+                return VisualizarFornecedorDto.ConverterObjeto(fornecedor);
+            }
+
+            return null;
+        }
+
+        private Fornecedor ConverterDto(CadastrarFornecedorDto fornecedorDto)
+        {
+            return new Fornecedor(
+                fornecedorDto.Nome,
+                fornecedorDto.CNPJ,
+                fornecedorDto.Endereco,
+                fornecedorDto.Telefone,
+                fornecedorDto.Email,
+                fornecedorDto.Website,
+                fornecedorDto.ContatoPrincipal,
+                fornecedorDto.Observacoes,
+                fornecedorDto.DataCadastro
+            );
         }
     }
-
-
 }

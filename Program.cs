@@ -6,6 +6,7 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração do DbContext com SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -15,7 +16,6 @@ builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IFaleConoscoRepository, FaleConoscoRepository>();
-
 
 // Registro de serviços com as interfaces correspondentes
 builder.Services.AddScoped<IClienteService, ClienteService>();
@@ -37,10 +37,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configuração do JSON para preservar referências circulares
+// Configuração do JSON para ignorar referências circulares sem gerar campos extras
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
 // Configuração do Swagger para documentação da API
@@ -48,7 +48,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Fazenda Urbana VerdeViva", Version = "v1" });
 });
-
 
 var app = builder.Build();
 

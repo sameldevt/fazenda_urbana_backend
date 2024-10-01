@@ -8,9 +8,9 @@ namespace Repositories
     {
         Task<IEnumerable<Fornecedor>> ListarTodosAsync();
         Task<Fornecedor> BuscarPorIdAsync(int id);
-        Task AdicionarAsync(Fornecedor fornecedor);
-        Task AtualizarAsync(Fornecedor fornecedor);
-        Task RemoverAsync(int id);
+        Task<bool> CadastrarAsync(Fornecedor fornecedor);
+        Task<bool> AtualizarAsync(Fornecedor fornecedor);
+        Task<bool> RemoverAsync(Fornecedor fornecedor);
     }
 
     public class FornecedorRepository : IFornecedorRepository
@@ -32,25 +32,45 @@ namespace Repositories
             return await _context.Fornecedores.FindAsync(id);
         }
 
-        public async Task AdicionarAsync(Fornecedor fornecedor)
+        public async Task<bool> CadastrarAsync(Fornecedor fornecedor)
         {
-            _context.Fornecedores.Add(fornecedor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Fornecedores.Add(fornecedor);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task AtualizarAsync(Fornecedor fornecedor)
+        public async Task<bool> AtualizarAsync(Fornecedor fornecedor)
         {
-            _context.Fornecedores.Update(fornecedor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Fornecedores.Update(fornecedor);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<bool> RemoverAsync(Fornecedor fornecedor)
         {
-            var fornecedor = await _context.Fornecedores.FindAsync(id);
-            if (fornecedor != null)
+            try
             {
                 _context.Fornecedores.Remove(fornecedor);
                 await _context.SaveChangesAsync();
+                return true;
+            }   
+            catch (Exception ex)
+            {
+                return false;
             }
         }
     }
