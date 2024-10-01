@@ -5,7 +5,7 @@ namespace Services
 {
     public interface IFaleConoscoService
     {
-        Task EnviarMensagemAsync(FaleConosco mensagem);
+        FaleConosco EnviarMensagemAsync(FaleConosco mensagem);
     }
 
     public class FaleConoscoService : IFaleConoscoService
@@ -16,11 +16,9 @@ namespace Services
             _faleConoscoRepository = faleConoscoRepository;
         }
 
-        public Task EnviarMensagemAsync(FaleConosco mensagem)
+        public FaleConosco EnviarMensagemAsync(FaleConosco mensagem)
         {
-            _faleConoscoRepository.RegistrarFaleConoscoMensagem(mensagem);
-
-            return Task.CompletedTask;
+            return _faleConoscoRepository.RegistrarFaleConoscoMensagem(mensagem);
         }
     }
 

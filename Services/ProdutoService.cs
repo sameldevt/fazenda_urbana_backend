@@ -83,7 +83,7 @@ namespace Services
                 }
              };
 
-            var novoProduto = await _repository.AdicionarNovoAsync(produto);
+            var novoProduto = await _repository.CadastrarAsync(produto);
 
             return VisualizarProdutoDto.ConverterProduto(novoProduto);
         }

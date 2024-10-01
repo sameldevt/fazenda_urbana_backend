@@ -17,7 +17,7 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<ClienteDto>>> ListarTodos()
+        public async Task<ActionResult<IEnumerable<VisualizarClienteDto>>> ListarTodos()
         {
             var clientes = await _clienteService.ListarTodosAsync();
             return Ok(clientes);
@@ -28,30 +28,32 @@ namespace Controllers
         {
             var cliente = await _clienteService.BuscarPorIdAsync(id);
             if (cliente == null)
-                return NotFound();
+            {
+                return NotFound("Cliente com " + id + " não encontrado.");
+            }
 
             return Ok(cliente);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<ClienteDto>> Cadastrar([FromBody] ClienteDto cliente)
+        public async Task<ActionResult<VisualizarClienteDto>> Cadastrar([FromBody] CadastrarClienteDto cadastrarClienteDto)
         {
-            await _clienteService.AdicionarAsync(cliente);
-            return CreatedAtAction(nameof(Buscar), new { id = cliente.Id }, cliente);
+            VisualizarClienteDto clienteCadastradoDto = await _clienteService.CadastrarAsync(cadastrarClienteDto);
+            return Created(nameof(Cadastrar), clienteCadastradoDto);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<ClienteDto>> Atualizar([FromBody] ClienteDto cliente)
+        public async Task<ActionResult<VisualizarClienteDto>> Atualizar([FromBody] AtualizarClienteDto atualizarClienteDto)
         {
-            await _clienteService.AtualizarAsync(cliente);
-            return NoContent();
+            var clienteAtualizado = await _clienteService.AtualizarAsync(atualizarClienteDto);
+            return Ok(clienteAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<ClienteDto>> Remover(int id)
+        public async Task<ActionResult<VisualizarClienteDto>> Remover(int id)
         {
-            await _clienteService.RemoverAsync(id);
-            return NoContent();
+            var clienteRemovido = await _clienteService.RemoverAsync(id);
+            return Ok(clienteRemovido);
         }
     }
 

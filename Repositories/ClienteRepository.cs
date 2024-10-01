@@ -10,9 +10,9 @@ namespace Repositories
     {
         Task<IEnumerable<Cliente>> ListarTodosAsync();
         Task<Cliente> BuscarPorIdAsync(int id);
-        Task AdicionarAsync(Cliente cliente);
-        Task AtualizarAsync(Cliente cliente);
-        Task RemoverAsync(int id);
+        Task<Cliente> CadastrarAsync(Cliente cliente);
+        Task<Cliente> AtualizarAsync(Cliente cliente);
+        Task<Cliente> RemoverAsync(int id);
     }
 
     public class ClienteRepository : IClienteRepository
@@ -34,26 +34,33 @@ namespace Repositories
             return await _context.Clientes.FindAsync(id);
         }
 
-        public async Task AdicionarAsync(Cliente cliente)
+        public async Task<Cliente> CadastrarAsync(Cliente cliente)
         {
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
+
+            return cliente;
         }
 
-        public async Task AtualizarAsync(Cliente cliente)
+        public async Task<Cliente> AtualizarAsync(Cliente cliente)
         {
             _context.Clientes.Update(cliente);
             await _context.SaveChangesAsync();
+
+            return cliente;
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<Cliente> RemoverAsync(int id)
         {
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente != null)
             {
                 _context.Clientes.Remove(cliente);
                 await _context.SaveChangesAsync();
+                return cliente;
             }
+
+            return null;
         }
     }
 

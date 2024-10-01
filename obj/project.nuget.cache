@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7tgLnIH8b80=",
+  "dgSpecHash": "P/PptIp2/Xg=",
   "success": true,
-  "projectFilePath": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\fazenda_urbana.csproj",
+  "projectFilePath": "C:\\dev\\workspace\\visual-studio\\fazenda_urbana_backend\\fazenda_urbana.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\samue\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\samue\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

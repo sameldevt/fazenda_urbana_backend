@@ -11,7 +11,7 @@ namespace Repositories
         Task<Produto> BuscarPorNomeAsync(string nome);
         Task<List<Categoria>> ListarCategoriasAsync();
         Task<Produto> BuscarPorIdAsync(int id);
-        Task<Produto> AdicionarNovoAsync(Produto produto);
+        Task<Produto> CadastrarAsync(Produto produto);
         Task<Produto> AtualizarAsync(Produto produto);
         Task<Produto> RemoverAsync(int id);
         Task<Categoria> BuscarCategoriaPorNome(string nome);
@@ -40,7 +40,7 @@ namespace Repositories
             await _context.Produtos.FindAsync(id);
       
 
-        public async Task<Produto> AdicionarNovoAsync(Produto produto)
+        public async Task<Produto> CadastrarAsync(Produto produto)
         {
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();

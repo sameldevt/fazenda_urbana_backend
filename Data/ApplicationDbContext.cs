@@ -20,7 +20,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Fornecedor> Fornecedores { get; set; }
-    public DbSet<ItemCarrinho> ItensCarrinho { get; set; }
     public DbSet<FaleConosco> FaleConosco { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
