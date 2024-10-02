@@ -12,8 +12,10 @@ namespace Repositories
     {
         Task<IEnumerable<Cliente>> BuscarTodosAsync();
         Task<Cliente> BuscarPorIdAsync(int id);
+        Task<Cliente> BuscarPorEmailAsync(string email);
         Task<Cliente> CadastrarAsync(Cliente cliente);
         Task<Cliente> AtualizarAsync(Cliente cliente);
+        Task<Cliente> AtualizarSenhaAsync(Cliente cliente);
         Task<Cliente> RemoverAsync(int id);
     }
 
@@ -105,6 +107,35 @@ namespace Repositories
             catch (Exception ex) 
             {
                 throw new DatabaseManipulationException($"Erro ao remover cliente. Causa: ${ex}.");
+            }
+        }
+
+        public async Task<Cliente> BuscarPorEmailAsync(string email)
+        {
+            var cliente = await _context.Clientes
+              .Include(c => c.Contato)
+              .Include(c => c.Endereco)
+              .FirstOrDefaultAsync(c => c.Contato.Email == email);
+
+            return cliente;
+        }
+
+        public async Task<Cliente> AtualizarSenhaAsync(Cliente cliente)
+        {
+            var clienteBanco = await _context.Clientes
+                .Include(c => c.Contato)
+                .Include(c => c.Endereco)
+                .FirstOrDefaultAsync(c => c.Id == cliente.Id);
+
+            try
+            {
+                _context.Clientes.Update(clienteBanco);
+                await _context.SaveChangesAsync();
+                return clienteBanco;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao atualiza a senha do cliente. Causa: ${ex}.");
             }
         }
     }

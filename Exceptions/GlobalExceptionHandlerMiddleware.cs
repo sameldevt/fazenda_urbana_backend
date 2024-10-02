@@ -45,6 +45,14 @@ namespace Exceptions
                     statusCode = HttpStatusCode.BadRequest;
                     message = databaseManipulationException.Message;
                     break;
+                case InvalidCredentialsException invalidCredentialsException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = invalidCredentialsException.Message;
+                    break;
+                case UserAlreadyRegisteredException userAlreadyRegisteredException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = userAlreadyRegisteredException.Message;
+                    break;
                 default:
                     _logger.LogError(exception, "Unhandled exception occurred.");
                     break;
@@ -73,5 +81,15 @@ namespace Exceptions
     public class DatabaseManipulationException : Exception
     {
         public DatabaseManipulationException(string message) : base(message) { }
+    }
+
+    public class InvalidCredentialsException : Exception
+    {
+        public InvalidCredentialsException(string message) : base(message) { }
+    }
+
+    public class UserAlreadyRegisteredException : Exception
+    {
+        public UserAlreadyRegisteredException(string message) : base(message) { }
     }
 }

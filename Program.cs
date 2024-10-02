@@ -28,6 +28,7 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 // Configuração do AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile)); // Adicione aqui o seu perfil de mapeamento
