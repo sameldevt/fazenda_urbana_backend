@@ -381,3 +381,5 @@ C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\refint\fa
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.pdb
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\fazenda_urbana.genruntimeconfig.cache
 C:\dev\workspace\visual-studio\fazenda_urbana_backend\obj\Debug\net8.0\ref\fazenda_urbana.dll
+C:\dev\workspace\visual-studio\fazenda_urbana_backend\bin\Debug\net8.0\AutoMapper.dll
+C:\dev\workspace\visual-studio\fazenda_urbana_backend\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

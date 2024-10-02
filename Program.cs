@@ -1,4 +1,6 @@
+using AutoMapper;
 using Data;
+using DtoMapping;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -26,6 +28,9 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+
+// Configuração do AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile)); // Adicione aqui o seu perfil de mapeamento
 
 builder.Services.AddCors(options =>
 {

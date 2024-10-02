@@ -32,21 +32,21 @@ namespace Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<IClienteDto>> Cadastrar([FromBody] CadastrarClienteDto cadastrarClienteDto)
+        public async Task<ActionResult<VisualizarClienteDto>> Cadastrar([FromBody] CadastrarClienteDto cadastrarClienteDto)
         {
             var clienteCadastradoDto = await _clienteService.CadastrarAsync(cadastrarClienteDto);
             return Created(nameof(Cadastrar), clienteCadastradoDto);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<IClienteDto>> Atualizar([FromBody] AtualizarClienteDto atualizarClienteDto)
+        public async Task<ActionResult<VisualizarClienteDto>> Atualizar([FromBody] AtualizarClienteDto atualizarClienteDto)
         {
             var clienteAtualizado = await _clienteService.AtualizarAsync(atualizarClienteDto);
             return Ok(clienteAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<IClienteDto>> Remover(int id)
+        public async Task<ActionResult<VisualizarClienteDto>> Remover(int id)
         {
             var clienteRemovido = await _clienteService.RemoverAsync(id);
             return Ok(clienteRemovido);

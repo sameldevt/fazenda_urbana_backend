@@ -32,31 +32,5 @@ namespace Model.Entities
         public DateTime DataCadastro { get; set; }
 
         public Fornecedor() { }
-
-        public Fornecedor(CadastrarFornecedorDto cadastrarFornecedorDto)
-        {
-            Nome = cadastrarFornecedorDto.Nome;
-            CNPJ = cadastrarFornecedorDto.CNPJ;
-            Endereco = cadastrarFornecedorDto.Endereco;
-            Telefone = cadastrarFornecedorDto.Telefone;
-            Email = cadastrarFornecedorDto.Email;
-            Website = cadastrarFornecedorDto.Website;
-            ContatoPrincipal = cadastrarFornecedorDto.ContatoPrincipal;
-            Observacoes = cadastrarFornecedorDto.Observacoes;
-            DataCadastro = cadastrarFornecedorDto.DataCadastro;
-        }
-
-        public Fornecedor(AtualizarFornecedorDto atualizarFornecedorDto)
-        {
-            Nome = atualizarFornecedorDto.Nome;
-            CNPJ = atualizarFornecedorDto.CNPJ;
-            Endereco = atualizarFornecedorDto.Endereco;
-            Telefone = atualizarFornecedorDto.Telefone;
-            Email = atualizarFornecedorDto.Email;
-            Website = atualizarFornecedorDto.Website;
-            ContatoPrincipal = atualizarFornecedorDto.ContatoPrincipal;
-            Observacoes = atualizarFornecedorDto.Observacoes;
-            DataCadastro = atualizarFornecedorDto.DataCadastro;
-        }
     }
 }

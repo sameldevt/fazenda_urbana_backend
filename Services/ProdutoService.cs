@@ -1,4 +1,5 @@
-﻿using Model.Dtos;
+﻿using AutoMapper;
+using Model.Dtos;
 using Model.Entities;
 using Repositories;
 
@@ -6,67 +7,67 @@ namespace Services
 {
     public interface IProdutoService
     {
-        Task<IProdutoDto> BuscarPorIdAsync(int id);
-        Task<List<IProdutoDto>> BuscarTodosAsync();
-        Task<IProdutoDto> BuscarPorNomeAsync(string nome);
-        Task<IProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
-        Task<IProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
-        Task<IProdutoDto> RemoverAsync(int id);
+        Task<VisualizarProdutoDto> BuscarPorIdAsync(int id);
+        Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome);
+        Task<List<VisualizarProdutoDto>> BuscarTodosAsync();
+        Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
+        Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
+        Task<VisualizarProdutoDto> RemoverAsync(int id);
     }
 
     public class ProdutoService : IProdutoService
     {
-        private readonly IProdutoRepository _repository;
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly IMapper _mapper;
 
-        public ProdutoService(IProdutoRepository repository)
+        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper)
         {
-            _repository = repository;
+            _produtoRepository = produtoRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<IProdutoDto>> BuscarTodosAsync()
+        public async Task<List<VisualizarProdutoDto>> BuscarTodosAsync()
         {
-            var produtos = await _repository.BuscarTodosAsync();
+            var produtos = await _produtoRepository.BuscarTodosAsync();
 
-            return produtos.Select(p => ProdutoDtoFactory.Criar(TipoDto.Visualizar, p)).ToList();
+            return _mapper.Map<List<VisualizarProdutoDto>>(produtos);
         }
 
-        public async Task<IProdutoDto> BuscarPorNomeAsync(string nome)
+        public async Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome)
         {
-            Produto produto = await _repository.BuscarPorNomeAsync(nome);
+            var produto = await _produtoRepository.BuscarPorNomeAsync(nome);
 
-            return ProdutoDtoFactory.Criar(TipoDto.Visualizar, produto);
+            return _mapper.Map<VisualizarProdutoDto>(produto);
         }
 
-        public async Task<IProdutoDto> BuscarPorIdAsync(int id)
+        public async Task<VisualizarProdutoDto> BuscarPorIdAsync(int id)
         {
-            var produto = await _repository.BuscarPorIdAsync(id);
+            var produto = await _produtoRepository.BuscarPorIdAsync(id);
 
-            return ProdutoDtoFactory.Criar(TipoDto.Visualizar, produto);
+            return _mapper.Map<VisualizarProdutoDto>(produto);
         }
 
-        public async Task<IProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            Produto produto = new Produto(cadastrarProdutoDto); 
+            var produto = await _produtoRepository.CadastrarAsync(_mapper.Map<Produto>(cadastrarProdutoDto));
 
-            var novoProduto = await _repository.CadastrarAsync(produto);
-
-            return ProdutoDtoFactory.Criar(TipoDto.Visualizar, novoProduto);
+            return _mapper.Map<VisualizarProdutoDto>(produto);
         }
 
-        public async Task<IProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
         {
-            var produtoBanco = await _repository.BuscarPorNomeAsync(atualizarProdutoDto.Nome);
+            var produtoBanco = await _produtoRepository.BuscarPorIdAsync(atualizarProdutoDto.Id);
 
-            var produtoAtualizado  =await _repository.AtualizarAsync(new Produto(atualizarProdutoDto));
+            var produtoAtualizado  =await _produtoRepository.AtualizarAsync(_mapper.Map<Produto>(atualizarProdutoDto));
 
-            return ProdutoDtoFactory.Criar(TipoDto.Visualizar, produtoAtualizado);
+            return _mapper.Map<VisualizarProdutoDto>(produtoAtualizado);
         }
 
-        public async Task<IProdutoDto> RemoverAsync(int id)
+        public async Task<VisualizarProdutoDto> RemoverAsync(int id)
         {
-            var produto = await _repository.RemoverAsync(id);
+            var produto = await _produtoRepository.RemoverAsync(id);
 
-            return ProdutoDtoFactory.Criar(TipoDto.Visualizar, produto);
+            return _mapper.Map<VisualizarProdutoDto>(produto);
         }
     }
 

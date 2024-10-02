@@ -36,55 +36,6 @@ namespace Model.Entities
         public virtual Nutrientes Nutrientes { get; set; }
 
         public Produto() { }
-
-        public Produto(VisualizarProdutoDto visualizarProdutoDto)
-        {
-            Id = visualizarProdutoDto.Id;
-            Nome = visualizarProdutoDto.Nome;
-            Descricao = visualizarProdutoDto.Descricao;
-            PrecoUnitario = visualizarProdutoDto.PrecoUnitario;
-            PrecoQuilo = visualizarProdutoDto.PrecoQuilo;
-            QuantidadeEstoque = visualizarProdutoDto.QuantidadeEstoque;
-            Categoria = new Categoria(visualizarProdutoDto);
-            ImagemUrl = visualizarProdutoDto.ImagemUrl;
-            Nutrientes = new Nutrientes(visualizarProdutoDto);
-        }
-
-        public Produto(CadastrarProdutoDto cadastrarProdutoDto)
-        {
-            Nome = cadastrarProdutoDto.Nome;
-            Descricao = cadastrarProdutoDto.Descricao;
-            PrecoUnitario = cadastrarProdutoDto.PrecoUnitario;
-            PrecoQuilo = cadastrarProdutoDto.PrecoQuilo;
-            QuantidadeEstoque = cadastrarProdutoDto.QuantidadeEstoque;
-            Categoria = new Categoria(cadastrarProdutoDto);
-            ImagemUrl = cadastrarProdutoDto.ImagemUrl;
-            Nutrientes = new Nutrientes(cadastrarProdutoDto);
-        }
-
-        public Produto(AtualizarProdutoDto atualizarProdutoDto)
-        {
-            Nome = atualizarProdutoDto.Nome;
-            Descricao = atualizarProdutoDto.Descricao;
-            PrecoUnitario = atualizarProdutoDto.PrecoUnitario;
-            PrecoQuilo = atualizarProdutoDto.PrecoQuilo;
-            QuantidadeEstoque = atualizarProdutoDto.QuantidadeEstoque;
-            Categoria = new Categoria
-            {
-                Nome = atualizarProdutoDto.NomeCategoria,
-                Descricao = atualizarProdutoDto.DescricaoCategoria,
-            };
-
-            ImagemUrl = atualizarProdutoDto.ImagemUrl;
-            Nutrientes = new Nutrientes
-            {
-                Calorias = atualizarProdutoDto.Calorias,
-                Proteinas = atualizarProdutoDto.Proteinas,
-                Carboidratos = atualizarProdutoDto.Carboidratos,
-                Fibras = atualizarProdutoDto.Fibras,
-                Gorduras = atualizarProdutoDto.Gorduras,
-            };
-        }
     }
 
     public class Categoria
@@ -98,18 +49,6 @@ namespace Model.Entities
         public ICollection<Produto> Produtos { get; set; }
 
         public Categoria() { }
-
-        public Categoria(VisualizarProdutoDto visualizarProdutoDto)
-        {
-            Nome = visualizarProdutoDto.NomeCategoria;
-            Descricao = visualizarProdutoDto.DescricaoCategoria;
-        }
-
-        public Categoria(CadastrarProdutoDto visualizarProdutoDto)
-        {
-            Nome = visualizarProdutoDto.NomeCategoria;
-            Descricao = visualizarProdutoDto.DescricaoCategoria;
-        }
     }
 
     public class Nutrientes
@@ -129,23 +68,5 @@ namespace Model.Entities
         public decimal Gorduras { get; set; }
 
         public Nutrientes() { }
-
-        public Nutrientes(VisualizarProdutoDto visualizarProdutoDto)
-        {
-            Calorias = visualizarProdutoDto.Calorias;
-            Proteinas = visualizarProdutoDto.Proteinas;
-            Carboidratos = visualizarProdutoDto.Carboidratos;
-            Fibras = visualizarProdutoDto.Fibras;
-            Gorduras = visualizarProdutoDto.Gorduras;
-        }
-
-        public Nutrientes(CadastrarProdutoDto cadastrarProdutoDto)
-        {
-            Calorias = cadastrarProdutoDto.Calorias;
-            Proteinas = cadastrarProdutoDto.Proteinas;
-            Carboidratos = cadastrarProdutoDto.Carboidratos;
-            Fibras = cadastrarProdutoDto.Fibras;
-            Gorduras = cadastrarProdutoDto.Gorduras;
-        }
     }
 }

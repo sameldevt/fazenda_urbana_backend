@@ -18,35 +18,35 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<List<IProdutoDto>>> BuscarTodos()
+        public async Task<ActionResult<List<VisualizarProdutoDto>>> BuscarTodos()
         {
             var produtos = await _produtoService.BuscarTodosAsync();
             return Ok(produtos);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<IProdutoDto>> Buscar(int id)
+        public async Task<ActionResult<VisualizarProdutoDto>> Buscar(int id)
         {
             var produto = await _produtoService.BuscarPorIdAsync(id);
             return Ok(produto);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<IProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<ActionResult<VisualizarProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
         {
             var produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
             return Created(nameof(Cadastrar), produto);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<IProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<ActionResult<VisualizarProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
         {
             var produtoAtualizado = await _produtoService.AtualizarAsync(atualizarProdutoDto);
             return Ok(produtoAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<IProdutoDto>> Remover(int id)
+        public async Task<ActionResult<VisualizarProdutoDto>> Remover(int id)
         {
             var produtoRemovido = await _produtoService.RemoverAsync(id);
             return Ok(produtoRemovido);

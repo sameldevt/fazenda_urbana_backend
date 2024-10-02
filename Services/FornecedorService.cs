@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Model.Dtos;
 using Model.Entities;
 using Repositories;
@@ -7,63 +8,65 @@ namespace Services
 {
     public interface IFornecedorService
     {
-        Task<List<IFornecedorDto>> BuscarTodosAsync();
-        Task<IFornecedorDto> BuscarPorIdAsync(int id);
-        Task<IFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto);
-        Task<IFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualzarFornecedorDto);
-        Task<IFornecedorDto> RemoverAsync(int id);
+        Task<List<VisualizarFornecedorDto>> BuscarTodosAsync();
+        Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id);
+        Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto);
+        Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualzarFornecedorDto);
+        Task<VisualizarFornecedorDto> RemoverAsync(int id);
     }
 
     public class FornecedorService : IFornecedorService
     {
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IMapper _mapper;
 
-        public FornecedorService(IFornecedorRepository fornecedorRepository)
+        public FornecedorService(IFornecedorRepository fornecedorRepository, IMapper mapper)
         {
             _fornecedorRepository = fornecedorRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<IFornecedorDto>> BuscarTodosAsync()
+        public async Task<List<VisualizarFornecedorDto>> BuscarTodosAsync()
         {
             var fornecedores = await _fornecedorRepository.BuscarTodosAsync();
 
-            return fornecedores.Select(f => FornecedorDtoFactory.Criar(TipoDto.Visualizar, f)).ToList();
+            return _mapper.Map<List<VisualizarFornecedorDto>>(fornecedores);
         }
 
-        public async Task<IFornecedorDto> BuscarPorIdAsync(int id)
+        public async Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id)
         {
             var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
 
-            return FornecedorDtoFactory.Criar(TipoDto.Visualizar, fornecedor);
+            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
         }
 
-        public async Task<IFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto)
+        public async Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto)
         {
-            var fornecedor = new Fornecedor(cadastrarFornecedorDto);
+            var fornecedor = _mapper.Map<Fornecedor>(cadastrarFornecedorDto);
 
             var fornecedorCadastrado = await _fornecedorRepository.CadastrarAsync(fornecedor);
-            
-            return FornecedorDtoFactory.Criar(TipoDto.Visualizar, fornecedor);
+
+            return _mapper.Map<VisualizarFornecedorDto>(fornecedorCadastrado);
         }
 
-        public async Task<IFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualizarFornecedorDto)
+        public async Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualizarFornecedorDto)
         {
             var id = atualizarFornecedorDto.Id;
 
             var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
 
-            fornecedor = new Fornecedor(atualizarFornecedorDto);
+            fornecedor = _mapper.Map<Fornecedor>(atualizarFornecedorDto);
 
             await _fornecedorRepository.AtualizarAsync(fornecedor);
 
-            return FornecedorDtoFactory.Criar(TipoDto.Visualizar, fornecedor);
+            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
         }
 
-        public async Task<IFornecedorDto> RemoverAsync(int id)
+        public async Task<VisualizarFornecedorDto> RemoverAsync(int id)
         {
             var fornecedor = await _fornecedorRepository.RemoverAsync(id);
 
-            return FornecedorDtoFactory.Criar(TipoDto.Visualizar, fornecedor);
+            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
         }
     }
 }

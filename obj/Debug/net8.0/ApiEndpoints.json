@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IClienteDto",
+        "Type": "Model.Dtos.VisualizarClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -108,7 +108,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IClienteDto",
+        "Type": "Model.Dtos.VisualizarClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -182,7 +182,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IClienteDto",
+        "Type": "Model.Dtos.VisualizarClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -244,7 +244,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IFornecedorDto",
+        "Type": "Model.Dtos.VisualizarFornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -270,7 +270,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IFornecedorDto",
+        "Type": "Model.Dtos.VisualizarFornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -296,7 +296,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IFornecedorDto",
+        "Type": "Model.Dtos.VisualizarFornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -316,7 +316,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IFornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarFornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -342,7 +342,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IFornecedorDto",
+        "Type": "Model.Dtos.VisualizarFornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -368,7 +368,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IPedidoDto",
+        "Type": "Model.Dtos.VisualizarPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -388,7 +388,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -414,7 +414,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IPedidoDto",
+        "Type": "Model.Dtos.VisualizarPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -440,7 +440,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IPedidoDto",
+        "Type": "Model.Dtos.VisualizarPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -466,7 +466,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IPedidoDto",
+        "Type": "Model.Dtos.VisualizarPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -492,7 +492,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IProdutoDto",
+        "Type": "Model.Dtos.VisualizarProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -518,7 +518,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IProdutoDto",
+        "Type": "Model.Dtos.VisualizarProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -544,7 +544,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IProdutoDto",
+        "Type": "Model.Dtos.VisualizarProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -564,7 +564,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -590,7 +590,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IProdutoDto",
+        "Type": "Model.Dtos.VisualizarProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

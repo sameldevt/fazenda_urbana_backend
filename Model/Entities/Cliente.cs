@@ -22,47 +22,6 @@ namespace Model.Entities
         public virtual ICollection<Pedido> Pedidos { get; set; } = new HashSet<Pedido>();
 
         public Cliente() { }
-
-        public Cliente(CadastrarClienteDto cadastrarClienteDto)
-        {
-            Nome = cadastrarClienteDto.Nome;
-            Senha = cadastrarClienteDto.Senha;
-            Contato = new Contato
-            {
-                Telefone = cadastrarClienteDto.Telefone,
-                Email = cadastrarClienteDto.Email,
-            };
-            Endereco = new Endereco
-            {
-                Logradouro = cadastrarClienteDto.Logradouro,
-                Numero = cadastrarClienteDto.Numero,
-                Cidade = cadastrarClienteDto.Cidade,
-                CEP = cadastrarClienteDto.CEP,
-                Complemento = cadastrarClienteDto.Complemento,
-                Estado = cadastrarClienteDto.Estado,
-                InformacoesAdicionais = cadastrarClienteDto.InformacoesAdicionais
-            };
-        }
-
-        public Cliente(AtualizarClienteDto atualizarClienteDto)
-        {
-            Nome = atualizarClienteDto.Nome;
-            Contato = new Contato
-            {
-                Telefone = atualizarClienteDto.Telefone,
-                Email = atualizarClienteDto.Email,
-            };
-            Endereco = new Endereco
-            {
-                Logradouro = atualizarClienteDto.Logradouro,
-                Numero = atualizarClienteDto.Numero,
-                Cidade = atualizarClienteDto.Cidade,
-                CEP = atualizarClienteDto.CEP,
-                Complemento = atualizarClienteDto.Complemento,
-                Estado = atualizarClienteDto.Estado,
-                InformacoesAdicionais = atualizarClienteDto.InformacoesAdicionais
-            };
-        }
     }
 
     public class Contato

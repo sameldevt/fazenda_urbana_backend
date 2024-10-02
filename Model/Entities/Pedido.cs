@@ -37,19 +37,6 @@ namespace Model.Entities
         public virtual ICollection<ItemPedido> Itens { get; set; } = new HashSet<ItemPedido>();
 
         public Pedido() { }
-
-        public Pedido(CadastrarPedidoDto cadastrarPedidoDto)
-        {
-            ClienteId = cadastrarPedidoDto.IdCliente;
-            DataPedido = cadastrarPedidoDto.DataPedido;
-            DataEntrega = cadastrarPedidoDto.DataEntrega;
-            Status = cadastrarPedidoDto.Status;
-            Total = cadastrarPedidoDto.Total;
-            EnderecoEntrega = cadastrarPedidoDto.EnderecoEntrega;
-            FormaPagamento = cadastrarPedidoDto.FormaPagamento;
-            Observacoes = cadastrarPedidoDto.Observacoes;
-            Itens = cadastrarPedidoDto.Itens.Select(i => new ItemPedido(i)).ToList();
-        }
     }
 
     public class ItemPedido
@@ -80,15 +67,5 @@ namespace Model.Entities
         public decimal SubTotal { get; set; }
 
         public ItemPedido() { }
-
-        public ItemPedido(IItemPedidoDto cadastrarItemPedidoDto) 
-        {
-            var dto = (CadastrarItemPedidoDto)cadastrarItemPedidoDto;
-
-            Produto = new Produto(dto.Produto);
-            Quantidade = dto.Quantidade;
-            PrecoUnitario = dto.PrecoUnitario;
-            SubTotal = dto.SubTotal;
-        }
     }
 }

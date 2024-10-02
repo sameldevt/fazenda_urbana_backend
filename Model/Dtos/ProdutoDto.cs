@@ -2,21 +2,7 @@ using Model.Entities;
 
 namespace Model.Dtos
 {
-    public interface IProdutoDto { }
-
-    public static class ProdutoDtoFactory
-    {
-        public static IProdutoDto Criar(TipoDto tipoDto, Produto produto)
-        {
-            return tipoDto switch
-            {
-                TipoDto.Visualizar => new VisualizarProdutoDto(produto),
-                TipoDto.Cadastrar => new CadastrarProdutoDto(produto),
-                TipoDto.Atualizar => new AtualizarProdutoDto(produto),
-            };
-        }
-    }
-    public record VisualizarProdutoDto : IProdutoDto
+    public record VisualizarProdutoDto
     {
         public int Id { get; init; }
         public string Nome { get; init; }
@@ -34,28 +20,10 @@ namespace Model.Dtos
         public decimal Gorduras { get; init; }
 
         public VisualizarProdutoDto() { }
-
-        public VisualizarProdutoDto(Produto produto) : this()
-        {
-            Id = produto.Id;
-            Nome = produto.Nome;
-            Descricao = produto.Descricao;
-            PrecoUnitario = produto.PrecoUnitario;
-            PrecoQuilo = produto.PrecoQuilo;
-            QuantidadeEstoque = produto.QuantidadeEstoque;
-            NomeCategoria = produto.Categoria.Nome;
-            DescricaoCategoria = produto.Categoria.Descricao;
-            ImagemUrl = produto.ImagemUrl;
-            Calorias = produto.Nutrientes.Calorias;
-            Proteinas = produto.Nutrientes.Proteinas;
-            Carboidratos = produto.Nutrientes.Carboidratos;
-            Fibras = produto.Nutrientes.Fibras;
-            Gorduras = produto.Nutrientes.Gorduras;
-        }
     }
 
 
-    public record CadastrarProdutoDto : IProdutoDto
+    public record CadastrarProdutoDto
     {
         public string Nome { get; init; }
         public string Descricao { get; init; }
@@ -72,26 +40,9 @@ namespace Model.Dtos
         public decimal Gorduras { get; init; }
 
         public CadastrarProdutoDto() { }
-
-        public CadastrarProdutoDto(Produto produto) : this()
-        {
-            Nome = produto.Nome;
-            Descricao = produto.Descricao;
-            PrecoUnitario = produto.PrecoUnitario;
-            PrecoQuilo = produto.PrecoQuilo;
-            QuantidadeEstoque = produto.QuantidadeEstoque;
-            NomeCategoria = produto.Categoria.Nome;
-            DescricaoCategoria = produto.Categoria.Descricao;
-            ImagemUrl = produto.ImagemUrl;
-            Calorias = produto.Nutrientes.Calorias;
-            Proteinas = produto.Nutrientes.Proteinas;
-            Carboidratos = produto.Nutrientes.Carboidratos;
-            Fibras = produto.Nutrientes.Fibras;
-            Gorduras = produto.Nutrientes.Gorduras;
-        }
     }
 
-    public record AtualizarProdutoDto : IProdutoDto
+    public record AtualizarProdutoDto
     {
         public int Id { get; init; }
         public string Nome { get; init; }
@@ -109,24 +60,5 @@ namespace Model.Dtos
         public decimal Gorduras { get; init; }
 
         public AtualizarProdutoDto() { }
-
-        public AtualizarProdutoDto(Produto produto) : this()
-        {
-            Id = produto.Id;
-            Nome = produto.Nome;
-            Descricao = produto.Descricao;
-            PrecoUnitario = produto.PrecoUnitario;
-            PrecoQuilo = produto.PrecoQuilo;
-            QuantidadeEstoque = produto.QuantidadeEstoque;
-            NomeCategoria = produto.Categoria.Nome;
-            DescricaoCategoria = produto.Categoria.Descricao;
-            ImagemUrl = produto.ImagemUrl;
-            Calorias = produto.Nutrientes.Calorias;
-            Proteinas = produto.Nutrientes.Proteinas;
-            Carboidratos = produto.Nutrientes.Carboidratos;
-            Fibras = produto.Nutrientes.Fibras;
-            Gorduras = produto.Nutrientes.Gorduras;
-        }
     }
-
 }
