@@ -48,6 +48,26 @@
   },
   {
     "ContainingType": "Controllers.ClienteController",
+    "Method": "BuscarTodos",
+    "RelativePath": "verdeviva/cliente/buscar-todos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
     "Method": "Buscar",
     "RelativePath": "verdeviva/cliente/buscar/{id}",
     "HttpMethod": "GET",
@@ -62,7 +82,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.IClienteDto",
+        "Type": "Model.Dtos.VisualizarClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -113,26 +133,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.ClienteController",
-    "Method": "ListarTodos",
-    "RelativePath": "verdeviva/cliente/listar-todos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "Controllers.ClienteController",

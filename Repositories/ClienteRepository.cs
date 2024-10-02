@@ -10,7 +10,7 @@ namespace Repositories
 {
     public interface IClienteRepository
     {
-        Task<List<Cliente>> BuscarTodosAsync();
+        Task<IEnumerable<Cliente>> BuscarTodosAsync();
         Task<Cliente> BuscarPorIdAsync(int id);
         Task<Cliente> CadastrarAsync(Cliente cliente);
         Task<Cliente> AtualizarAsync(Cliente cliente);
@@ -26,9 +26,12 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<List<Cliente>> BuscarTodosAsync()
+        public async Task<IEnumerable<Cliente>> BuscarTodosAsync()
         {
-            var clientes = await _context.Clientes.ToListAsync();
+            var clientes = await _context.Clientes
+                .Include(c => c.Contato)
+                .Include(c => c.Endereco)
+                .ToListAsync();
 
             if (clientes.IsNullOrEmpty()) 
             {
@@ -40,9 +43,12 @@ namespace Repositories
 
         public async Task<Cliente> BuscarPorIdAsync(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes
+             .Include(c => c.Contato)
+             .Include(c => c.Endereco)
+             .FirstOrDefaultAsync(c => c.Id == id);
 
-            if(cliente == null)
+            if (cliente == null)
             {
                 throw new ResourceNotFoundException($"Cliente com id {id} não encontrado.");
             }
@@ -80,7 +86,11 @@ namespace Repositories
 
         public async Task<Cliente> RemoverAsync(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes
+                .Include(c => c.Contato)
+                .Include(c => c.Endereco)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (cliente == null)
             {
                 throw new ResourceNotFoundException($"Cliente com id {id} não encontrado.");

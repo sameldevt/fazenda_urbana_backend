@@ -99,11 +99,16 @@ namespace Model.Entities
 
         public Categoria() { }
 
-        public Categoria(IProdutoDto visualizarProdutoDto)
+        public Categoria(VisualizarProdutoDto visualizarProdutoDto)
         {
-            var dto = (VisualizarProdutoDto) visualizarProdutoDto;
-            Nome = dto.NomeCategoria;
-            Descricao = dto.DescricaoCategoria;
+            Nome = visualizarProdutoDto.NomeCategoria;
+            Descricao = visualizarProdutoDto.DescricaoCategoria;
+        }
+
+        public Categoria(CadastrarProdutoDto visualizarProdutoDto)
+        {
+            Nome = visualizarProdutoDto.NomeCategoria;
+            Descricao = visualizarProdutoDto.DescricaoCategoria;
         }
     }
 
@@ -125,15 +130,22 @@ namespace Model.Entities
 
         public Nutrientes() { }
 
-        public Nutrientes(IProdutoDto visualizarProdutoDto)
+        public Nutrientes(VisualizarProdutoDto visualizarProdutoDto)
         {
-            var dto = (VisualizarProdutoDto) visualizarProdutoDto;
+            Calorias = visualizarProdutoDto.Calorias;
+            Proteinas = visualizarProdutoDto.Proteinas;
+            Carboidratos = visualizarProdutoDto.Carboidratos;
+            Fibras = visualizarProdutoDto.Fibras;
+            Gorduras = visualizarProdutoDto.Gorduras;
+        }
 
-            Calorias = dto.Calorias;
-            Proteinas = dto.Proteinas;
-            Carboidratos = dto.Carboidratos;
-            Fibras = dto.Fibras;
-            Gorduras = dto.Gorduras;
+        public Nutrientes(CadastrarProdutoDto cadastrarProdutoDto)
+        {
+            Calorias = cadastrarProdutoDto.Calorias;
+            Proteinas = cadastrarProdutoDto.Proteinas;
+            Carboidratos = cadastrarProdutoDto.Carboidratos;
+            Fibras = cadastrarProdutoDto.Fibras;
+            Gorduras = cadastrarProdutoDto.Gorduras;
         }
     }
 }

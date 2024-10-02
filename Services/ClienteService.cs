@@ -7,7 +7,7 @@ namespace Services
 {
     public interface IClienteService
     {
-        Task<List<IClienteDto>> BuscarTodosAsync();
+        Task<IEnumerable<IClienteDto>> BuscarTodosAsync();
         Task<IClienteDto> BuscarPorIdAsync(int id);
         Task<IClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
         Task<IClienteDto> AtualizarAsync(AtualizarClienteDto cliente);
@@ -23,7 +23,7 @@ namespace Services
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<List<IClienteDto>> BuscarTodosAsync()
+        public async Task<IEnumerable<IClienteDto>> BuscarTodosAsync()
         {
             var clientes = await _clienteRepository.BuscarTodosAsync();
 
@@ -39,12 +39,9 @@ namespace Services
 
         public async Task<IClienteDto> CadastrarAsync(CadastrarClienteDto cadastrarClienteDto)
         {
+            var clienteCadastrado = await _clienteRepository.CadastrarAsync(new Cliente(cadastrarClienteDto));
 
-            var cliente = new Cliente(cadastrarClienteDto);
-            
-            var clienteCadastrado = await _clienteRepository.CadastrarAsync(cliente);
-
-            return ClienteDtoFactory.Criar(TipoDto.Visualizar, cliente);
+            return ClienteDtoFactory.Criar(TipoDto.Visualizar, clienteCadastrado);
         }
 
         public async Task<IClienteDto> AtualizarAsync(AtualizarClienteDto atualizarClienteDto)

@@ -16,21 +16,17 @@ namespace Controllers
             _clienteService = clienteService;
         }
 
-        [HttpGet("listar-todos")]
-        public async Task<ActionResult<List<IClienteDto>>> ListarTodos()
+        [HttpGet("buscar-todos")]
+        public async Task<ActionResult<IEnumerable<VisualizarClienteDto>>> BuscarTodos()
         {
             var clientes = await _clienteService.BuscarTodosAsync();
             return Ok(clientes);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<IClienteDto>> Buscar(int id)
+        public async Task<ActionResult<VisualizarClienteDto>> Buscar(int id)
         {
             var cliente = await _clienteService.BuscarPorIdAsync(id);
-            if (cliente == null)
-            {
-                return NotFound("Cliente com " + id + " não encontrado.");
-            }
 
             return Ok(cliente);
         }

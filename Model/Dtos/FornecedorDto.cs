@@ -17,85 +17,93 @@ namespace Model.Dtos
         }
     }
 
-    public record VisualizarFornecedorDto
-    (
-        int Id,
-        string Nome,
-        string CNPJ,
-        string Endereco,
-        string Telefone,
-        string Email,
-        string Website,
-        string ContatoPrincipal,
-        string Observacoes,
-        DateTime DataCadastro
-    ) : IFornecedorDto
+    public record VisualizarFornecedorDto : IFornecedorDto
     {
-        public VisualizarFornecedorDto(Fornecedor fornecedor) : this(
-            fornecedor.Id,
-            fornecedor.Nome,
-            fornecedor.CNPJ,
-            fornecedor.Endereco,
-            fornecedor.Telefone,
-            fornecedor.Email,
-            fornecedor.Website,
-            fornecedor.ContatoPrincipal,
-            fornecedor.Observacoes,
-            fornecedor.DataCadastro
-        ) { }
+        public int Id { get; init; }
+        public string Nome { get; init; }
+        public string CNPJ { get; init; }
+        public string Endereco { get; init; }
+        public string Telefone { get; init; }
+        public string Email { get; init; }
+        public string Website { get; init; }
+        public string ContatoPrincipal { get; init; }
+        public string Observacoes { get; init; }
+        public DateTime DataCadastro { get; init; }
+
+        public VisualizarFornecedorDto() { }
+
+        public VisualizarFornecedorDto(Fornecedor fornecedor) : this()
+        {
+            Id = fornecedor.Id;
+            Nome = fornecedor.Nome;
+            CNPJ = fornecedor.CNPJ;
+            Endereco = fornecedor.Endereco;
+            Telefone = fornecedor.Telefone;
+            Email = fornecedor.Email;
+            Website = fornecedor.Website;
+            ContatoPrincipal = fornecedor.ContatoPrincipal;
+            Observacoes = fornecedor.Observacoes;
+            DataCadastro = fornecedor.DataCadastro;
+        }
     }
 
-    public record CadastrarFornecedorDto
-    (
-        string Nome,
-        string CNPJ,
-        string Endereco,
-        string Telefone,
-        string Email,
-        string Website,
-        string ContatoPrincipal,
-        string Observacoes,
-        DateTime DataCadastro
-    ) : IFornecedorDto
+    public record CadastrarFornecedorDto : IFornecedorDto
     {
-        public CadastrarFornecedorDto(Fornecedor fornecedor) : this (
-            fornecedor.Nome,
-            fornecedor.CNPJ,
-            fornecedor.Endereco,
-            fornecedor.Telefone,
-            fornecedor.Email,
-            fornecedor.Website,
-            fornecedor.ContatoPrincipal,
-            fornecedor.Observacoes,
-            fornecedor.DataCadastro
-        ) { }
+        public string Nome { get; init; }
+        public string CNPJ { get; init; }
+        public string Endereco { get; init; }
+        public string Telefone { get; init; }
+        public string Email { get; init; }
+        public string Website { get; init; }
+        public string ContatoPrincipal { get; init; }
+        public string Observacoes { get; init; }
+        public DateTime DataCadastro { get; init; }
+
+        public CadastrarFornecedorDto() { }
+
+        public CadastrarFornecedorDto(Fornecedor fornecedor) : this()
+        {
+            Nome = fornecedor.Nome;
+            CNPJ = fornecedor.CNPJ;
+            Endereco = fornecedor.Endereco;
+            Telefone = fornecedor.Telefone;
+            Email = fornecedor.Email;
+            Website = fornecedor.Website;
+            ContatoPrincipal = fornecedor.ContatoPrincipal;
+            Observacoes = fornecedor.Observacoes;
+            DataCadastro = fornecedor.DataCadastro;
+        }
     }
 
-    public record AtualizarFornecedorDto
-    (
-        int Id,
-        string Nome,
-        string CNPJ,
-        string Endereco,
-        string Telefone,
-        string Email,
-        string Website,
-        string ContatoPrincipal,
-        string Observacoes,
-        DateTime DataCadastro
-    ) : IFornecedorDto
+
+    public record AtualizarFornecedorDto : IFornecedorDto
     {
-        public AtualizarFornecedorDto(Fornecedor fornecedor) : this(
-            fornecedor.Id,
-            fornecedor.Nome,
-            fornecedor.CNPJ,
-            fornecedor.Endereco,
-            fornecedor.Telefone,
-            fornecedor.Email,
-            fornecedor.Website,
-            fornecedor.ContatoPrincipal,
-            fornecedor.Observacoes,
-            fornecedor.DataCadastro
-        ) { }
+        public int Id { get; init; }
+        public string Nome { get; init; }
+        public string CNPJ { get; init; }
+        public string Endereco { get; init; }
+        public string Telefone { get; init; }
+        public string Email { get; init; }
+        public string Website { get; init; }
+        public string ContatoPrincipal { get; init; }
+        public string Observacoes { get; init; }
+        public DateTime DataCadastro { get; init; }
+
+        public AtualizarFornecedorDto() { }
+
+        public AtualizarFornecedorDto(Fornecedor fornecedor) : this()
+        {
+            Id = fornecedor.Id;
+            Nome = fornecedor.Nome;
+            CNPJ = fornecedor.CNPJ;
+            Endereco = fornecedor.Endereco;
+            Telefone = fornecedor.Telefone;
+            Email = fornecedor.Email;
+            Website = fornecedor.Website;
+            ContatoPrincipal = fornecedor.ContatoPrincipal;
+            Observacoes = fornecedor.Observacoes;
+            DataCadastro = fornecedor.DataCadastro;
+        }
     }
+
 }
