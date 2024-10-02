@@ -9,7 +9,7 @@ namespace Repositories
 {
     public interface IFornecedorRepository
     {
-        Task<IEnumerable<Fornecedor>> ListarTodosAsync();
+        Task<List<Fornecedor>> BuscarTodosAsync();
         Task<Fornecedor> BuscarPorIdAsync(int id);
         Task<Fornecedor> CadastrarAsync(Fornecedor fornecedor);
         Task<Fornecedor> AtualizarAsync(Fornecedor fornecedor);
@@ -25,7 +25,7 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Fornecedor>> ListarTodosAsync()
+        public async Task<List<Fornecedor>> BuscarTodosAsync()
         {
             var fornecedores = await _context.Fornecedores.ToListAsync();
 

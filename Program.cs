@@ -1,4 +1,5 @@
 using Data;
+using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Repositories;
@@ -50,13 +51,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Middleware de tratamento global de exceções
+// Middleware de tratamento global de exceções (deve ser adicionado antes de outras configurações de middleware)
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 // Configuração do pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Fazenda Urbana VerdeViva v1"));
 }

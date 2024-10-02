@@ -41,13 +41,9 @@ namespace Exceptions
                     statusCode = HttpStatusCode.NotFound;
                     message = notFoundException.Message;
                     break;
-                case ArgumentException argumentException:
+                case DatabaseManipulationException databaseManipulationException:
                     statusCode = HttpStatusCode.BadRequest;
-                    message = argumentException.Message;
-                    break;
-                case InvalidHeaderException invalidHeaderException:
-                    statusCode = HttpStatusCode.BadRequest;
-                    message = invalidHeaderException.Message;
+                    message = databaseManipulationException.Message;
                     break;
                 default:
                     _logger.LogError(exception, "Unhandled exception occurred.");
@@ -77,4 +73,5 @@ namespace Exceptions
     public class DatabaseManipulationException : Exception
     {
         public DatabaseManipulationException(string message) : base(message) { }
+    }
 }

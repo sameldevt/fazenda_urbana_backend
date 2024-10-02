@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Services;
+using Model.Dtos;
 
 namespace Model.Entities
 {
@@ -33,6 +35,21 @@ namespace Model.Entities
         public string Observacoes { get; set; }
 
         public virtual ICollection<ItemPedido> Itens { get; set; } = new HashSet<ItemPedido>();
+
+        public Pedido() { }
+
+        public Pedido(CadastrarPedidoDto cadastrarPedidoDto)
+        {
+            ClienteId = cadastrarPedidoDto.IdCliente;
+            DataPedido = cadastrarPedidoDto.DataPedido;
+            DataEntrega = cadastrarPedidoDto.DataEntrega;
+            Status = cadastrarPedidoDto.Status;
+            Total = cadastrarPedidoDto.Total;
+            EnderecoEntrega = cadastrarPedidoDto.EnderecoEntrega;
+            FormaPagamento = cadastrarPedidoDto.FormaPagamento;
+            Observacoes = cadastrarPedidoDto.Observacoes;
+            Itens = cadastrarPedidoDto.Itens.Select(i => new ItemPedido(i)).ToList();
+        }
     }
 
     public class ItemPedido
@@ -60,6 +77,18 @@ namespace Model.Entities
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Subtotal { get; set; }
+        public decimal SubTotal { get; set; }
+
+        public ItemPedido() { }
+
+        public ItemPedido(IItemPedidoDto cadastrarItemPedidoDto) 
+        {
+            var dto = (CadastrarItemPedidoDto)cadastrarItemPedidoDto;
+
+            Produto = new Produto(dto.Produto);
+            Quantidade = dto.Quantidade;
+            PrecoUnitario = dto.PrecoUnitario;
+            SubTotal = dto.SubTotal;
+        }
     }
 }

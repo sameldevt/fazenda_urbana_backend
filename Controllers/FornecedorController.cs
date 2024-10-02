@@ -18,59 +18,37 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<VisualizarFornecedorDto>>> BuscarTodos()
+        public async Task<ActionResult<List<IFornecedorDto>>> BuscarTodos()
         {
             var fornecedores = await _fornecedorService.BuscarTodosAsync();
-            if (fornecedores.IsNullOrEmpty())
-            {
-                return NotFound("Nenhum fornecedor cadastrado.");
-            }
             return Ok(fornecedores);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<VisualizarFornecedorDto>> Buscar(int id)
+        public async Task<ActionResult<IFornecedorDto>> Buscar(int id)
         {
             var fornecedor = await _fornecedorService.BuscarPorIdAsync(id);
-            if (fornecedor == null)
-                return NotFound("Fornecedor com id " + id + " não encontrado.");
-
             return Ok(fornecedor);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> Cadastrar([FromBody] CadastrarFornecedorDto cadastrarFornecedorDto)
+        public async Task<ActionResult<IFornecedorDto>> Cadastrar([FromBody] CadastrarFornecedorDto cadastrarFornecedorDto)
         {
             var fornecedorCadastrado = await _fornecedorService.CadastrarAsync(cadastrarFornecedorDto);
-            if(fornecedorCadastrado == null)
-            {
-                return BadRequest("Fornecedor não cadastrado.");
-            }
-
             return Created(nameof(Cadastrar), fornecedorCadastrado);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult> Atualizar([FromBody] AtualizarFornecedorDto atualizarFornecedorDto)
+        public async Task<ActionResult<IFornecedorDto>> Atualizar([FromBody] AtualizarFornecedorDto atualizarFornecedorDto)
         {
             var fornecedorAtualizado = await _fornecedorService.AtualizarAsync(atualizarFornecedorDto);
-            if(fornecedorAtualizado == null)
-            {
-                var id = atualizarFornecedorDto.Id;
-                return NotFound("Fornecedor com id " + id + " não encontrado.");
-            }
-
             return Ok(fornecedorAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult> Remover(int id)
+        public async Task<ActionResult<IFornecedorDto>> Remover(int id)
         {
             var fornecedorRemovido = await _fornecedorService.RemoverAsync(id);
-            if (fornecedorRemovido == null)
-            {
-                return BadRequest("Fornecedor não removido.");
-            }
             return Ok(fornecedorRemovido);
         }
     }

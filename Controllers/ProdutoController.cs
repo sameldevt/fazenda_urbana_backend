@@ -18,59 +18,37 @@ namespace Controllers
         }
 
         [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<VisualizarProdutoDto>>> BuscarTodos()
+        public async Task<ActionResult<List<IProdutoDto>>> BuscarTodos()
         {
             var produtos = await _produtoService.BuscarTodosAsync();
-            if (produtos.IsNullOrEmpty())
-            {
-                return NotFound("Nenhum produto encontrado.");
-            }
-
             return Ok(produtos);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Buscar(int id)
+        public async Task<ActionResult<IProdutoDto>> Buscar(int id)
         {
             var produto = await _produtoService.BuscarPorIdAsync(id);
-            if (produto == null)
-            {
-                return NotFound("Produto com ID " + id + " não encontrado.");
-            }
-
             return Ok(produto);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<ActionResult<IProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
         {
-            VisualizarProdutoDto produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
-            if (produto == null)
-            {
-                return NotFound("Cadastro mal-sucedido.");
-            }
+            var produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
             return Created(nameof(Cadastrar), produto);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<ActionResult<IProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
         {
             var produtoAtualizado = await _produtoService.AtualizarAsync(atualizarProdutoDto);
-            if (produtoAtualizado == null)
-            {
-                return NotFound("Atualização mal-sucedida.");
-            }
             return Ok(produtoAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Remover(int id)
+        public async Task<ActionResult<IProdutoDto>> Remover(int id)
         {
             var produtoRemovido = await _produtoService.RemoverAsync(id);
-            if (produtoRemovido == null)
-            {
-                return NotFound("Produto com ID " + id + " não encontrado.");
-            }
             return Ok(produtoRemovido);
         }
     }

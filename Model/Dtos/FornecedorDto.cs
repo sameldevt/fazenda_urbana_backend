@@ -2,6 +2,21 @@ using Model.Entities;
 
 namespace Model.Dtos
 {
+    public interface IFornecedorDto { }
+
+    public static class FornecedorDtoFactory
+    {
+        public static IFornecedorDto Criar(TipoDto tipoDto, Fornecedor fornecedor)
+        {
+            return tipoDto switch
+            {
+                TipoDto.Visualizar => new VisualizarFornecedorDto(fornecedor),
+                TipoDto.Cadastrar => new CadastrarFornecedorDto(fornecedor),
+                TipoDto.Atualizar => new AtualizarFornecedorDto(fornecedor),
+            };
+        }
+    }
+
     public record VisualizarFornecedorDto
     (
         int Id,
@@ -14,24 +29,20 @@ namespace Model.Dtos
         string ContatoPrincipal,
         string Observacoes,
         DateTime DataCadastro
-    )
+    ) : IFornecedorDto
     {
-        public static VisualizarFornecedorDto ConverterObjeto(Fornecedor fornecedor)
-        {
-            return new VisualizarFornecedorDto
-            (
-                fornecedor.Id,
-                fornecedor.Nome,
-                fornecedor.CNPJ,
-                fornecedor.Endereco,
-                fornecedor.Telefone,
-                fornecedor.Email,
-                fornecedor.Website,
-                fornecedor.ContatoPrincipal,
-                fornecedor.Observacoes,
-                fornecedor.DataCadastro
-            );
-        }
+        public VisualizarFornecedorDto(Fornecedor fornecedor) : this(
+            fornecedor.Id,
+            fornecedor.Nome,
+            fornecedor.CNPJ,
+            fornecedor.Endereco,
+            fornecedor.Telefone,
+            fornecedor.Email,
+            fornecedor.Website,
+            fornecedor.ContatoPrincipal,
+            fornecedor.Observacoes,
+            fornecedor.DataCadastro
+        ) { }
     }
 
     public record CadastrarFornecedorDto
@@ -45,7 +56,20 @@ namespace Model.Dtos
         string ContatoPrincipal,
         string Observacoes,
         DateTime DataCadastro
-    );
+    ) : IFornecedorDto
+    {
+        public CadastrarFornecedorDto(Fornecedor fornecedor) : this (
+            fornecedor.Nome,
+            fornecedor.CNPJ,
+            fornecedor.Endereco,
+            fornecedor.Telefone,
+            fornecedor.Email,
+            fornecedor.Website,
+            fornecedor.ContatoPrincipal,
+            fornecedor.Observacoes,
+            fornecedor.DataCadastro
+        ) { }
+    }
 
     public record AtualizarFornecedorDto
     (
@@ -59,5 +83,19 @@ namespace Model.Dtos
         string ContatoPrincipal,
         string Observacoes,
         DateTime DataCadastro
-    );
+    ) : IFornecedorDto
+    {
+        public AtualizarFornecedorDto(Fornecedor fornecedor) : this(
+            fornecedor.Id,
+            fornecedor.Nome,
+            fornecedor.CNPJ,
+            fornecedor.Endereco,
+            fornecedor.Telefone,
+            fornecedor.Email,
+            fornecedor.Website,
+            fornecedor.ContatoPrincipal,
+            fornecedor.Observacoes,
+            fornecedor.DataCadastro
+        ) { }
+    }
 }

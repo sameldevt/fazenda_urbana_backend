@@ -18,45 +18,38 @@ namespace Controllers
         }
 
         [HttpGet("buscar-todos")]
-        public async Task<ActionResult<IEnumerable<VisualizarPedidoDto>>> BuscarTodos()
+        public async Task<ActionResult<List<IPedidoDto>>> BuscarTodos()
         {
             var pedidos = await _pedidoService.BuscarTodosAsync();
-            if (pedidos.IsNullOrEmpty())
-            {
-                return NotFound("Nenhum pedido encontrado.");
-            }
             return Ok(pedidos);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<VisualizarPedidoDto>> Buscar(int id)
+        public async Task<ActionResult<IPedidoDto>> Buscar(int id)
         {
             var pedido = await _pedidoService.BuscarPorIdAsync(id);
-            if (pedido == null)
-                return NotFound("Pedido com id " + id + " não encontrado.");
-
             return Ok(pedido);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult> Cadastrar([FromBody] CadastrarPedidoDto cadastrarPedidoDto)
+        public async Task<ActionResult<IPedidoDto>> Cadastrar([FromBody] CadastrarPedidoDto cadastrarPedidoDto)
         {
             await _pedidoService.CadastrarAsync(cadastrarPedidoDto);
             return Created(nameof(Cadastrar), cadastrarPedidoDto);
         }
 
         [HttpPut("alterar-status")]
-        public async Task<ActionResult> AlterarStatus(AlterarStatusPedidoDto alterarStatusPedidoDto)
+        public async Task<ActionResult<IPedidoDto>> AlterarStatus(AlterarStatusPedidoDto alterarStatusPedidoDto)
         {
-            await _pedidoService.AlterarStatusAsync(alterarStatusPedidoDto);
-            return Ok("Status do pedido com id " + alterarStatusPedidoDto.Id + " alterado para " + alterarStatusPedidoDto.Status + ".");
+            var pedidoAlterado = await _pedidoService.AlterarStatusAsync(alterarStatusPedidoDto);
+            return Ok(pedidoAlterado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult> Remover(int id)
+        public async Task<ActionResult<IPedidoDto>> Remover(int id)
         {
-            await _pedidoService.RemoverAsync(id);
-            return Ok("Pedido com id " + id + " removido.");
+            var pedidoRemovido = await _pedidoService.RemoverAsync(id);
+            return Ok(pedidoRemovido);
         }
     }
 }

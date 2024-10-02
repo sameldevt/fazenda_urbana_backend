@@ -16,10 +16,10 @@ namespace Controllers
         }
 
         [HttpPost("enviar-mensagem")]
-        public IActionResult EnviarMensagem([FromBody] FaleConosco faleConosco)
+        public ActionResult<FaleConosco> EnviarMensagem([FromBody] FaleConosco faleConosco)
         {
-            _faleConoscoService.EnviarMensagemAsync(faleConosco);
-            return Created(nameof(EnviarMensagem), faleConosco);
+            var mensagemRegistrada = _faleConoscoService.EnviarMensagemAsync(faleConosco);
+            return Created(nameof(EnviarMensagem), mensagemRegistrada);
         }
     }
 

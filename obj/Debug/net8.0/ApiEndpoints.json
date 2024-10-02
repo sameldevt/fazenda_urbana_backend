@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.IClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -62,7 +62,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Entities.Cliente",
+        "Type": "Model.Dtos.IClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -88,7 +88,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.IClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -124,7 +124,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -182,7 +182,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.IClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -216,7 +216,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Entities.FaleConosco",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.FornecedorController",
@@ -232,7 +242,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IFornecedorDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.FornecedorController",
@@ -250,7 +270,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarFornecedorDto",
+        "Type": "Model.Dtos.IFornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -274,7 +294,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IFornecedorDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.FornecedorController",
@@ -286,7 +316,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarFornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IFornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -310,7 +340,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IFornecedorDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.PedidoController",
@@ -326,7 +366,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IPedidoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.PedidoController",
@@ -338,7 +388,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -364,7 +414,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarPedidoDto",
+        "Type": "Model.Dtos.IPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -388,7 +438,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IPedidoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.PedidoController",
@@ -404,7 +464,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.IPedidoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.ProdutoController",
@@ -422,7 +492,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.IProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -448,7 +518,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.IProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -474,7 +544,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.IProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -494,7 +564,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.IProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -520,7 +590,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.IProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

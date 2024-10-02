@@ -9,7 +9,7 @@ namespace Repositories
 {
     public interface IPedidoRepository
     {
-        Task<IEnumerable<Pedido>> BuscarTodosAsync();
+        Task<List<Pedido>> BuscarTodosAsync();
         Task<Pedido> BuscarPorIdAsync(int id);
         Task<Pedido> CadastrarAsync(Pedido pedido);
         Task<Pedido> AlterarStatusAsync(Pedido pedido);
@@ -25,7 +25,7 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Pedido>> BuscarTodosAsync()
+        public async Task<List<Pedido>> BuscarTodosAsync()
         {
             var pedidos = await _context.Pedidos.ToListAsync();
 
@@ -94,7 +94,7 @@ namespace Repositories
             }
             catch (Exception ex)
             {
-                throw new DatabaseManipulationException($"Erro ao remover pedido. Causa: {ex}.")
+                throw new DatabaseManipulationException($"Erro ao remover pedido. Causa: {ex}.");
             }
         }
     }

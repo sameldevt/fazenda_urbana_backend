@@ -2,24 +2,17 @@ using Model.Entities;
 
 namespace Model.Dtos
 {
-    public enum ClienteDtoTipo
-    {
-        Visualizar,
-        Cadastrar,
-        Atualizar,
-    }
+    public interface IClienteDto : IDto { }
 
-    public interface IClienteDto { }
-
-    public static class ClienteDtoFactory
+    public class ClienteDtoFactory
     {
-        public static IClienteDto Criar(ClienteDtoTipo tipoDto, Cliente cliente)
+        public static IClienteDto Criar(TipoDto tipoDto, Cliente cliente)
         {
             return tipoDto switch
             {
-                ClienteDtoTipo.Visualizar => new VisualizarClienteDto(cliente),
-                ClienteDtoTipo.Cadastrar => new CadastrarClienteDto(cliente),
-                ClienteDtoTipo.Atualizar => new AtualizarClienteDto(cliente),
+                TipoDto.Visualizar => new VisualizarClienteDto(cliente),
+                TipoDto.Cadastrar => new CadastrarClienteDto(cliente),
+                TipoDto.Atualizar => new AtualizarClienteDto(cliente)
             };
         }
     }

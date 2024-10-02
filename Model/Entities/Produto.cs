@@ -34,11 +34,8 @@ namespace Model.Entities
         public string ImagemUrl { get; set; }
 
         public virtual Nutrientes Nutrientes { get; set; }
-        
-        public Produto()
-        {
 
-        }
+        public Produto() { }
 
         public Produto(VisualizarProdutoDto visualizarProdutoDto)
         {
@@ -64,6 +61,30 @@ namespace Model.Entities
             ImagemUrl = cadastrarProdutoDto.ImagemUrl;
             Nutrientes = new Nutrientes(cadastrarProdutoDto);
         }
+
+        public Produto(AtualizarProdutoDto atualizarProdutoDto)
+        {
+            Nome = atualizarProdutoDto.Nome;
+            Descricao = atualizarProdutoDto.Descricao;
+            PrecoUnitario = atualizarProdutoDto.PrecoUnitario;
+            PrecoQuilo = atualizarProdutoDto.PrecoQuilo;
+            QuantidadeEstoque = atualizarProdutoDto.QuantidadeEstoque;
+            Categoria = new Categoria
+            {
+                Nome = atualizarProdutoDto.NomeCategoria,
+                Descricao = atualizarProdutoDto.DescricaoCategoria,
+            };
+
+            ImagemUrl = atualizarProdutoDto.ImagemUrl;
+            Nutrientes = new Nutrientes
+            {
+                Calorias = atualizarProdutoDto.Calorias,
+                Proteinas = atualizarProdutoDto.Proteinas,
+                Carboidratos = atualizarProdutoDto.Carboidratos,
+                Fibras = atualizarProdutoDto.Fibras,
+                Gorduras = atualizarProdutoDto.Gorduras,
+            };
+        }
     }
 
     public class Categoria
@@ -76,15 +97,13 @@ namespace Model.Entities
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public ICollection<Produto> Produtos { get; set; }
 
-        public Categoria()
-        {
+        public Categoria() { }
 
-        }
-
-        public Categoria(VisualizarProdutoDto visualizarProdutoDto)
+        public Categoria(IProdutoDto visualizarProdutoDto)
         {
-            Nome = visualizarProdutoDto.NomeCategoria;
-            Descricao = visualizarProdutoDto.DescricaoCategoria;
+            var dto = (VisualizarProdutoDto) visualizarProdutoDto;
+            Nome = dto.NomeCategoria;
+            Descricao = dto.DescricaoCategoria;
         }
     }
 
@@ -104,18 +123,17 @@ namespace Model.Entities
         public decimal Fibras { get; set; }
         public decimal Gorduras { get; set; }
 
-        public Nutrientes()
-        {
+        public Nutrientes() { }
 
-        }
-
-        public Nutrientes(VisualizarProdutoDto visualizarProdutoDto)
+        public Nutrientes(IProdutoDto visualizarProdutoDto)
         {
-            Calorias = visualizarProdutoDto.Calorias;
-            Proteinas = visualizarProdutoDto.Proteinas;
-            Carboidratos = visualizarProdutoDto.Carboidratos;
-            Fibras = visualizarProdutoDto.Fibras;
-            Gorduras = visualizarProdutoDto.Gorduras;
+            var dto = (VisualizarProdutoDto) visualizarProdutoDto;
+
+            Calorias = dto.Calorias;
+            Proteinas = dto.Proteinas;
+            Carboidratos = dto.Carboidratos;
+            Fibras = dto.Fibras;
+            Gorduras = dto.Gorduras;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Model.Dtos;
 
 namespace Model.Entities
 {
@@ -30,18 +31,32 @@ namespace Model.Entities
 
         public DateTime DataCadastro { get; set; }
 
-        // Construtor tradicional
-        public Fornecedor(string nome, string cNPJ, string endereco, string telefone, string email, string website, string contatoPrincipal, string observacoes, DateTime dataCadastro)
+        public Fornecedor() { }
+
+        public Fornecedor(CadastrarFornecedorDto cadastrarFornecedorDto)
         {
-            Nome = nome;
-            CNPJ = cNPJ;
-            Endereco = endereco;
-            Telefone = telefone;
-            Email = email;
-            Website = website;
-            ContatoPrincipal = contatoPrincipal;
-            Observacoes = observacoes;
-            DataCadastro = dataCadastro;
+            Nome = cadastrarFornecedorDto.Nome;
+            CNPJ = cadastrarFornecedorDto.CNPJ;
+            Endereco = cadastrarFornecedorDto.Endereco;
+            Telefone = cadastrarFornecedorDto.Telefone;
+            Email = cadastrarFornecedorDto.Email;
+            Website = cadastrarFornecedorDto.Website;
+            ContatoPrincipal = cadastrarFornecedorDto.ContatoPrincipal;
+            Observacoes = cadastrarFornecedorDto.Observacoes;
+            DataCadastro = cadastrarFornecedorDto.DataCadastro;
+        }
+
+        public Fornecedor(AtualizarFornecedorDto atualizarFornecedorDto)
+        {
+            Nome = atualizarFornecedorDto.Nome;
+            CNPJ = atualizarFornecedorDto.CNPJ;
+            Endereco = atualizarFornecedorDto.Endereco;
+            Telefone = atualizarFornecedorDto.Telefone;
+            Email = atualizarFornecedorDto.Email;
+            Website = atualizarFornecedorDto.Website;
+            ContatoPrincipal = atualizarFornecedorDto.ContatoPrincipal;
+            Observacoes = atualizarFornecedorDto.Observacoes;
+            DataCadastro = atualizarFornecedorDto.DataCadastro;
         }
     }
 }

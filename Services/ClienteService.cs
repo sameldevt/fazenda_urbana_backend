@@ -7,11 +7,11 @@ namespace Services
 {
     public interface IClienteService
     {
-        Task<IEnumerable<VisualizarClienteDto>> ListarTodosAsync();
-        Task<VisualizarClienteDto> BuscarPorIdAsync(int id);
-        Task<VisualizarClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
-        Task<VisualizarClienteDto> AtualizarAsync(AtualizarClienteDto cliente);
-        Task<VisualizarClienteDto> RemoverAsync(int id);
+        Task<List<IClienteDto>> BuscarTodosAsync();
+        Task<IClienteDto> BuscarPorIdAsync(int id);
+        Task<IClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
+        Task<IClienteDto> AtualizarAsync(AtualizarClienteDto cliente);
+        Task<IClienteDto> RemoverAsync(int id);
     }
 
     public class ClienteService : IClienteService
@@ -23,99 +23,45 @@ namespace Services
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<IEnumerable<VisualizarClienteDto>> ListarTodosAsync()
+        public async Task<List<IClienteDto>> BuscarTodosAsync()
         {
             var clientes = await _clienteRepository.BuscarTodosAsync();
 
-            var listaClientesDto = new List<VisualizarClienteDto>();
-
-            foreach (var cliente in clientes)
-            {
-                var clienteDto = VisualizarClienteDto.ConverterCliente(cliente);
-                listaClientesDto.Add(clienteDto);
-            }
-
-            return listaClientesDto;
+            return clientes.Select(c => ClienteDtoFactory.Criar(TipoDto.Visualizar, c)).ToList();
         }
 
-        public async Task<VisualizarClienteDto> BuscarPorIdAsync(int id)
+        public async Task<IClienteDto> BuscarPorIdAsync(int id)
         {
             var cliente = await _clienteRepository.BuscarPorIdAsync(id);
 
-            if(cliente == null)
-            {
-                return null;
-            }
-
-            return VisualizarClienteDto.ConverterCliente(cliente);
+            return ClienteDtoFactory.Criar(TipoDto.Visualizar, cliente);
         }
 
-        public async Task<VisualizarClienteDto> CadastrarAsync(CadastrarClienteDto cadastrarClienteDto)
+        public async Task<IClienteDto> CadastrarAsync(CadastrarClienteDto cadastrarClienteDto)
         {
 
-            Cliente cliente = new Cliente
-            { 
-                Nome = cadastrarClienteDto.Nome,
-                Senha = cadastrarClienteDto.Senha,
-                Contato = new Contato 
-                {
-                    Telefone = cadastrarClienteDto.Telefone,
-                    Email = cadastrarClienteDto.Email,
-                },
-                Endereco = new Endereco
-                {
-                    Logradouro = cadastrarClienteDto.Logradouro,
-                    Numero = cadastrarClienteDto.Numero,
-                    Cidade = cadastrarClienteDto.Cidade,
-                    CEP = cadastrarClienteDto.CEP,
-                    Complemento = cadastrarClienteDto.Complemento,
-                    Estado = cadastrarClienteDto.Estado,
-                    InformacoesAdicionais = cadastrarClienteDto.InformacoesAdicionais
-                }
-            };
+            var cliente = new Cliente(cadastrarClienteDto);
             
             var clienteCadastrado = await _clienteRepository.CadastrarAsync(cliente);
 
-            if(clienteCadastrado == null)
-            {
-                return null;
-            }
-
-            return VisualizarClienteDto.ConverterCliente(cliente);
+            return ClienteDtoFactory.Criar(TipoDto.Visualizar, cliente);
         }
 
-        public async Task<VisualizarClienteDto> AtualizarAsync(AtualizarClienteDto atualizarClienteDto)
+        public async Task<IClienteDto> AtualizarAsync(AtualizarClienteDto atualizarClienteDto)
         {
             var clienteExistente = await _clienteRepository.BuscarPorIdAsync(atualizarClienteDto.Id);
-            if (clienteExistente != null)
-            {
-                clienteExistente.Nome = atualizarClienteDto.Nome;
-                clienteExistente.Contato = new Contato
-                {
-                    Telefone = atualizarClienteDto.Telefone,
-                    Email = atualizarClienteDto.Email,
-                };
-                clienteExistente.Endereco = new Endereco
-                {
-                    Logradouro = atualizarClienteDto.Logradouro,
-                    Numero = atualizarClienteDto.Numero,
-                    Cidade = atualizarClienteDto.Cidade,
-                    CEP = atualizarClienteDto.CEP,
-                    Complemento = atualizarClienteDto.Complemento,
-                    Estado = atualizarClienteDto.Estado,
-                    InformacoesAdicionais = atualizarClienteDto.InformacoesAdicionais
-                };
 
-                await _clienteRepository.AtualizarAsync(clienteExistente);
-            }
+            var clienteAtualizado = new Cliente(atualizarClienteDto);
 
-            return VisualizarClienteDto.ConverterCliente(clienteExistente);
+            await _clienteRepository.AtualizarAsync(clienteExistente);
+
+            return ClienteDtoFactory.Criar(TipoDto.Visualizar, clienteAtualizado);
         }
 
-        public async Task<VisualizarClienteDto> RemoverAsync(int id)
+        public async Task<IClienteDto> RemoverAsync(int id)
         {
             var clienteRemovido = await _clienteRepository.RemoverAsync(id);
-            return VisualizarClienteDto.ConverterCliente(clienteRemovido);
+            return ClienteDtoFactory.Criar(TipoDto.Visualizar, clienteRemovido);
         }
     }
 
