@@ -1,6 +1,9 @@
 ﻿using Data;
 using Model.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Exceptions;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Repositories
 {
@@ -8,9 +11,9 @@ namespace Repositories
     {
         Task<IEnumerable<Fornecedor>> ListarTodosAsync();
         Task<Fornecedor> BuscarPorIdAsync(int id);
-        Task<bool> CadastrarAsync(Fornecedor fornecedor);
-        Task<bool> AtualizarAsync(Fornecedor fornecedor);
-        Task<bool> RemoverAsync(Fornecedor fornecedor);
+        Task<Fornecedor> CadastrarAsync(Fornecedor fornecedor);
+        Task<Fornecedor> AtualizarAsync(Fornecedor fornecedor);
+        Task<Fornecedor> RemoverAsync(int id);
     }
 
     public class FornecedorRepository : IFornecedorRepository
@@ -24,55 +27,75 @@ namespace Repositories
 
         public async Task<IEnumerable<Fornecedor>> ListarTodosAsync()
         {
-            return await _context.Fornecedores.ToListAsync();
+            var fornecedores = await _context.Fornecedores.ToListAsync();
+
+            if (fornecedores.IsNullOrEmpty())
+            {
+                throw new ResourceNotFoundException("Nenhum fornecedor encontrado.");
+            }
+
+            return fornecedores;
         }
 
         public async Task<Fornecedor> BuscarPorIdAsync(int id)
         {
-            return await _context.Fornecedores.FindAsync(id);
+            var fornecedor = await _context.Fornecedores.FindAsync(id);
+
+            if (fornecedor == null)
+            {
+                throw new ResourceNotFoundException($"Fornecedor com id {id} não encontrado.");
+            }
+
+            return fornecedor;
         }
 
-        public async Task<bool> CadastrarAsync(Fornecedor fornecedor)
+        public async Task<Fornecedor> CadastrarAsync(Fornecedor fornecedor)
         {
             try
             {
                 _context.Fornecedores.Add(fornecedor);
                 await _context.SaveChangesAsync();
-                return true;
+                return fornecedor;
             }
             catch (Exception ex)
             {
-                return false;
+                throw new DatabaseManipulationException($"Erro ao cadastrar fornecedor. Causa: {ex}.");
             }
         }
 
-        public async Task<bool> AtualizarAsync(Fornecedor fornecedor)
+        public async Task<Fornecedor> AtualizarAsync(Fornecedor fornecedor)
         {
             try
             {
                 _context.Fornecedores.Update(fornecedor);
                 await _context.SaveChangesAsync();
-                return true;
+                return fornecedor;
             }
             catch (Exception ex)
             {
-                return false;
+                throw new DatabaseManipulationException($"Erro ao atualizar fornecedor. Causa: {ex}.");
             }
         }
 
-        public async Task<bool> RemoverAsync(Fornecedor fornecedor)
+        public async Task<Fornecedor> RemoverAsync(int id)
         {
+            var fornecedor = await BuscarPorIdAsync(id);
+
+            if (fornecedor == null)
+            {
+                throw new ResourceNotFoundException($"Fornecedor com id {id} não encontrado.");
+            }
+            
             try
             {
                 _context.Fornecedores.Remove(fornecedor);
                 await _context.SaveChangesAsync();
-                return true;
+                return fornecedor;
             }   
             catch (Exception ex)
             {
-                return false;
+                throw new DatabaseManipulationException($"Erro ao remover fornecedor. Causa: {ex}.");
             }
         }
     }
-
 }

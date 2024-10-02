@@ -6,13 +6,12 @@ namespace Services
 {
     public interface IProdutoService
     {
-        Task<VisualizarProdutoDto> BuscarPorIdAsync(int id);
-        Task<List<VisualizarProdutoDto>> BuscarTodosAsync();
-        Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome);
-        Task<List<Categoria>> ListarCategoriasAsync();
-        Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
-        Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
-        Task<VisualizarProdutoDto> RemoverAsync(int id);
+        Task<IProdutoDto> BuscarPorIdAsync(int id);
+        Task<List<IProdutoDto>> BuscarTodosAsync();
+        Task<IProdutoDto> BuscarPorNomeAsync(string nome);
+        Task<bool> CadastrarAsync(IProdutoDto produtoDto);
+        Task<bool> AtualizarAsync(IProdutoDto produtoDto);
+        Task<bool> RemoverAsync(int id);
     }
 
     public class ProdutoService : IProdutoService
@@ -24,71 +23,52 @@ namespace Services
             _repository = repository;
         }
 
-        public async Task<List<VisualizarProdutoDto>> BuscarTodosAsync()
+        public async Task<List<IProdutoDto>> BuscarTodosAsync()
         {
-            var produtos = await _repository.ListarTodosAsync();
+            var produtos = await _repository.BuscarTodosAsync();
 
-            var listaProdutoDto = new List<VisualizarProdutoDto>();
+            var produtosDto = new List<IProdutoDto>();
 
             foreach(Produto p in produtos)
             {
-                var produto = VisualizarProdutoDto.ConverterProduto(p);
+                var produtoDto = ProdutoDtoFactory.Criar(ProdutoDtoTipo.Visualizar, p);
+                produtosDto.Add(produtoDto);
             }
 
-            return listaProdutoDto;
+            return produtosDto;
         }
 
-        public async Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome)
+        public async Task<IProdutoDto> BuscarPorNomeAsync(string nome)
         {
             Produto produto = await _repository.BuscarPorNomeAsync(nome);
 
             if (produto != null)
             {
-                return VisualizarProdutoDto.ConverterProduto(produto);
+                return ProdutoDtoFactory.Criar(ProdutoDtoTipo.Visualizar, produto);
             }
 
             return null;
         }
 
-        public Task<List<Categoria>> ListarCategoriasAsync() =>
-            _repository.ListarCategoriasAsync();
-
-        public async Task<VisualizarProdutoDto> BuscarPorIdAsync(int id)
+        public async Task<IProdutoDto> BuscarPorIdAsync(int id)
         {
-            Produto produto = await _repository.BuscarPorIdAsync(id);
+            var produto = await _repository.BuscarPorIdAsync(id);
 
-            return VisualizarProdutoDto.ConverterProduto(produto);
+            return ProdutoDtoFactory.Criar(ProdutoDtoTipo.Visualizar, produto);
         }
 
-        public async Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<IProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            Categoria categoria = await _repository.BuscarCategoriaPorNome(cadastrarProdutoDto.NomeCategoria);
+            var categoria = await _repository.BuscarCategoriaPorNome(cadastrarProdutoDto.NomeCategoria);
 
-            Produto produto = new Produto
-            {
-                Nome = cadastrarProdutoDto.Nome,
-                Descricao = cadastrarProdutoDto.Descricao,
-                PrecoUnitario = cadastrarProdutoDto.PrecoUnitario,
-                PrecoQuilo = cadastrarProdutoDto.PrecoQuilo,
-                QuantidadeEstoque = cadastrarProdutoDto.QuantidadeEstoque,
-                ImagemUrl = cadastrarProdutoDto.ImagemUrl,
-                Categoria = categoria,
-                InformacoesNutricionais = new InformacoesNutricionais
-                {
-                    Calorias = cadastrarProdutoDto.Calorias,
-                    Proteinas = cadastrarProdutoDto.Proteinas,
-                    Carboidratos = cadastrarProdutoDto.Carboidratos,
-                    Fibras = cadastrarProdutoDto.Fibras,
-                    Gorduras = cadastrarProdutoDto.Gorduras,
-                }
-             };
+            Produto produto = new Produto(cadastrarProdutoDto); 
 
             var novoProduto = await _repository.CadastrarAsync(produto);
 
-            return VisualizarProdutoDto.ConverterProduto(novoProduto);
+            return ProdutoDtoFactory.Criar(ProdutoDtoTipo.Visualizar, novoProduto);
         }
 
-        public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<bool> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
         {
             var produtoBanco = await _repository.BuscarPorNomeAsync(atualizarProdutoDto.Nome);
             
@@ -99,8 +79,9 @@ namespace Services
                 produtoBanco.PrecoUnitario = atualizarProdutoDto.PrecoUnitario;
                 produtoBanco.PrecoQuilo = atualizarProdutoDto.PrecoQuilo;
                 produtoBanco.QuantidadeEstoque = atualizarProdutoDto.QuantidadeEstoque;
+                produtoBanco.Categoria = atualizarProdutoDto.Categoria,
                 produtoBanco.ImagemUrl = atualizarProdutoDto.ImagemUrl;
-                produtoBanco.InformacoesNutricionais = new InformacoesNutricionais
+                produtoBanco.Nutrientes = new Nutrientes
                 {
                     Calorias = atualizarProdutoDto.Calorias,
                     Proteinas = atualizarProdutoDto.Proteinas,
@@ -109,17 +90,20 @@ namespace Services
                     Gorduras = atualizarProdutoDto.Gorduras,
                 };
 
-                await _repository.AtualizarAsync(produtoBanco);
+                return await _repository.AtualizarAsync(produtoBanco);
             }
-
-            return VisualizarProdutoDto.ConverterProduto(produtoBanco);
         }
 
-        public async Task<VisualizarProdutoDto> RemoverAsync(int id)
+        public async Task<bool> RemoverAsync(int id)
         {
-            Produto produto = await _repository.RemoverAsync(id);
+            var produto = await _repository.RemoverAsync(id);
 
-            return VisualizarProdutoDto.ConverterProduto(produto);
+            if (produto != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 

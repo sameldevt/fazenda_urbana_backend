@@ -1,16 +1,16 @@
-﻿using Model.Entities;
+﻿using Model.Dtos;
+using Model.Entities;
 using Repositories;
 
 namespace Services
 {
     public interface IPedidoService
     {
-        Task<IEnumerable<Pedido>> ListarTodosAsync();
-        Task<Pedido> BuscarPorIdAsync(int id);
-        Task CriarNovoAsync(Pedido pedido);
-        Task AtualizarStatusAsync(int id, string novoStatus);
-        Task<Pedido> VerDetalhesAsync(int id);
-        Task RemoverAsync(int id);
+        Task<IEnumerable<VisualizarPedidoDto>> BuscarTodosAsync();
+        Task<VisualizarPedidoDto> BuscarPorIdAsync(int id);
+        Task<bool> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto);
+        Task<bool> AlterarStatusAsync(AlterarStatusPedidoDto alterarStatusPedidoDto);
+        Task<bool> RemoverAsync(int id);
     }
 
     public class PedidoService : IPedidoService
@@ -22,36 +22,56 @@ namespace Services
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<IEnumerable<Pedido>> ListarTodosAsync()
+        public async Task<IEnumerable<VisualizarPedidoDto>> BuscarTodosAsync()
         {
-            return await _pedidoRepository.ListarTodosAsync();
+            var pedidos = await _pedidoRepository.BuscarTodosAsync();
+
+            var pedidosDto = new List<VisualizarPedidoDto>();
+
+            foreach (Pedido p in pedidos)
+            {
+                var pedidoDto = VisualizarPedidoDto.ConverterPedido(p);
+                pedidosDto.Add(pedidoDto);
+            }
+
+            return pedidosDto;
         }
 
-        public async Task<Pedido> BuscarPorIdAsync(int id)
-        {
-            return await _pedidoRepository.BuscarPorIdAsync(id);
-        }
-
-        public async Task CriarNovoAsync(Pedido pedido)
-        {
-            await _pedidoRepository.CriarNovoAsync(pedido);
-        }
-
-        public async Task<Pedido> VerDetalhesAsync(int id) => await _pedidoRepository.VerDetalhesAsync(id);
-
-        public async Task AtualizarStatusAsync(int id, string novoStatus)
+        public async Task<VisualizarPedidoDto> BuscarPorIdAsync(int id)
         {
             var pedido = await _pedidoRepository.BuscarPorIdAsync(id);
-            if (pedido != null)
+       
+            if(pedido != null)
             {
-                pedido.Status = novoStatus;
-                await _pedidoRepository.AtualizarAsync(pedido);
+                return VisualizarPedidoDto.ConverterPedido(pedido);
             }
+
+            return null;
         }
 
-        public async Task RemoverAsync(int id)
+        public async Task<bool> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
         {
-            await _pedidoRepository.RemoverAsync(id);
+            Pedido pedido = CadastrarPedidoDto.ConverterDto(cadastrarPedidoDto);
+            return await _pedidoRepository.CadastrarAsync(pedido);
+        }
+
+        public async Task<bool> AlterarStatusAsync(AlterarStatusPedidoDto alterarStatusPedidoDto)
+        {
+            var pedido = await _pedidoRepository.BuscarPorIdAsync(alterarStatusPedidoDto.Id);
+
+            if(pedido == null)
+            {
+                return false;
+            }
+
+            pedido.Status = alterarStatusPedidoDto.Status;
+
+            return await _pedidoRepository.AlterarStatusAsync(pedido);
+        }
+
+        public async Task<bool> RemoverAsync(int id)
+        {
+            return await _pedidoRepository.RemoverAsync(id);
         }
     }
 

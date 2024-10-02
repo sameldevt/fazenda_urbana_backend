@@ -25,7 +25,7 @@ namespace Services
 
         public async Task<IEnumerable<VisualizarClienteDto>> ListarTodosAsync()
         {
-            var clientes = await _clienteRepository.ListarTodosAsync();
+            var clientes = await _clienteRepository.BuscarTodosAsync();
 
             var listaClientesDto = new List<VisualizarClienteDto>();
 
@@ -118,4 +118,5 @@ namespace Services
             return VisualizarClienteDto.ConverterCliente(clienteRemovido);
         }
     }
+
 }

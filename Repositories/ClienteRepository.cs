@@ -1,6 +1,8 @@
 ﻿
 using Data;
+using Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Model.Entities;
 using System;
 
@@ -8,7 +10,7 @@ namespace Repositories
 {
     public interface IClienteRepository
     {
-        Task<IEnumerable<Cliente>> ListarTodosAsync();
+        Task<List<Cliente>> BuscarTodosAsync();
         Task<Cliente> BuscarPorIdAsync(int id);
         Task<Cliente> CadastrarAsync(Cliente cliente);
         Task<Cliente> AtualizarAsync(Cliente cliente);
@@ -24,43 +26,76 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Cliente>> ListarTodosAsync()
+        public async Task<List<Cliente>> BuscarTodosAsync()
         {
-            return await _context.Clientes.ToListAsync();
+            var clientes = await _context.Clientes.ToListAsync();
+
+            if (clientes.IsNullOrEmpty()) 
+            {
+                throw new ResourceNotFoundException("Nenhum cliente encontrado.");
+            }
+
+            return clientes;
         }
 
         public async Task<Cliente> BuscarPorIdAsync(int id)
         {
-            return await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes.FindAsync(id);
+
+            if(cliente == null)
+            {
+                throw new ResourceNotFoundException($"Cliente com id {id} não encontrado.");
+            }
+
+            return cliente;
         }
 
         public async Task<Cliente> CadastrarAsync(Cliente cliente)
         {
-            _context.Clientes.Add(cliente);
-            await _context.SaveChangesAsync();
-
-            return cliente;
+            try
+            {
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao cadastrar cliente. Causa: ${ex}.");
+            }
         }
 
         public async Task<Cliente> AtualizarAsync(Cliente cliente)
         {
-            _context.Clientes.Update(cliente);
-            await _context.SaveChangesAsync();
-
-            return cliente;
+            try
+            {
+                _context.Clientes.Update(cliente);
+                await _context.SaveChangesAsync();
+                return cliente;
+            }
+            catch (Exception ex) 
+            {
+                throw new DatabaseManipulationException($"Erro ao atualizar cliente. Causa: ${ex}.");
+            }
         }
 
         public async Task<Cliente> RemoverAsync(int id)
         {
             var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente != null)
+            if (cliente == null)
+            {
+                throw new ResourceNotFoundException($"Cliente com id {id} não encontrado.");
+            }
+
+            try
             {
                 _context.Clientes.Remove(cliente);
                 await _context.SaveChangesAsync();
                 return cliente;
             }
-
-            return null;
+            catch (Exception ex) 
+            {
+                throw new DatabaseManipulationException($"Erro ao remover cliente. Causa: ${ex}.");
+            }
         }
     }
 

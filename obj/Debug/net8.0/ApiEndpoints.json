@@ -2,7 +2,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Atualizar",
-    "RelativePath": "verdeviva/clientes/atualizar",
+    "RelativePath": "verdeviva/cliente/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -27,8 +27,29 @@
   },
   {
     "ContainingType": "Controllers.ClienteController",
+    "Method": "AtualizarPerfil",
+    "RelativePath": "verdeviva/cliente/atualizar/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "perfil",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/clientes/buscar/{id}",
+    "RelativePath": "verdeviva/cliente/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -54,7 +75,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/clientes/cadastrar",
+    "RelativePath": "verdeviva/cliente/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -79,8 +100,24 @@
   },
   {
     "ContainingType": "Controllers.ClienteController",
+    "Method": "Entrar",
+    "RelativePath": "verdeviva/cliente/entrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
     "Method": "ListarTodos",
-    "RelativePath": "verdeviva/clientes/listar-todos",
+    "RelativePath": "verdeviva/cliente/listar-todos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -99,8 +136,40 @@
   },
   {
     "ContainingType": "Controllers.ClienteController",
+    "Method": "RecuperarSenha",
+    "RelativePath": "verdeviva/cliente/recuperar-senha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
+    "Method": "Registrar",
+    "RelativePath": "verdeviva/cliente/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "perfil",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/clientes/remover/{id}",
+    "RelativePath": "verdeviva/cliente/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -122,6 +191,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
+    "Method": "Sair",
+    "RelativePath": "verdeviva/cliente/sair",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Controllers.FaleConoscoController",
@@ -235,24 +314,39 @@
   },
   {
     "ContainingType": "Controllers.PedidoController",
-    "Method": "AtualizarStatus",
-    "RelativePath": "verdeviva/pedidos/atualizar-status/{id}",
+    "Method": "AlterarStatus",
+    "RelativePath": "verdeviva/pedidos/alterar-status",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "novoStatus",
-        "Type": "System.String",
+        "Name": "alterarStatusPedidoDto",
+        "Type": "Model.Dtos.AlterarStatusPedidoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Controllers.PedidoController",
+    "Method": "BuscarTodos",
+    "RelativePath": "verdeviva/pedidos/buscar-todos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Controllers.PedidoController",
@@ -270,7 +364,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Entities.Pedido",
+        "Type": "Model.Dtos.VisualizarPedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -282,55 +376,19 @@
   },
   {
     "ContainingType": "Controllers.PedidoController",
-    "Method": "Cancelar",
-    "RelativePath": "verdeviva/pedidos/cancelar/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PedidoController",
-    "Method": "CriarNovo",
-    "RelativePath": "verdeviva/pedidos/criar-novo",
+    "Method": "Cadastrar",
+    "RelativePath": "verdeviva/pedidos/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pedido",
-        "Type": "Model.Entities.Pedido",
+        "Name": "cadastrarPedidoDto",
+        "Type": "Model.Dtos.CadastrarPedidoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PedidoController",
-    "Method": "ListarTodos",
-    "RelativePath": "verdeviva/pedidos/listar-todos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Entities.Pedido, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "Controllers.PedidoController",
@@ -343,117 +401,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PedidoController",
-    "Method": "VerDetalhes",
-    "RelativePath": "verdeviva/pedidos/ver-detalhes/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "AtualizarPerfil",
-    "RelativePath": "verdeviva/perfil/atualizar/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "perfil",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "VerPerfil",
-    "RelativePath": "verdeviva/perfil/detalhes/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "Entrar",
-    "RelativePath": "verdeviva/perfil/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "loginDto",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "Sair",
-    "RelativePath": "verdeviva/perfil/logout",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "RecuperarSenha",
-    "RelativePath": "verdeviva/perfil/recuperar-senha",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.PerfilController",
-    "Method": "Registrar",
-    "RelativePath": "verdeviva/perfil/registro",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "perfil",
-        "Type": "System.String",
         "IsRequired": true
       }
     ],

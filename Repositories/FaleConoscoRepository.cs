@@ -1,11 +1,12 @@
 ﻿using Data;
+using Exceptions;
 using Model.Entities;
 
 namespace Repositories
 {
     public interface IFaleConoscoRepository
     {
-        FaleConosco RegistrarFaleConoscoMensagem(FaleConosco faleConosco);
+        Task<FaleConosco> RegistrarFaleConoscoMensagem(FaleConosco faleConosco);
     }
 
     public class FaleConoscoRepository : IFaleConoscoRepository
@@ -17,12 +18,20 @@ namespace Repositories
             _context = context;
         }
 
-        public FaleConosco RegistrarFaleConoscoMensagem(FaleConosco faleConosco)
+        public async Task<FaleConosco> RegistrarFaleConoscoMensagem(FaleConosco faleConosco)
         {
-            _context.FaleConosco.Add(faleConosco);
-            _context.SaveChanges();
+            try
+            {
+                _context.FaleConosco.Add(faleConosco);
+                await _context.SaveChangesAsync();
+                return faleConosco;
+            }
 
-            return faleConosco;
+            catch (Exception ex) 
+            {
+                throw new DatabaseManipulationException($"Erro ao registrar mensagem de fale conosco. Causa: ${ex}.");
+            }
+
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Model.Entities
 
         public string FormaPagamento { get; set; }
 
-        public string Notas { get; set; }
+        public string Observacoes { get; set; }
 
         public virtual ICollection<ItemPedido> Itens { get; set; } = new HashSet<ItemPedido>();
     }
@@ -56,7 +56,7 @@ namespace Model.Entities
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal PreçoUnitario { get; set; }
+        public decimal PrecoUnitario { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

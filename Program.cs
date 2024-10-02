@@ -20,7 +20,6 @@ builder.Services.AddScoped<IFaleConoscoRepository, FaleConoscoRepository>();
 // Registro de serviços com as interfaces correspondentes
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
-builder.Services.AddScoped<IPerfilService, PerfilService>();
 builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
@@ -51,12 +50,15 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+// Middleware de tratamento global de exceções
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
 // Configuração do pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Fazenda Urbana VerdeViva"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Fazenda Urbana VerdeViva v1"));
 }
 
 app.UseCors("PermitirTodos"); // Nome da política que deseja aplicar

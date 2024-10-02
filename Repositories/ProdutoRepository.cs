@@ -2,19 +2,18 @@
 using Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Model.Dtos;
+using Exceptions;
 
 namespace Repositories
 {
     public interface IProdutoRepository
     {
-        Task<List<Produto>> ListarTodosAsync();
+        Task<List<Produto>> BuscarTodosAsync();
         Task<Produto> BuscarPorNomeAsync(string nome);
-        Task<List<Categoria>> ListarCategoriasAsync();
         Task<Produto> BuscarPorIdAsync(int id);
         Task<Produto> CadastrarAsync(Produto produto);
         Task<Produto> AtualizarAsync(Produto produto);
         Task<Produto> RemoverAsync(int id);
-        Task<Categoria> BuscarCategoriaPorNome(string nome);
     }
 
     public class ProdutoRepository : IProdutoRepository
@@ -26,46 +25,100 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<List<Produto>> ListarTodosAsync() =>
-            await _context.Produtos.ToListAsync();
-
-        public async Task<Produto> BuscarPorNomeAsync(string nome) =>
-            await _context.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
-
-        public async Task<List<Categoria>> ListarCategoriasAsync() =>
-            await _context.Categorias.ToListAsync();
-
-
-        public async Task<Produto> BuscarPorIdAsync(int id) => 
-            await _context.Produtos.FindAsync(id);
-      
-
-        public async Task<Produto> CadastrarAsync(Produto produto)
-        {
-            _context.Produtos.Add(produto);
-            await _context.SaveChangesAsync();
+        public async Task<List<Produto>> BuscarTodosAsync()
+        { 
+            var produto = await _context.Produtos.ToListAsync();
+            
+            if(produto == null)
+            {
+                throw new ResourceNotFoundException("Nenhum produto encontrado.");
+            }
 
             return produto;
         }
 
-        public async Task<Produto> AtualizarAsync(Produto produto)
+        public async Task<Produto> BuscarPorNomeAsync(string nome)
         {
-            _context.Produtos.Update(produto);
-            await _context.SaveChangesAsync();
+            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
+            
+            if(produto == null)
+            {
+                throw new ResourceNotFoundException($"Produto {nome} não encontrado.");
+            }
 
             return produto;
+        }
+
+        public async Task<List<Categoria>> ListarCategoriasAsync()
+        {
+            var categoria = await _context.Categorias.ToListAsync();
+                
+            if(categoria == null)
+            {
+                throw new ResourceNotFoundException("Nenhuma categoria encontrada.");
+            }
+
+            return categoria;
+        }
+
+        public async Task<Produto> BuscarPorIdAsync(int id)
+        {
+            var produto =  await _context.Produtos.FindAsync(id);
+            
+            if(produto == null)
+            {
+                throw new ResourceNotFoundException($"Produto com id {id} não encontrado.");
+            }
+            return produto;
+        }
+      
+        public async Task<Produto> CadastrarAsync(Produto produto)
+        {
+            try
+            {
+                _context.Produtos.Add(produto);
+                await _context.SaveChangesAsync();
+                return produto;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao cadastrar produto. Causa: ${ex}.");
+            }
+        }
+
+        public async Task<Produto> AtualizarAsync(Produto produto)
+        {
+            try
+            {
+                _context.Produtos.Update(produto);
+                await _context.SaveChangesAsync();
+                return produto;
+            }
+            catch (Exception ex) 
+            {
+                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: ${ex}.");
+            }
+
         }
 
         public async Task<Produto> RemoverAsync(int id)
         {
             var produto = await _context.Produtos.FindAsync(id);
-            if (produto != null)
+            if (produto == null)
+            {
+                throw new ResourceNotFoundException($"Produto com id {id} não encontrado.");
+            }
+            try
             {
                 _context.Produtos.Remove(produto);
                 await _context.SaveChangesAsync();
+                return produto;
+            }
+            catch (Exception ex) 
+            {
+                throw new DatabaseManipulationException($"Erro ao remover produto. Causa: ${ex}.");
             }
 
-            return produto;
         }
 
         public async Task<Categoria> BuscarCategoriaPorNome(string nome)
@@ -73,6 +126,11 @@ namespace Repositories
             var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Nome == nome);
 
             if (categoria == null)
+            {
+                return categoria;
+            }
+
+            try
             {
                 categoria = new Categoria
                 {
@@ -83,9 +141,12 @@ namespace Repositories
 
                 _context.Categorias.Add(categoria);
                 await _context.SaveChangesAsync();
+                return categoria;
             }
-
-            return categoria;
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro cadastrar categoria. Causa: ${ex}.");
+            }
         }
     }
 

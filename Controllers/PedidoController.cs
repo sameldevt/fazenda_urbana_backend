@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Model.Dtos;
 using Model.Entities;
 using Services;
 
@@ -15,61 +17,46 @@ namespace Controllers
             _pedidoService = pedidoService;
         }
 
-        [HttpGet("listar-todos")]
-        public async Task<ActionResult<IEnumerable<Pedido>>> ListarTodos()
+        [HttpGet("buscar-todos")]
+        public async Task<ActionResult<IEnumerable<VisualizarPedidoDto>>> BuscarTodos()
         {
-            var pedidos = await _pedidoService.ListarTodosAsync();
+            var pedidos = await _pedidoService.BuscarTodosAsync();
+            if (pedidos.IsNullOrEmpty())
+            {
+                return NotFound("Nenhum pedido encontrado.");
+            }
             return Ok(pedidos);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<Pedido>> Buscar(int id)
+        public async Task<ActionResult<VisualizarPedidoDto>> Buscar(int id)
         {
             var pedido = await _pedidoService.BuscarPorIdAsync(id);
             if (pedido == null)
-                return NotFound();
+                return NotFound("Pedido com id " + id + " não encontrado.");
 
             return Ok(pedido);
         }
 
-        [HttpPost("criar-novo")]
-        public async Task<ActionResult> CriarNovo([FromBody] Pedido pedido)
+        [HttpPost("cadastrar")]
+        public async Task<ActionResult> Cadastrar([FromBody] CadastrarPedidoDto cadastrarPedidoDto)
         {
-            await _pedidoService.CriarNovoAsync(pedido);
-            return CreatedAtAction(nameof(Buscar), new { id = pedido.Id }, pedido);
+            await _pedidoService.CadastrarAsync(cadastrarPedidoDto);
+            return Created(nameof(Cadastrar), cadastrarPedidoDto);
         }
 
-        [HttpPut("atualizar-status/{id}")]
-        public async Task<ActionResult> AtualizarStatus(int id, [FromBody] string novoStatus)
+        [HttpPut("alterar-status")]
+        public async Task<ActionResult> AlterarStatus(AlterarStatusPedidoDto alterarStatusPedidoDto)
         {
-            await _pedidoService.AtualizarStatusAsync(id, novoStatus);
-            return NoContent();
+            await _pedidoService.AlterarStatusAsync(alterarStatusPedidoDto);
+            return Ok("Status do pedido com id " + alterarStatusPedidoDto.Id + " alterado para " + alterarStatusPedidoDto.Status + ".");
         }
 
         [HttpDelete("remover/{id}")]
         public async Task<ActionResult> Remover(int id)
         {
             await _pedidoService.RemoverAsync(id);
-            return NoContent();
-        }
-
-        [HttpGet("ver-detalhes/{id}")]
-        public async Task<IActionResult> VerDetalhes(int id)
-        {
-            var pedido = await _pedidoService.VerDetalhesAsync(id);
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-            return Ok(pedido);
-        }
-
-        [HttpDelete("cancelar/{id}")]
-        public async Task<IActionResult> Cancelar(int id)
-        {
-            await _pedidoService.RemoverAsync(id);
-            return Ok();
+            return Ok("Pedido com id " + id + " removido.");
         }
     }
-
 }

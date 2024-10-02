@@ -2,17 +2,18 @@
 using Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.IdentityModel.Tokens;
+using Exceptions;
 
 namespace Repositories
 {
     public interface IPedidoRepository
     {
-        Task<IEnumerable<Pedido>> ListarTodosAsync();
+        Task<IEnumerable<Pedido>> BuscarTodosAsync();
         Task<Pedido> BuscarPorIdAsync(int id);
-        Task CriarNovoAsync(Pedido pedido);
-        Task AtualizarAsync(Pedido pedido);
-        Task<Pedido> VerDetalhesAsync(int id);
-        Task RemoverAsync(int id);
+        Task<Pedido> CadastrarAsync(Pedido pedido);
+        Task<Pedido> AlterarStatusAsync(Pedido pedido);
+        Task<Pedido> RemoverAsync(int id);
     }
 
     public class PedidoRepository : IPedidoRepository
@@ -24,39 +25,77 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Pedido>> ListarTodosAsync()
+        public async Task<IEnumerable<Pedido>> BuscarTodosAsync()
         {
-            return await _context.Pedidos.ToListAsync();
+            var pedidos = await _context.Pedidos.ToListAsync();
+
+            if (pedidos.IsNullOrEmpty())
+            {
+                throw new ResourceNotFoundException("Nenhum pedido encontrado.");
+            }
+
+            return pedidos;
         }
 
         public async Task<Pedido> BuscarPorIdAsync(int id)
         {
-            return await _context.Pedidos.FindAsync(id);
-        }
-
-        public async Task CriarNovoAsync(Pedido pedido)
-        {
-            _context.Pedidos.Add(pedido);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AtualizarAsync(Pedido pedido)
-        {
-            _context.Pedidos.Update(pedido);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task RemoverAsync(int id)
-        {
             var pedido = await _context.Pedidos.FindAsync(id);
-            if (pedido != null)
+
+            if (pedido == null)
             {
-                _context.Pedidos.Remove(pedido);
+                throw new ResourceNotFoundException($"Pedido com id {id} não encontrado.");
+            }
+
+            return pedido;
+        }
+
+        public async Task<Pedido> CadastrarAsync(Pedido pedido)
+        {
+            try
+            {
+                _context.Pedidos.Add(pedido);
                 await _context.SaveChangesAsync();
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao cadastrar pedido. Causa: {ex}");
             }
         }
 
-        public async Task<Pedido> VerDetalhesAsync(int id) => await _context.Pedidos.FindAsync(id);
-    }
+        public async Task<Pedido> AlterarStatusAsync(Pedido pedido)
+        {
+            try
+            {
+                _context.Pedidos.Update(pedido);
+                await _context.SaveChangesAsync();
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao alterar status do pedido. Causa: {ex}");
+            }
+        }
 
+        public async Task<Pedido> RemoverAsync(int id)
+        {
+            var pedido = await _context.Pedidos.FindAsync(id);
+
+            if(pedido == null)
+            {
+                throw new ResourceNotFoundException($"Pedido com id {id} não encontrado.");
+            }
+
+            try
+            {
+                _context.Pedidos.Remove(pedido);
+                await _context.SaveChangesAsync();
+                return pedido;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao remover pedido. Causa: {ex}.")
+            }
+        }
+    }
 }

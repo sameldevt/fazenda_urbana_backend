@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Produto> Produtos { get; set; }
-    public DbSet<InformacoesNutricionais> InformacoesNutricionais { get; set; }
+    public DbSet<Nutrientes> InformacoesNutricionais { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
@@ -57,13 +57,13 @@ public class ApplicationDbContext : DbContext
                   .WithMany(c => c.Produtos)
                   .HasForeignKey(p => p.CategoriaId);
 
-            entity.HasOne(p => p.InformacoesNutricionais)
+            entity.HasOne(p => p.Nutrientes)
                   .WithOne(i => i.Produto)
-                  .HasForeignKey<InformacoesNutricionais>(i => i.ProdutoId);
+                  .HasForeignKey<Nutrientes>(i => i.ProdutoId);
         });
 
         // Configuração da entidade InformacoesNutricionais
-        modelBuilder.Entity<InformacoesNutricionais>(entity =>
+        modelBuilder.Entity<Nutrientes>(entity =>
         {
             entity.ToTable("InformacoesNutricionais");
 
@@ -131,7 +131,7 @@ public class ApplicationDbContext : DbContext
                   .IsRequired()
                   .HasMaxLength(50); // Limite adicionado à Forma de Pagamento
 
-            entity.Property(p => p.Notas)
+            entity.Property(p => p.Observacoes)
                   .HasMaxLength(500); // Limite adicionado às Notas
 
             entity.HasOne(p => p.Cliente)

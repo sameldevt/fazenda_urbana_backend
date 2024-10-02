@@ -33,7 +33,37 @@ namespace Model.Entities
 
         public string ImagemUrl { get; set; }
 
-        public virtual InformacoesNutricionais InformacoesNutricionais { get; set; }
+        public virtual Nutrientes Nutrientes { get; set; }
+        
+        public Produto()
+        {
+
+        }
+
+        public Produto(VisualizarProdutoDto visualizarProdutoDto)
+        {
+            Id = visualizarProdutoDto.Id;
+            Nome = visualizarProdutoDto.Nome;
+            Descricao = visualizarProdutoDto.Descricao;
+            PrecoUnitario = visualizarProdutoDto.PrecoUnitario;
+            PrecoQuilo = visualizarProdutoDto.PrecoQuilo;
+            QuantidadeEstoque = visualizarProdutoDto.QuantidadeEstoque;
+            Categoria = new Categoria(visualizarProdutoDto);
+            ImagemUrl = visualizarProdutoDto.ImagemUrl;
+            Nutrientes = new Nutrientes(visualizarProdutoDto);
+        }
+
+        public Produto(CadastrarProdutoDto cadastrarProdutoDto)
+        {
+            Nome = cadastrarProdutoDto.Nome;
+            Descricao = cadastrarProdutoDto.Descricao;
+            PrecoUnitario = cadastrarProdutoDto.PrecoUnitario;
+            PrecoQuilo = cadastrarProdutoDto.PrecoQuilo;
+            QuantidadeEstoque = cadastrarProdutoDto.QuantidadeEstoque;
+            Categoria = new Categoria(cadastrarProdutoDto);
+            ImagemUrl = cadastrarProdutoDto.ImagemUrl;
+            Nutrientes = new Nutrientes(cadastrarProdutoDto);
+        }
     }
 
     public class Categoria
@@ -45,9 +75,20 @@ namespace Model.Entities
         public string Descricao { get; set; }
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public ICollection<Produto> Produtos { get; set; }
+
+        public Categoria()
+        {
+
+        }
+
+        public Categoria(VisualizarProdutoDto visualizarProdutoDto)
+        {
+            Nome = visualizarProdutoDto.NomeCategoria;
+            Descricao = visualizarProdutoDto.DescricaoCategoria;
+        }
     }
 
-    public class InformacoesNutricionais
+    public class Nutrientes
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -62,5 +103,19 @@ namespace Model.Entities
         public decimal Carboidratos { get; set; }
         public decimal Fibras { get; set; }
         public decimal Gorduras { get; set; }
+
+        public Nutrientes()
+        {
+
+        }
+
+        public Nutrientes(VisualizarProdutoDto visualizarProdutoDto)
+        {
+            Calorias = visualizarProdutoDto.Calorias;
+            Proteinas = visualizarProdutoDto.Proteinas;
+            Carboidratos = visualizarProdutoDto.Carboidratos;
+            Fibras = visualizarProdutoDto.Fibras;
+            Gorduras = visualizarProdutoDto.Gorduras;
+        }
     }
 }
