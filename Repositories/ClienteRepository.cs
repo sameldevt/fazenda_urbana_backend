@@ -31,6 +31,7 @@ namespace Repositories
         public async Task<IEnumerable<Cliente>> BuscarTodosAsync()
         {
             var clientes = await _context.Clientes
+                .AsNoTracking()
                 .Include(c => c.Contato)
                 .Include(c => c.Endereco)
                 .ToListAsync();
@@ -48,6 +49,7 @@ namespace Repositories
             var cliente = await _context.Clientes
              .Include(c => c.Contato)
              .Include(c => c.Endereco)
+             .AsNoTracking()
              .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cliente == null)
@@ -135,7 +137,7 @@ namespace Repositories
             }
             catch (Exception ex)
             {
-                throw new DatabaseManipulationException($"Erro ao atualiza a senha do cliente. Causa: ${ex}.");
+                throw new DatabaseManipulationException($"Erro ao atualizar a senha do cliente. Causa: ${ex}.");
             }
         }
     }

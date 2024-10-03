@@ -51,9 +51,9 @@ namespace Services
         {
             var clienteExistente = await _clienteRepository.BuscarPorIdAsync(atualizarClienteDto.Id);
 
-            var clienteAtualizado = _mapper.Map<Cliente>(atualizarClienteDto);
+            clienteExistente = _mapper.Map<Cliente>(atualizarClienteDto);
 
-            await _clienteRepository.AtualizarAsync(clienteExistente);
+            var clienteAtualizado = await _clienteRepository.AtualizarAsync(clienteExistente);
 
             return _mapper.Map<VisualizarClienteDto>(clienteAtualizado); 
         }

@@ -55,8 +55,9 @@ namespace Services
                 throw new InvalidCredentialsException("E-mail inválido.");
             }
 
-            await _clienteRepository.AtualizarSenhaAsync(usuario);
+            usuario = _mapper.Map<Cliente>(recuperarSenhaDto);
 
+            await _clienteRepository.AtualizarSenhaAsync(usuario);
 
             return true;
         }

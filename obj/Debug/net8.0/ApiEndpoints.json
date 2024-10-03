@@ -124,22 +124,120 @@
     ]
   },
   {
-    "ContainingType": "Controllers.FaleConoscoController",
-    "Method": "EnviarMensagem",
-    "RelativePath": "verdeviva/fale-conosco/enviar-mensagem",
-    "HttpMethod": "POST",
+    "ContainingType": "Controllers.MensagemContatoController",
+    "Method": "AtualizarMensagemContato",
+    "RelativePath": "verdeviva/contato/atualizar",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "faleConosco",
-        "Type": "Model.Entities.FaleConosco",
+        "Name": "atualizarMensagemDto",
+        "Type": "Model.Dtos.AtualizarMensagemDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Entities.FaleConosco",
+        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.MensagemContatoController",
+    "Method": "BuscarTodasMensagens",
+    "RelativePath": "verdeviva/contato/buscar-todas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarMensagemDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.MensagemContatoController",
+    "Method": "Buscar",
+    "RelativePath": "verdeviva/contato/buscar/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.MensagemContatoController",
+    "Method": "RegistrarMensagemContato",
+    "RelativePath": "verdeviva/contato/enviar-mensagem",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registrarMensagemDto",
+        "Type": "Model.Dtos.RegistrarMensagemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.MensagemContatoController",
+    "Method": "RemoverMensagemContato",
+    "RelativePath": "verdeviva/contato/remover/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.VisualizarMensagemDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

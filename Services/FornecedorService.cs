@@ -51,15 +51,13 @@ namespace Services
 
         public async Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualizarFornecedorDto)
         {
-            var id = atualizarFornecedorDto.Id;
-
-            var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
+            var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(atualizarFornecedorDto.Id);
 
             fornecedor = _mapper.Map<Fornecedor>(atualizarFornecedorDto);
 
-            await _fornecedorRepository.AtualizarAsync(fornecedor);
+            var fornecedorAtualizado = await _fornecedorRepository.AtualizarAsync(fornecedor);
 
-            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
+            return _mapper.Map<VisualizarFornecedorDto>(fornecedorAtualizado);
         }
 
         public async Task<VisualizarFornecedorDto> RemoverAsync(int id)

@@ -20,13 +20,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Fornecedor> Fornecedores { get; set; }
-    public DbSet<FaleConosco> FaleConosco { get; set; }
+    public DbSet<MensagemContato> MensagensContato { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configuração da entidade Produto
         modelBuilder.Entity<Produto>(entity =>
         {
             entity.ToTable("Produtos");
@@ -203,17 +202,17 @@ public class ApplicationDbContext : DbContext
                   .IsRequired();
         });
 
-        modelBuilder.Entity<FaleConosco>(entity =>
+        modelBuilder.Entity<MensagemContato>(entity =>
         {
             entity.ToTable("MensagensFaleConosco");
 
             entity.HasKey(fc => fc.Id);
 
-            entity.Property(fc => fc.Nome)
+            entity.Property(fc => fc.NomeUsuario)
                   .IsRequired()
                   .HasMaxLength(200);
 
-            entity.Property(fc => fc.Email)
+            entity.Property(fc => fc.EmailUsuario)
                   .IsRequired()
                   .HasMaxLength(100);
 

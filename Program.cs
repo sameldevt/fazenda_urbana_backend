@@ -19,15 +19,15 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddScoped<IFaleConoscoRepository, FaleConoscoRepository>();
+builder.Services.AddScoped<IMensagemContatoRepository, MensagemContatoRepository>();
 
 // Registro de serviços com as interfaces correspondentes
 builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+builder.Services.AddScoped<IMensagemContatoService, MensagemContatoService>();
 builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<IFaleConoscoService, FaleConoscoService>();
+builder.Services.AddScoped<IMensagemContatoService, MensagemContatoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 // Configuração do AutoMapper

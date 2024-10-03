@@ -56,9 +56,11 @@ namespace Services
 
         public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
         {
-            var produtoBanco = await _produtoRepository.BuscarPorIdAsync(atualizarProdutoDto.Id);
+            var produto = await _produtoRepository.BuscarPorIdAsync(atualizarProdutoDto.Id);
 
-            var produtoAtualizado  =await _produtoRepository.AtualizarAsync(_mapper.Map<Produto>(atualizarProdutoDto));
+            produto = _mapper.Map<Produto>(atualizarProdutoDto);
+
+            var produtoAtualizado  =await _produtoRepository.AtualizarAsync(produto);
 
             return _mapper.Map<VisualizarProdutoDto>(produtoAtualizado);
         }

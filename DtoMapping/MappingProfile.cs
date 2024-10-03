@@ -12,6 +12,7 @@ namespace DtoMapping
             MapearFornecedor();
             MapearPedido();
             MapearProduto();
+            MapearMensagemContato();
         }
 
         private void MapearCliente()
@@ -114,7 +115,7 @@ namespace DtoMapping
             CreateMap<Pedido, VisualizarPedidoDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.DataPedido, opt => opt.MapFrom(src => src.DataPedido))
-                .ForMember(dest => dest.DataEntrega, opt => opt.MapFrom(src => src.DataEntrega.HasValue ? src.DataEntrega.Value : default(DateTime))) // Considerando que DataEntrega pode ser null
+                .ForMember(dest => dest.DataEntrega, opt => opt.MapFrom(src => src.DataEntrega))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.Total))
                 .ForMember(dest => dest.EnderecoEntrega, opt => opt.MapFrom(src => src.EnderecoEntrega))
@@ -135,13 +136,13 @@ namespace DtoMapping
 
             CreateMap<ItemPedido, VisualizarItemPedidoDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Produto, opt => opt.MapFrom(src => src.Produto))
+                .ForMember(dest => dest.Produto, opt => opt.MapFrom(src => src.Produto)) // Adicione o mapeamento do Produto
                 .ForMember(dest => dest.Quantidade, opt => opt.MapFrom(src => src.Quantidade))
                 .ForMember(dest => dest.PrecoUnitario, opt => opt.MapFrom(src => src.PrecoUnitario))
                 .ForMember(dest => dest.SubTotal, opt => opt.MapFrom(src => src.SubTotal));
 
             CreateMap<CadastrarItemPedidoDto, ItemPedido>()
-                .ForMember(dest => dest.Produto, opt => opt.MapFrom(src => src.Produto))
+                .ForMember(dest => dest.Produto, opt => opt.MapFrom(src => src.Produto)) // Certifique-se que Produto está mapeado corretamente
                 .ForMember(dest => dest.Quantidade, opt => opt.MapFrom(src => src.Quantidade))
                 .ForMember(dest => dest.PrecoUnitario, opt => opt.MapFrom(src => src.PrecoUnitario))
                 .ForMember(dest => dest.SubTotal, opt => opt.MapFrom(src => src.SubTotal));
@@ -149,6 +150,18 @@ namespace DtoMapping
             CreateMap<AlterarStatusPedidoDto, Pedido>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+
+            CreateMap<VisualizarItemPedidoDto, ItemPedido>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore()) // Ignorando o Id, se gerado pelo banco
+                .ForMember(dest => dest.PedidoId, opt => opt.Ignore()) // Ignorando o PedidoId
+                .ForMember(dest => dest.Produto, opt => opt.MapFrom(src => src.Produto))
+                .ForMember(dest => dest.Quantidade, opt => opt.MapFrom(src => src.Quantidade))
+                .ForMember(dest => dest.PrecoUnitario, opt => opt.MapFrom(src => src.PrecoUnitario))
+                .ForMember(dest => dest.SubTotal, opt => opt.MapFrom(src => src.SubTotal));
+
+            // Certifique-se que o mapeamento para Produto está definido
+            CreateMap<VisualizarProdutoDto, Produto>();
+            // Adicione quaisquer outras configurações de mapeamento necessárias para o Produto e outros tipos que você usar.
         }
 
         private void MapearProduto()
@@ -222,6 +235,33 @@ namespace DtoMapping
                 .ForMember(dest => dest.Carboidratos, opt => opt.MapFrom(src => src.Carboidratos))
                 .ForMember(dest => dest.Fibras, opt => opt.MapFrom(src => src.Fibras))
                 .ForMember(dest => dest.Gorduras, opt => opt.MapFrom(src => src.Gorduras));
+        }
+
+        private void MapearMensagemContato()
+        {
+            CreateMap<RegistrarMensagemDto, MensagemContato>()
+                .ForMember(dest => dest.DataEnvio, opt => opt.Ignore()) 
+                .ForMember(dest => dest.Respondido, opt => opt.Ignore());
+
+            CreateMap<MensagemContato, VisualizarMensagemDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.NomeUsuario, opt => opt.MapFrom(src => src.NomeUsuario))
+                .ForMember(dest => dest.EmailUsuario, opt => opt.MapFrom(src => src.EmailUsuario))
+                .ForMember(dest => dest.Conteudo, opt => opt.MapFrom(src => src.Conteudo))
+                .ForMember(dest => dest.DataEnvio, opt => opt.MapFrom(src => src.DataEnvio))
+                .ForMember(dest => dest.Respondido, opt => opt.MapFrom(src => src.Respondido));
+
+            CreateMap<MensagemContato, RegistrarMensagemDto>()
+                .ForMember(dest => dest.NomeUsuario, opt => opt.MapFrom(src => src.NomeUsuario))
+                .ForMember(dest => dest.EmailUsuario, opt => opt.MapFrom(src => src.EmailUsuario))
+                .ForMember(dest => dest.Conteudo, opt => opt.MapFrom(src => src.Conteudo));
+
+            CreateMap<AtualizarMensagemDto, MensagemContato>()
+                       .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                       .ForMember(dest => dest.NomeUsuario, opt => opt.MapFrom(src => src.NomeUsuario))
+                       .ForMember(dest => dest.EmailUsuario, opt => opt.MapFrom(src => src.EmailUsuario))
+                       .ForMember(dest => dest.Conteudo, opt => opt.MapFrom(src => src.Conteudo))
+                       .ForMember(dest => dest.Respondido, opt => opt.MapFrom(src => src.Respondido));
         }
     }
 }

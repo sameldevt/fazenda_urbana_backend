@@ -27,7 +27,7 @@ namespace Repositories
 
         public async Task<List<Produto>> BuscarTodosAsync()
         { 
-            var produto = await _context.Produtos.ToListAsync();
+            var produto = await _context.Produtos.AsNoTracking().ToListAsync();
             
             if(produto == null)
             {
@@ -39,7 +39,11 @@ namespace Repositories
 
         public async Task<Produto> BuscarPorNomeAsync(string nome)
         {
-            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
+            var produto = await _context.Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Nutrientes)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Nome == nome);
             
             if(produto == null)
             {
@@ -63,7 +67,11 @@ namespace Repositories
 
         public async Task<Produto> BuscarPorIdAsync(int id)
         {
-            var produto =  await _context.Produtos.FindAsync(id);
+            var produto =  await _context.Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Nutrientes)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
             
             if(produto == null)
             {

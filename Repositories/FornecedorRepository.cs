@@ -27,7 +27,7 @@ namespace Repositories
 
         public async Task<List<Fornecedor>> BuscarTodosAsync()
         {
-            var fornecedores = await _context.Fornecedores.ToListAsync();
+            var fornecedores = await _context.Fornecedores.AsNoTracking().ToListAsync();
 
             if (fornecedores.IsNullOrEmpty())
             {
@@ -39,7 +39,7 @@ namespace Repositories
 
         public async Task<Fornecedor> BuscarPorIdAsync(int id)
         {
-            var fornecedor = await _context.Fornecedores.FindAsync(id);
+            var fornecedor = await _context.Fornecedores.AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
 
             if (fornecedor == null)
             {

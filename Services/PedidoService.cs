@@ -50,6 +50,8 @@ namespace Services
         {
             var pedido = await _pedidoRepository.BuscarPorIdAsync(alterarStatusPedidoDto.Id);
 
+            pedido = _mapper.Map<Pedido>(alterarStatusPedidoDto); 
+
             var pedidoAtualizado =  await _pedidoRepository.AlterarStatusAsync(pedido);
 
             return _mapper.Map<VisualizarPedidoDto>(pedidoAtualizado);
