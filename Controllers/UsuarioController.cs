@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Model.Dtos;
+using Model.Common;
+
 using Services;
 
 namespace Controllers
@@ -16,24 +18,24 @@ namespace Controllers
         }
 
         [HttpPost("registrar")]
-        public async Task<ActionResult> Registrar([FromBody] RegistrarUsuarioDto registrarUsuarioDto)
+        public async Task<ActionResult<VisualizarClienteDto>> Registrar([FromBody] RegistrarUsuarioDto registrarUsuarioDto)
         {
-            await _usuarioService.Registrar(registrarUsuarioDto);
-            return Created(nameof(Registrar), "Usuário registrado com sucesso.");
+            var response = await _usuarioService.Registrar(registrarUsuarioDto);
+            return Created(nameof(Registrar), response);
         }
 
         [HttpPost("entrar")]
-        public async Task<ActionResult> Entrar([FromBody] EntrarUsuarioDto entrarUsuarioDto)
+        public async Task<ActionResult<VisualizarClienteDto>> Entrar([FromBody] EntrarUsuarioDto entrarUsuarioDto)
         {
-            await _usuarioService.Entrar(entrarUsuarioDto);
-            return Ok("Usuário autenticado com sucesso.");
+            var response = await _usuarioService.Entrar(entrarUsuarioDto);
+            return Ok(response);
         }
 
-        [HttpPost("recuperar-senha")]
-        public async Task<ActionResult> RecuperarSenha([FromBody] RecuperarSenhaDto recuperarSenhaDto)
+        [HttpPost("alterar-senha")]
+        public async Task<ActionResult<VisualizarClienteDto>> RecuperarSenha([FromBody] RecuperarSenhaDto recuperarSenhaDto)
         {
-            await _usuarioService.RecuperarSenha(recuperarSenhaDto);
-            return Ok("Senha recuperada com sucesso.");
+            var response = await _usuarioService.RecuperarSenha(recuperarSenhaDto);
+            return Ok(response);
         }
     }
 }

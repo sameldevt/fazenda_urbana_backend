@@ -17,7 +17,7 @@ namespace Controllers
             _produtoService = produtoService;
         }
 
-        [HttpGet("listar-todos")]
+        [HttpGet("buscar-todos")]
         public async Task<ActionResult<List<VisualizarProdutoDto>>> BuscarTodos()
         {
             var produtos = await _produtoService.BuscarTodosAsync();
@@ -37,6 +37,15 @@ namespace Controllers
             var produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
             return Created(nameof(Cadastrar), produto);
         }
+
+        [HttpPost("cadastrar-varios")]
+        public async Task<ActionResult<IEnumerable<VisualizarProdutoDto>>> CadastrarVarios([FromBody] List<CadastrarProdutoDto> cadastrarProdutoDtos)
+        {
+            var produtos = await _produtoService.CadastrarVariosAsync(cadastrarProdutoDtos);
+
+            return Created(nameof(Cadastrar), produtos);
+        }
+
 
         [HttpPut("atualizar")]
         public async Task<ActionResult<VisualizarProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)

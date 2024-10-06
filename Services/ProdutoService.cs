@@ -11,6 +11,7 @@ namespace Services
         Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome);
         Task<List<VisualizarProdutoDto>> BuscarTodosAsync();
         Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
+        Task<List<VisualizarProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos);
         Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
         Task<VisualizarProdutoDto> RemoverAsync(int id);
     }
@@ -53,7 +54,12 @@ namespace Services
 
             return _mapper.Map<VisualizarProdutoDto>(produto);
         }
+        public async Task<List<VisualizarProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos)
+        {
+            var produtos = await _produtoRepository.CadastrarVariosAsync(_mapper.Map<List<Produto>>(cadastrarProdutoDtos));
 
+            return _mapper.Map<List<VisualizarProdutoDto>>(produtos);
+        }
         public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
         {
             var produto = await _produtoRepository.BuscarPorIdAsync(atualizarProdutoDto.Id);
@@ -72,5 +78,4 @@ namespace Services
             return _mapper.Map<VisualizarProdutoDto>(produto);
         }
     }
-
 }

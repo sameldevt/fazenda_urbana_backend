@@ -10,7 +10,17 @@ namespace Model.Dtos
         public EntrarUsuarioDto() { }
     }
 
+
     public record RegistrarUsuarioDto
+    {
+        public string Nome { get; init; }
+        public string Senha { get; init; }
+        public string Email { get; init; }
+
+        public RegistrarUsuarioDto() { }
+    }
+
+    public record RegistrarUsuarioCompletoDto
     {
         public string Nome { get; init; }
         public string Senha { get; init; }
@@ -24,7 +34,7 @@ namespace Model.Dtos
         public string Estado { get; init; }
         public string InformacoesAdicionais { get; init; }
 
-        public RegistrarUsuarioDto() { }
+        public RegistrarUsuarioCompletoDto() { }
     }
 
     public record RecuperarSenhaDto

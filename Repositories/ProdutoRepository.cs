@@ -12,6 +12,7 @@ namespace Repositories
         Task<Produto> BuscarPorNomeAsync(string nome);
         Task<Produto> BuscarPorIdAsync(int id);
         Task<Produto> CadastrarAsync(Produto produto);
+        Task<List<Produto>> CadastrarVariosAsync(List<Produto> produtos);
         Task<Produto> AtualizarAsync(Produto produto);
         Task<Produto> RemoverAsync(int id);
     }
@@ -94,6 +95,19 @@ namespace Repositories
             }
         }
 
+        public async Task<List<Produto>> CadastrarVariosAsync(List<Produto> produtos)
+        {
+            try
+            {
+                _context.Produtos.AddRange(produtos);
+                await _context.SaveChangesAsync();
+                return produtos;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao cadastrar produto. Causa: ${ex}.");
+            }
+        }
         public async Task<Produto> AtualizarAsync(Produto produto)
         {
             try
@@ -157,5 +171,4 @@ namespace Repositories
             }
         }
     }
-
 }

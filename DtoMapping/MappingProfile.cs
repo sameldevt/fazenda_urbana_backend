@@ -18,6 +18,11 @@ namespace DtoMapping
         private void MapearCliente()
         {
             CreateMap<RegistrarUsuarioDto, Cliente>()
+                .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Nome))
+                .ForMember(dest => dest.Senha, opt => opt.MapFrom(src => src.Senha))
+                .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato { Email = src.Email }));
+
+            CreateMap<RegistrarUsuarioCompletoDto, Cliente>()
             .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
             {
                 Telefone = src.Telefone,

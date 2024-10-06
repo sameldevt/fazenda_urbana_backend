@@ -3,14 +3,15 @@ using Exceptions;
 using Model.Dtos;
 using Model.Entities;
 using Repositories;
+using Model.Common;
 
 namespace Services
 {
     public interface IUsuarioService
     {
-        Task<bool> Registrar(RegistrarUsuarioDto registrarUsuarioDto);
-        Task<bool> Entrar(EntrarUsuarioDto entrarUsuarioDto);
-        Task<bool> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
+        Task<VisualizarClienteDto> Registrar(RegistrarUsuarioDto registrarUsuarioDto);
+        Task<VisualizarClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
+        Task<VisualizarClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
     }
 
     public class UsuarioService : IUsuarioService
@@ -24,7 +25,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Entrar(EntrarUsuarioDto entrarUsuarioDto)
+        public async Task<VisualizarClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto)
         {
             var usuario = await VerificarExistenciaUsuario(entrarUsuarioDto.Email);
 
@@ -38,10 +39,10 @@ namespace Services
                 throw new InvalidCredentialsException("Senha inválida.");
             }
 
-            return true;
+            return _mapper.Map<VisualizarClienteDto>(usuario);
         }
 
-        public async Task<bool> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto)
+        public async Task<VisualizarClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto)
         {
             var usuario = await VerificarExistenciaUsuario(recuperarSenhaDto.Email);
 
@@ -55,14 +56,14 @@ namespace Services
                 throw new InvalidCredentialsException("E-mail inválido.");
             }
 
-            usuario = _mapper.Map<Cliente>(recuperarSenhaDto);
+            usuario.Senha = recuperarSenhaDto.NovaSenha;
 
             await _clienteRepository.AtualizarSenhaAsync(usuario);
 
-            return true;
+            return _mapper.Map<VisualizarClienteDto>(usuario);
         }
 
-        public async Task<bool> Registrar(RegistrarUsuarioDto registrarUsuarioDto)
+        public async Task<VisualizarClienteDto> Registrar(RegistrarUsuarioDto registrarUsuarioDto)
         {
             var usuario = await VerificarExistenciaUsuario(registrarUsuarioDto.Email);
 
@@ -75,7 +76,7 @@ namespace Services
 
             await _clienteRepository.CadastrarAsync(usuario);
 
-            return true;
+            return _mapper.Map<VisualizarClienteDto>(usuario);
         }
 
         private async Task<Cliente> VerificarExistenciaUsuario(string email)

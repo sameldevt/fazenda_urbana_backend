@@ -10,6 +10,7 @@ namespace Services
     {
         Task<IEnumerable<VisualizarClienteDto>> BuscarTodosAsync();
         Task<VisualizarClienteDto> BuscarPorIdAsync(int id);
+        Task<VisualizarClienteDto> BuscarPorEmailAsync(string email);   
         Task<VisualizarClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
         Task<VisualizarClienteDto> AtualizarAsync(AtualizarClienteDto cliente);
         Task<VisualizarClienteDto> RemoverAsync(int id);
@@ -36,6 +37,13 @@ namespace Services
         public async Task<VisualizarClienteDto> BuscarPorIdAsync(int id)
         {
             var cliente = await _clienteRepository.BuscarPorIdAsync(id);
+
+            return _mapper.Map<VisualizarClienteDto>(cliente);
+        }
+
+        public async Task<VisualizarClienteDto> BuscarPorEmailAsync(string email)
+        {
+            var cliente = await _clienteRepository.BuscarPorEmailAsync(email);
 
             return _mapper.Map<VisualizarClienteDto>(cliente);
         }

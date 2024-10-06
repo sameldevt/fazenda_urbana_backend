@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Model.Common;
 
 namespace Exceptions
 {
@@ -58,7 +59,7 @@ namespace Exceptions
                     break;
             }
 
-            var response = new
+            var response = new ApiResponse
             {
                 StatusCode = (int)statusCode,
                 Message = message,

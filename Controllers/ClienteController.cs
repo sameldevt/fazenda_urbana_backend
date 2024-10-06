@@ -31,6 +31,14 @@ namespace Controllers
             return Ok(cliente);
         }
 
+        [HttpGet("buscar-email")]
+        public async Task<ActionResult<VisualizarClienteDto>> BuscarPorEmail(string email)
+        {
+            var cliente = await _clienteService.BuscarPorEmailAsync(email);
+
+            return Ok(cliente);
+        }
+
         [HttpPost("cadastrar")]
         public async Task<ActionResult<VisualizarClienteDto>> Cadastrar([FromBody] CadastrarClienteDto cadastrarClienteDto)
         {
