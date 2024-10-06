@@ -19,7 +19,9 @@ namespace Model.Entities
         [Required]
         public string Conteudo { get; set; }
 
+        
         public DateTime DataEnvio { get; set; } = DateTime.UtcNow;
+
 
         public bool Respondido { get; set; } = false;
     }

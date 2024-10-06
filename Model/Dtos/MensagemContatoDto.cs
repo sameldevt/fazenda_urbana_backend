@@ -1,15 +1,6 @@
 namespace Model.Dtos
 {
-    public record RegistrarMensagemDto
-    {
-        public string NomeUsuario { get; init; }
-        public string EmailUsuario { get; init; }
-        public string Conteudo { get; init; }
-
-        public RegistrarMensagemDto() { }
-    }
-
-    public record VisualizarMensagemDto 
+    public record MensagemContatoDto
     {
         public int Id { get; init; }
         public string NomeUsuario { get; init; }
@@ -17,18 +8,17 @@ namespace Model.Dtos
         public string Conteudo { get; init; }
         public DateTime DataEnvio { get; init; }
         public bool Respondido { get; init; }
-    
-        public VisualizarMensagemDto() { }
+
+        public MensagemContatoDto() { }
     }
 
-    public record AtualizarMensagemDto
+    public record CadastrarMensagemContatoDto 
     {
-        public int Id { get; init; }
         public string NomeUsuario { get; init; }
         public string EmailUsuario { get; init; }
         public string Conteudo { get; init; }
-        public bool Respondido { get; init; }
+        public DateTime DataEnvio { get; init; }
 
-        public AtualizarMensagemDto() { }
+        public CadastrarMensagemContatoDto() { }
     }
 }

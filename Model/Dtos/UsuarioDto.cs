@@ -10,31 +10,13 @@ namespace Model.Dtos
         public EntrarUsuarioDto() { }
     }
 
-
-    public record RegistrarUsuarioDto
+    public record CadastrarUsuarioDto
     {
         public string Nome { get; init; }
         public string Senha { get; init; }
-        public string Email { get; init; }
+        public ContatoDto Contato { get; init; }
 
-        public RegistrarUsuarioDto() { }
-    }
-
-    public record RegistrarUsuarioCompletoDto
-    {
-        public string Nome { get; init; }
-        public string Senha { get; init; }
-        public string Telefone { get; init; }
-        public string Email { get; init; }
-        public string Logradouro { get; init; }
-        public string Numero { get; init; }
-        public string Cidade { get; init; }
-        public string CEP { get; init; }
-        public string Complemento { get; init; }
-        public string Estado { get; init; }
-        public string InformacoesAdicionais { get; init; }
-
-        public RegistrarUsuarioCompletoDto() { }
+        public CadastrarUsuarioDto() { }
     }
 
     public record RecuperarSenhaDto

@@ -18,14 +18,14 @@ namespace Controllers
         }
 
         [HttpPost("enviar-mensagem")]
-        public async Task<ActionResult<VisualizarMensagemDto>> RegistrarMensagemContato([FromBody] RegistrarMensagemDto registrarMensagemDto)
+        public async Task<ActionResult<CadastrarMensagemContatoDto>> CadastrarMensagemContato([FromBody] CadastrarMensagemContatoDto registrarMensagemDto)
         {
             var mensagemRegistrada = await _mensagemContatoService.CadastrarMensagemAsync(registrarMensagemDto);
-            return Created(nameof(RegistrarMensagemContato), mensagemRegistrada);
+            return Created(nameof(CadastrarMensagemContato), mensagemRegistrada);
         }
 
         [HttpGet("buscar-todas")]
-        public async Task<ActionResult<List<VisualizarMensagemDto>>> BuscarTodasMensagens()
+        public async Task<ActionResult<List<CadastrarMensagemContatoDto>>> BuscarTodasMensagens()
         {
             var mensagens = await _mensagemContatoService.BuscarTodasMensagensAsync();
 
@@ -33,21 +33,21 @@ namespace Controllers
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<VisualizarMensagemDto>> Buscar(int id)
+        public async Task<ActionResult<CadastrarMensagemContatoDto>> Buscar(int id)
         {
             var mensagem = await _mensagemContatoService.BuscarMensagemPorIdAsync(id);
             return Ok(mensagem);
         }
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<VisualizarMensagemDto>> AtualizarMensagemContato([FromBody] AtualizarMensagemDto atualizarMensagemDto)
+        public async Task<ActionResult<CadastrarMensagemContatoDto>> AtualizarMensagemContato([FromBody] MensagemContatoDto atualizarMensagemDto)
         {
             var mensagemAtualizada = await _mensagemContatoService.AtualizarMensagemAsync(atualizarMensagemDto);
             return Ok(mensagemAtualizada);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<VisualizarMensagemDto>> RemoverMensagemContato(int id)
+        public async Task<ActionResult<CadastrarMensagemContatoDto>> RemoverMensagemContato(int id)
         { 
             var mensagemRemovida = await _mensagemContatoService.RemoverMensagemAsync(id);
             return Ok(mensagemRemovida);

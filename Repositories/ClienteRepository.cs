@@ -33,7 +33,7 @@ namespace Repositories
             var clientes = await _context.Clientes
                 .AsNoTracking()
                 .Include(c => c.Contato)
-                .Include(c => c.Endereco)
+                .Include(c => c.Enderecos)
                 .ToListAsync();
 
             if (clientes.IsNullOrEmpty()) 
@@ -48,7 +48,7 @@ namespace Repositories
         {
             var cliente = await _context.Clientes
              .Include(c => c.Contato)
-             .Include(c => c.Endereco)
+             .Include(c => c.Enderecos)
              .AsNoTracking()
              .FirstOrDefaultAsync(c => c.Id == id);
 
@@ -92,7 +92,7 @@ namespace Repositories
         {
             var cliente = await _context.Clientes
                 .Include(c => c.Contato)
-                .Include(c => c.Endereco)
+                .Include(c => c.Enderecos)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cliente == null)
@@ -116,7 +116,7 @@ namespace Repositories
         {
             var cliente = await _context.Clientes
               .Include(c => c.Contato)
-              .Include(c => c.Endereco)
+              .Include(c => c.Enderecos)
               .FirstOrDefaultAsync(c => c.Contato.Email == email);
 
             return cliente;
@@ -126,7 +126,7 @@ namespace Repositories
         {
             var clienteBanco = await _context.Clientes
                 .Include(c => c.Contato)
-                .Include(c => c.Endereco)
+                .Include(c => c.Enderecos)
                 .FirstOrDefaultAsync(c => c.Id == cliente.Id);
 
             try

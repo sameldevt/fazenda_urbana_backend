@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
 using System.Text.Json.Serialization;
+using Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,5 +77,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
+
+Logger.Initialize();
 
 app.Run();

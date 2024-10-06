@@ -7,13 +7,13 @@ namespace Services
 {
     public interface IProdutoService
     {
-        Task<VisualizarProdutoDto> BuscarPorIdAsync(int id);
-        Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome);
-        Task<List<VisualizarProdutoDto>> BuscarTodosAsync();
-        Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
-        Task<List<VisualizarProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos);
-        Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto produtoDto);
-        Task<VisualizarProdutoDto> RemoverAsync(int id);
+        Task<ProdutoDto> BuscarPorIdAsync(int id);
+        Task<ProdutoDto> BuscarPorNomeAsync(string nome);
+        Task<List<ProdutoDto>> BuscarTodosAsync();
+        Task<ProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
+        Task<List<ProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos);
+        Task<ProdutoDto> AtualizarAsync(ProdutoDto produtoDto);
+        Task<ProdutoDto> RemoverAsync(int id);
     }
 
     public class ProdutoService : IProdutoService
@@ -27,40 +27,40 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<List<VisualizarProdutoDto>> BuscarTodosAsync()
+        public async Task<List<ProdutoDto>> BuscarTodosAsync()
         {
             var produtos = await _produtoRepository.BuscarTodosAsync();
 
-            return _mapper.Map<List<VisualizarProdutoDto>>(produtos);
+            return _mapper.Map<List<ProdutoDto>>(produtos);
         }
 
-        public async Task<VisualizarProdutoDto> BuscarPorNomeAsync(string nome)
+        public async Task<ProdutoDto> BuscarPorNomeAsync(string nome)
         {
             var produto = await _produtoRepository.BuscarPorNomeAsync(nome);
 
-            return _mapper.Map<VisualizarProdutoDto>(produto);
+            return _mapper.Map<ProdutoDto>(produto);
         }
 
-        public async Task<VisualizarProdutoDto> BuscarPorIdAsync(int id)
+        public async Task<ProdutoDto> BuscarPorIdAsync(int id)
         {
             var produto = await _produtoRepository.BuscarPorIdAsync(id);
 
-            return _mapper.Map<VisualizarProdutoDto>(produto);
+            return _mapper.Map<ProdutoDto>(produto);
         }
 
-        public async Task<VisualizarProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<ProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
             var produto = await _produtoRepository.CadastrarAsync(_mapper.Map<Produto>(cadastrarProdutoDto));
 
-            return _mapper.Map<VisualizarProdutoDto>(produto);
+            return _mapper.Map<ProdutoDto>(produto);
         }
-        public async Task<List<VisualizarProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos)
+        public async Task<List<ProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos)
         {
             var produtos = await _produtoRepository.CadastrarVariosAsync(_mapper.Map<List<Produto>>(cadastrarProdutoDtos));
 
-            return _mapper.Map<List<VisualizarProdutoDto>>(produtos);
+            return _mapper.Map<List<ProdutoDto>>(produtos);
         }
-        public async Task<VisualizarProdutoDto> AtualizarAsync(AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<ProdutoDto> AtualizarAsync(ProdutoDto atualizarProdutoDto)
         {
             var produto = await _produtoRepository.BuscarPorIdAsync(atualizarProdutoDto.Id);
 
@@ -68,14 +68,14 @@ namespace Services
 
             var produtoAtualizado  =await _produtoRepository.AtualizarAsync(produto);
 
-            return _mapper.Map<VisualizarProdutoDto>(produtoAtualizado);
+            return _mapper.Map<ProdutoDto>(produtoAtualizado);
         }
 
-        public async Task<VisualizarProdutoDto> RemoverAsync(int id)
+        public async Task<ProdutoDto> RemoverAsync(int id)
         {
             var produto = await _produtoRepository.RemoverAsync(id);
 
-            return _mapper.Map<VisualizarProdutoDto>(produto);
+            return _mapper.Map<ProdutoDto>(produto);
         }
     }
 }

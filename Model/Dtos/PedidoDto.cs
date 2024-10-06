@@ -1,20 +1,21 @@
 using Model.Entities;
+using Model.Enum;
 
 namespace Model.Dtos
 {
-    public record VisualizarPedidoDto
+    public record PedidoDto
     {
         public int Id { get; init; }
         public DateTime DataPedido { get; init; }
         public DateTime DataEntrega { get; init; }
-        public string Status { get; init; }
+        public StatusPedido Status { get; init; }
         public decimal Total { get; init; }
         public string EnderecoEntrega { get; init; }
         public string FormaPagamento { get; init; }
         public string Observacoes { get; init; }
-        public ICollection<VisualizarItemPedidoDto> Itens { get; init; }
+        public ICollection<ItemPedidoDto> Itens { get; init; }
 
-        public VisualizarPedidoDto() { }
+        public PedidoDto() { }
     }
 
     public record CadastrarPedidoDto 
@@ -22,43 +23,25 @@ namespace Model.Dtos
         public int IdCliente { get; init; }
         public DateTime DataPedido { get; init; }
         public DateTime DataEntrega { get; init; }
-        public string Status { get; init; }
+        public StatusPedido Status { get; init; }
         public decimal Total { get; init; }
         public string EnderecoEntrega { get; init; }
         public string FormaPagamento { get; init; }
         public string Observacoes { get; init; }
-        public ICollection<VisualizarItemPedidoDto> Itens { get; init; }
+        public ICollection<ItemPedidoDto> Itens { get; init; }
 
         public CadastrarPedidoDto() { }
     }
 
 
-    public record VisualizarItemPedidoDto
+    public record ItemPedidoDto
     {
         public int Id { get; init; }
-        public VisualizarProdutoDto Produto { get; init; }
+        public ProdutoDto Produto { get; init; }
         public int Quantidade { get; init; }
         public decimal PrecoUnitario { get; init; }
         public decimal SubTotal { get; init; }
 
-        public VisualizarItemPedidoDto() { }
-    }
-
-    public record CadastrarItemPedidoDto
-    {
-        public VisualizarProdutoDto Produto { get; init; }
-        public int Quantidade { get; init; }
-        public decimal PrecoUnitario { get; init; }
-        public decimal SubTotal { get; init; }
-
-        public CadastrarItemPedidoDto() { }
-    }
-
-    public record AlterarStatusPedidoDto
-    {
-        public int Id { get; init; }
-        public string Status { get; init; }
-
-        public AlterarStatusPedidoDto() { }
+        public ItemPedidoDto() { }
     }
 }

@@ -18,28 +18,28 @@ namespace Controllers
         }
 
         [HttpGet("buscar-todos")]
-        public async Task<ActionResult<List<VisualizarProdutoDto>>> BuscarTodos()
+        public async Task<ActionResult<List<ProdutoDto>>> BuscarTodos()
         {
             var produtos = await _produtoService.BuscarTodosAsync();
             return Ok(produtos);
         }
 
         [HttpGet("buscar/{id}")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Buscar(int id)
+        public async Task<ActionResult<ProdutoDto>> Buscar(int id)
         {
             var produto = await _produtoService.BuscarPorIdAsync(id);
             return Ok(produto);
         }
 
         [HttpPost("cadastrar")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
+        public async Task<ActionResult<ProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
         {
             var produto = await _produtoService.CadastrarAsync(cadastrarProdutoDto);
             return Created(nameof(Cadastrar), produto);
         }
 
         [HttpPost("cadastrar-varios")]
-        public async Task<ActionResult<IEnumerable<VisualizarProdutoDto>>> CadastrarVarios([FromBody] List<CadastrarProdutoDto> cadastrarProdutoDtos)
+        public async Task<ActionResult<IEnumerable<ProdutoDto>>> CadastrarVarios([FromBody] List<CadastrarProdutoDto> cadastrarProdutoDtos)
         {
             var produtos = await _produtoService.CadastrarVariosAsync(cadastrarProdutoDtos);
 
@@ -48,14 +48,14 @@ namespace Controllers
 
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
+        public async Task<ActionResult<ProdutoDto>> Atualizar([FromBody] ProdutoDto atualizarProdutoDto)
         {
             var produtoAtualizado = await _produtoService.AtualizarAsync(atualizarProdutoDto);
             return Ok(produtoAtualizado);
         }
 
         [HttpDelete("remover/{id}")]
-        public async Task<ActionResult<VisualizarProdutoDto>> Remover(int id)
+        public async Task<ActionResult<ProdutoDto>> Remover(int id)
         {
             var produtoRemovido = await _produtoService.RemoverAsync(id);
             return Ok(produtoRemovido);

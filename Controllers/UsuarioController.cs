@@ -18,21 +18,21 @@ namespace Controllers
         }
 
         [HttpPost("registrar")]
-        public async Task<ActionResult<VisualizarClienteDto>> Registrar([FromBody] RegistrarUsuarioDto registrarUsuarioDto)
+        public async Task<ActionResult<ClienteDto>> Registrar([FromBody] CadastrarUsuarioDto registrarUsuarioDto)
         {
             var response = await _usuarioService.Registrar(registrarUsuarioDto);
             return Created(nameof(Registrar), response);
         }
 
         [HttpPost("entrar")]
-        public async Task<ActionResult<VisualizarClienteDto>> Entrar([FromBody] EntrarUsuarioDto entrarUsuarioDto)
+        public async Task<ActionResult<ClienteDto>> Entrar([FromBody] EntrarUsuarioDto entrarUsuarioDto)
         {
             var response = await _usuarioService.Entrar(entrarUsuarioDto);
             return Ok(response);
         }
 
         [HttpPost("alterar-senha")]
-        public async Task<ActionResult<VisualizarClienteDto>> RecuperarSenha([FromBody] RecuperarSenhaDto recuperarSenhaDto)
+        public async Task<ActionResult<ClienteDto>> RecuperarSenha([FromBody] RecuperarSenhaDto recuperarSenhaDto)
         {
             var response = await _usuarioService.RecuperarSenha(recuperarSenhaDto);
             return Ok(response);

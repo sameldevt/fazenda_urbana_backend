@@ -2,6 +2,7 @@
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Model.Dtos;
 using Model.Entities;
 
 namespace Repositories
@@ -11,7 +12,7 @@ namespace Repositories
         Task<MensagemContato> CadastrarAsync(MensagemContato mensagemContato);
         Task<MensagemContato> BuscarPorIdAsync(int id);
         Task<List<MensagemContato>> BuscarTodasAsync();
-        Task<MensagemContato> AtualizarAsync(MensagemContato fornecedor);
+        Task<MensagemContato> AtualizarAsync(MensagemContato mensagemContato);
         Task<MensagemContato> RemoverAsync(int id);
     }
 

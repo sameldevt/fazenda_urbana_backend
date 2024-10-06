@@ -4,14 +4,16 @@ using Model.Dtos;
 using Model.Entities;
 using Repositories;
 using Model.Common;
+using Encrypt;
+using Logging;
 
 namespace Services
 {
     public interface IUsuarioService
     {
-        Task<VisualizarClienteDto> Registrar(RegistrarUsuarioDto registrarUsuarioDto);
-        Task<VisualizarClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
-        Task<VisualizarClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
+        Task<ClienteDto> Registrar(CadastrarUsuarioDto registrarUsuarioDto);
+        Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
+        Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
     }
 
     public class UsuarioService : IUsuarioService
@@ -25,7 +27,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<VisualizarClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto)
+        public async Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto)
         {
             var usuario = await VerificarExistenciaUsuario(entrarUsuarioDto.Email);
 
@@ -34,15 +36,20 @@ namespace Services
                 throw new ResourceNotFoundException($"Usuário com e-mail {entrarUsuarioDto.Email} não encontrado.");
             }
 
-            if (usuario.Senha != entrarUsuarioDto.Senha)
+            var senhaDesencriptada = AesEncryption.Decrypt(usuario.Senha);
+
+            Logger.LogInformation(senhaDesencriptada.ToString());
+            Logger.LogInformation(entrarUsuarioDto.Senha);
+
+            if (senhaDesencriptada != entrarUsuarioDto.Senha)
             {
                 throw new InvalidCredentialsException("Senha inválida.");
             }
 
-            return _mapper.Map<VisualizarClienteDto>(usuario);
+            return _mapper.Map<ClienteDto>(usuario);
         }
 
-        public async Task<VisualizarClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto)
+        public async Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto)
         {
             var usuario = await VerificarExistenciaUsuario(recuperarSenhaDto.Email);
 
@@ -60,12 +67,12 @@ namespace Services
 
             await _clienteRepository.AtualizarSenhaAsync(usuario);
 
-            return _mapper.Map<VisualizarClienteDto>(usuario);
+            return _mapper.Map<ClienteDto>(usuario);
         }
 
-        public async Task<VisualizarClienteDto> Registrar(RegistrarUsuarioDto registrarUsuarioDto)
+        public async Task<ClienteDto> Registrar(CadastrarUsuarioDto registrarUsuarioDto)
         {
-            var usuario = await VerificarExistenciaUsuario(registrarUsuarioDto.Email);
+            var usuario = await VerificarExistenciaUsuario(registrarUsuarioDto.Contato.Email);
 
             if(usuario != null)
             {
@@ -74,9 +81,11 @@ namespace Services
 
             usuario = _mapper.Map<Cliente>(registrarUsuarioDto);
 
+            usuario.Senha = AesEncryption.Encrypt(usuario.Senha);
+
             await _clienteRepository.CadastrarAsync(usuario);
 
-            return _mapper.Map<VisualizarClienteDto>(usuario);
+            return _mapper.Map<ClienteDto>(usuario);
         }
 
         private async Task<Cliente> VerificarExistenciaUsuario(string email)

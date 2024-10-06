@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Services;
 using Model.Dtos;
+using Model.Enum;
 
 namespace Model.Entities
 {
@@ -22,7 +23,7 @@ namespace Model.Entities
         public DateTime? DataEntrega { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public StatusPedido Status { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

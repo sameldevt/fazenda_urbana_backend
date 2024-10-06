@@ -26,201 +26,56 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Produto>(entity =>
-        {
-            entity.ToTable("Produtos");
+        modelBuilder.Entity<Usuario>().ToTable("Usuarios");
 
-            entity.HasKey(p => p.Id);
+        modelBuilder.Entity<Cliente>()
+            .ToTable("Clientes")
+            .HasBaseType<Usuario>();
 
-            entity.Property(p => p.Nome)
-                  .IsRequired()
-                  .HasMaxLength(100);
+        modelBuilder.Entity<Fornecedor>()
+            .ToTable("Fornecedores")
+            .HasBaseType<Usuario>();
 
-            entity.Property(p => p.Descricao)
-                  .IsRequired()
-                  .HasMaxLength(300);
+        modelBuilder.Entity<Produto>()
+            .HasOne(p => p.Categoria)
+            .WithMany(c => c.Produtos)
+            .HasForeignKey(p => p.CategoriaId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(p => p.PrecoUnitario)
-                  .HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Produto>()
+            .HasOne(p => p.Nutrientes)
+            .WithOne(n => n.Produto)
+            .HasForeignKey<Produto>(p => p.NutrientesId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(p => p.PrecoQuilo)
-                  .HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Pedido>()
+            .HasOne(p => p.Cliente)
+            .WithMany(c => c.Pedidos)
+            .HasForeignKey(p => p.ClienteId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(p => p.QuantidadeEstoque)
-                  .IsRequired();
+        modelBuilder.Entity<ItemPedido>()
+            .HasOne(i => i.Pedido)
+            .WithMany(p => p.Itens)
+            .HasForeignKey(i => i.PedidoId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            entity.Property(p => p.ImagemUrl)
-                  .HasMaxLength(200);  // Adicionei um tamanho máximo para ImagemUrl
+        modelBuilder.Entity<ItemPedido>()
+            .HasOne(i => i.Produto)
+            .WithMany() // Se Produto não tem uma coleção de ItemPedido
+            .HasForeignKey(i => i.ProdutoId)
+            .OnDelete(DeleteBehavior.Restrict); // Alterado para Restrict
 
-            entity.HasOne(p => p.Categoria)
-                  .WithMany(c => c.Produtos)
-                  .HasForeignKey(p => p.CategoriaId);
+        modelBuilder.Entity<Fornecedor>()
+            .HasMany(f => f.Produtos)
+            .WithOne(p => p.Fornecedor)
+            .HasForeignKey(p => p.FornecedorId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(p => p.Nutrientes)
-                  .WithOne(i => i.Produto)
-                  .HasForeignKey<Nutrientes>(i => i.ProdutoId);
-        });
-
-        // Configuração da entidade InformacoesNutricionais
-        modelBuilder.Entity<Nutrientes>(entity =>
-        {
-            entity.ToTable("InformacoesNutricionais");
-
-            entity.HasKey(i => i.Id);
-
-            entity.Property(i => i.Calorias)
-                  .HasColumnType("decimal(18,2)");
-
-            entity.Property(i => i.Proteinas)
-                  .HasColumnType("decimal(18,2)");
-
-            entity.Property(i => i.Carboidratos)
-                  .HasColumnType("decimal(18,2)");
-
-            entity.Property(i => i.Fibras)
-                  .HasColumnType("decimal(18,2)");
-
-            entity.Property(i => i.Gorduras)
-                  .HasColumnType("decimal(18,2)");
-        });
-
-        // Configuração da entidade Categoria
-        modelBuilder.Entity<Categoria>(entity =>
-        {
-            entity.ToTable("Categorias");
-
-            entity.HasKey(c => c.Id);
-
-            entity.Property(c => c.Nome)
-                  .IsRequired()
-                  .HasMaxLength(50);
-
-            entity.Property(c => c.Descricao)
-                  .HasMaxLength(200);  // Ajuste de tamanho da descrição
-
-            entity.Property(c => c.DataCriacao)
-                  .IsRequired();
-        });
-
-        // Configuração da entidade Pedido
-        modelBuilder.Entity<Pedido>(entity =>
-        {
-            entity.ToTable("Pedidos");
-
-            entity.HasKey(p => p.Id);
-
-            entity.Property(p => p.DataPedido)
-                  .IsRequired();
-
-            entity.Property(p => p.DataEntrega);
-
-            entity.Property(p => p.Status)
-                  .IsRequired()
-                  .HasMaxLength(50); // Limite adicionado ao Status
-
-            entity.Property(p => p.Total)
-                  .HasColumnType("decimal(18,2)")
-                  .IsRequired();
-
-            entity.Property(p => p.EnderecoEntrega)
-                  .IsRequired()
-                  .HasMaxLength(200); // Limite adicionado ao Endereço de Entrega
-
-            entity.Property(p => p.FormaPagamento)
-                  .IsRequired()
-                  .HasMaxLength(50); // Limite adicionado à Forma de Pagamento
-
-            entity.Property(p => p.Observacoes)
-                  .HasMaxLength(500); // Limite adicionado às Notas
-
-            entity.HasOne(p => p.Cliente)
-                  .WithMany(c => c.Pedidos)
-                  .HasForeignKey(p => p.ClienteId);
-
-            entity.HasMany(p => p.Itens)
-                  .WithOne(i => i.Pedido)
-                  .HasForeignKey(i => i.PedidoId);
-        });
-
-        // Configuração da entidade Cliente
-        modelBuilder.Entity<Cliente>(entity =>
-        {
-            entity.ToTable("Clientes");
-
-            entity.HasKey(c => c.Id);
-
-            entity.Property(c => c.Nome)
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.Property(c => c.Senha)
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.HasOne(c => c.Contato)
-                  .WithOne(ct => ct.Cliente)
-                  .HasForeignKey<Contato>(ct => ct.ClienteId);
-
-            entity.HasOne(c => c.Endereco)
-                  .WithOne(e => e.Cliente)
-                  .HasForeignKey<Endereco>(e => e.ClienteId);
-        });
-
-        // Configuração da entidade Fornecedor
-        modelBuilder.Entity<Fornecedor>(entity =>
-        {
-            entity.ToTable("Fornecedores");
-
-            entity.HasKey(f => f.Id);
-
-            entity.Property(f => f.Nome)
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.Property(f => f.CNPJ)
-                  .IsRequired()
-                  .HasMaxLength(20);
-
-            entity.Property(f => f.Endereco) // Corrigido de "Endereço" para "Endereco"
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.Property(f => f.Telefone)
-                  .HasMaxLength(15);
-
-            entity.Property(f => f.Email)
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.Property(f => f.Website)
-                  .HasMaxLength(100);
-
-            entity.Property(f => f.ContatoPrincipal)
-                  .HasMaxLength(100);
-
-            entity.Property(f => f.DataCadastro)
-                  .IsRequired();
-        });
-
-        modelBuilder.Entity<MensagemContato>(entity =>
-        {
-            entity.ToTable("MensagensFaleConosco");
-
-            entity.HasKey(fc => fc.Id);
-
-            entity.Property(fc => fc.NomeUsuario)
-                  .IsRequired()
-                  .HasMaxLength(200);
-
-            entity.Property(fc => fc.EmailUsuario)
-                  .IsRequired()
-                  .HasMaxLength(100);
-
-            entity.Property(fc => fc.DataEnvio);
-
-            entity.Property(fc => fc.Respondido)
-                  .IsRequired();
-        });
+        modelBuilder.Entity<Cliente>()
+            .HasMany(c => c.Pedidos)
+            .WithOne(p => p.Cliente)
+            .HasForeignKey(p => p.ClienteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
-
 }

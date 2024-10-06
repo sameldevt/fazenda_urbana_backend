@@ -8,11 +8,11 @@ namespace Services
 {
     public interface IFornecedorService
     {
-        Task<List<VisualizarFornecedorDto>> BuscarTodosAsync();
-        Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id);
-        Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto);
-        Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualzarFornecedorDto);
-        Task<VisualizarFornecedorDto> RemoverAsync(int id);
+        Task<List<FornecedorDto>> BuscarTodosAsync();
+        Task<FornecedorDto> BuscarPorIdAsync(int id);
+        Task<FornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto);
+        Task<FornecedorDto> AtualizarAsync(FornecedorDto atualzarFornecedorDto);
+        Task<FornecedorDto> RemoverAsync(int id);
     }
 
     public class FornecedorService : IFornecedorService
@@ -26,30 +26,30 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<List<VisualizarFornecedorDto>> BuscarTodosAsync()
+        public async Task<List<FornecedorDto>> BuscarTodosAsync()
         {
             var fornecedores = await _fornecedorRepository.BuscarTodosAsync();
 
-            return _mapper.Map<List<VisualizarFornecedorDto>>(fornecedores);
+            return _mapper.Map<List<FornecedorDto>>(fornecedores);
         }
 
-        public async Task<VisualizarFornecedorDto> BuscarPorIdAsync(int id)
+        public async Task<FornecedorDto> BuscarPorIdAsync(int id)
         {
             var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(id);
 
-            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
+            return _mapper.Map<FornecedorDto>(fornecedor);
         }
 
-        public async Task<VisualizarFornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto)
+        public async Task<FornecedorDto> CadastrarAsync(CadastrarFornecedorDto cadastrarFornecedorDto)
         {
             var fornecedor = _mapper.Map<Fornecedor>(cadastrarFornecedorDto);
 
             var fornecedorCadastrado = await _fornecedorRepository.CadastrarAsync(fornecedor);
 
-            return _mapper.Map<VisualizarFornecedorDto>(fornecedorCadastrado);
+            return _mapper.Map<FornecedorDto>(fornecedorCadastrado);
         }
 
-        public async Task<VisualizarFornecedorDto> AtualizarAsync(AtualizarFornecedorDto atualizarFornecedorDto)
+        public async Task<FornecedorDto> AtualizarAsync(FornecedorDto atualizarFornecedorDto)
         {
             var fornecedor = await _fornecedorRepository.BuscarPorIdAsync(atualizarFornecedorDto.Id);
 
@@ -57,14 +57,14 @@ namespace Services
 
             var fornecedorAtualizado = await _fornecedorRepository.AtualizarAsync(fornecedor);
 
-            return _mapper.Map<VisualizarFornecedorDto>(fornecedorAtualizado);
+            return _mapper.Map<FornecedorDto>(fornecedorAtualizado);
         }
 
-        public async Task<VisualizarFornecedorDto> RemoverAsync(int id)
+        public async Task<FornecedorDto> RemoverAsync(int id)
         {
             var fornecedor = await _fornecedorRepository.RemoverAsync(id);
 
-            return _mapper.Map<VisualizarFornecedorDto>(fornecedor);
+            return _mapper.Map<FornecedorDto>(fornecedor);
         }
     }
 }

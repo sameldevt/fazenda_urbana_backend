@@ -34,40 +34,14 @@ namespace Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categorias", (string)null);
-                });
-
-            modelBuilder.Entity("Model.Entities.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clientes", (string)null);
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("Model.Entities.Contato", b =>
@@ -78,18 +52,18 @@ namespace Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId")
+                    b.HasIndex("UsuarioId")
                         .IsUnique();
 
                     b.ToTable("Contato");
@@ -109,16 +83,10 @@ namespace Migrations
                     b.Property<string>("Cidade")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Complemento")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InformacoesAdicionais")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Logradouro")
@@ -127,63 +95,14 @@ namespace Migrations
                     b.Property<string>("Numero")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
-
-                    b.ToTable("Endereco");
-                });
-
-            modelBuilder.Entity("Model.Entities.Fornecedor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CNPJ")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("ContatoPrincipal")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Endereco")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Observacoes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefone")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("Website")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Fornecedores", (string)null);
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Endereco");
                 });
 
             modelBuilder.Entity("Model.Entities.ItemPedido", b =>
@@ -235,20 +154,18 @@ namespace Migrations
 
                     b.Property<string>("EmailUsuario")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeUsuario")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Respondido")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MensagensFaleConosco", (string)null);
+                    b.ToTable("MensagensContato");
                 });
 
             modelBuilder.Entity("Model.Entities.Nutrientes", b =>
@@ -279,10 +196,7 @@ namespace Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProdutoId")
-                        .IsUnique();
-
-                    b.ToTable("InformacoesNutricionais", (string)null);
+                    b.ToTable("InformacoesNutricionais");
                 });
 
             modelBuilder.Entity("Model.Entities.Pedido", b =>
@@ -303,23 +217,16 @@ namespace Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EnderecoEntrega")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FormaPagamento")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observacoes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
@@ -328,7 +235,7 @@ namespace Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Pedidos", (string)null);
+                    b.ToTable("Pedidos");
                 });
 
             modelBuilder.Entity("Model.Entities.Produto", b =>
@@ -343,23 +250,22 @@ namespace Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagemUrl")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NutrientesId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("PrecoQuilo")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("QuantidadeEstoque")
@@ -369,29 +275,80 @@ namespace Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Produtos", (string)null);
+                    b.HasIndex("FornecedorId");
+
+                    b.HasIndex("NutrientesId")
+                        .IsUnique();
+
+                    b.ToTable("Produtos");
+                });
+
+            modelBuilder.Entity("Model.Entities.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios", (string)null);
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Model.Entities.Cliente", b =>
+                {
+                    b.HasBaseType("Model.Entities.Usuario");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Clientes", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.Fornecedor", b =>
+                {
+                    b.HasBaseType("Model.Entities.Usuario");
+
+                    b.Property<string>("CNPJ")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Fornecedores", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.Contato", b =>
                 {
-                    b.HasOne("Model.Entities.Cliente", "Cliente")
+                    b.HasOne("Model.Entities.Usuario", "Usuario")
                         .WithOne("Contato")
-                        .HasForeignKey("Model.Entities.Contato", "ClienteId")
+                        .HasForeignKey("Model.Entities.Contato", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Model.Entities.Endereco", b =>
                 {
-                    b.HasOne("Model.Entities.Cliente", "Cliente")
-                        .WithOne("Endereco")
-                        .HasForeignKey("Model.Entities.Endereco", "ClienteId")
+                    b.HasOne("Model.Entities.Usuario", "Usuario")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Model.Entities.ItemPedido", b =>
@@ -405,21 +362,10 @@ namespace Migrations
                     b.HasOne("Model.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Pedido");
-
-                    b.Navigation("Produto");
-                });
-
-            modelBuilder.Entity("Model.Entities.Nutrientes", b =>
-                {
-                    b.HasOne("Model.Entities.Produto", "Produto")
-                        .WithOne("Nutrientes")
-                        .HasForeignKey("Model.Entities.Nutrientes", "ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Produto");
                 });
@@ -443,7 +389,41 @@ namespace Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Model.Entities.Fornecedor", "Fornecedor")
+                        .WithMany("Produtos")
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Nutrientes", "Nutrientes")
+                        .WithOne("Produto")
+                        .HasForeignKey("Model.Entities.Produto", "NutrientesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("Fornecedor");
+
+                    b.Navigation("Nutrientes");
+                });
+
+            modelBuilder.Entity("Model.Entities.Cliente", b =>
+                {
+                    b.HasOne("Model.Entities.Usuario", null)
+                        .WithOne()
+                        .HasForeignKey("Model.Entities.Cliente", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Entities.Fornecedor", b =>
+                {
+                    b.HasOne("Model.Entities.Usuario", null)
+                        .WithOne()
+                        .HasForeignKey("Model.Entities.Fornecedor", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Entities.Categoria", b =>
@@ -451,13 +431,9 @@ namespace Migrations
                     b.Navigation("Produtos");
                 });
 
-            modelBuilder.Entity("Model.Entities.Cliente", b =>
+            modelBuilder.Entity("Model.Entities.Nutrientes", b =>
                 {
-                    b.Navigation("Contato");
-
-                    b.Navigation("Endereco");
-
-                    b.Navigation("Pedidos");
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("Model.Entities.Pedido", b =>
@@ -465,9 +441,21 @@ namespace Migrations
                     b.Navigation("Itens");
                 });
 
-            modelBuilder.Entity("Model.Entities.Produto", b =>
+            modelBuilder.Entity("Model.Entities.Usuario", b =>
                 {
-                    b.Navigation("Nutrientes");
+                    b.Navigation("Contato");
+
+                    b.Navigation("Enderecos");
+                });
+
+            modelBuilder.Entity("Model.Entities.Cliente", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("Model.Entities.Fornecedor", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

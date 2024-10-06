@@ -8,11 +8,11 @@ namespace Services
 {
     public interface IMensagemContatoService
     {
-        Task<VisualizarMensagemDto> CadastrarMensagemAsync(RegistrarMensagemDto cadastrarMensagemDto);
-        Task<List<VisualizarMensagemDto>> BuscarTodasMensagensAsync();
-        Task<VisualizarMensagemDto> BuscarMensagemPorIdAsync(int id);
-        Task<VisualizarMensagemDto> AtualizarMensagemAsync(AtualizarMensagemDto atualizarMensagemDto);
-        Task<VisualizarMensagemDto> RemoverMensagemAsync(int id);
+        Task<MensagemContatoDto> CadastrarMensagemAsync(CadastrarMensagemContatoDto cadastrarMensagemDto);
+        Task<List<MensagemContatoDto>> BuscarTodasMensagensAsync();
+        Task<MensagemContatoDto> BuscarMensagemPorIdAsync(int id);
+        Task<MensagemContatoDto> AtualizarMensagemAsync(MensagemContatoDto atualizarMensagemDto);
+        Task<MensagemContatoDto> RemoverMensagemAsync(int id);
     }
 
     public class MensagemContatoService : IMensagemContatoService
@@ -26,41 +26,41 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<VisualizarMensagemDto> CadastrarMensagemAsync(RegistrarMensagemDto cadastrarMensagemDto)
+        public async Task<MensagemContatoDto> CadastrarMensagemAsync(CadastrarMensagemContatoDto cadastrarMensagemDto)
         {
             var mensagemContato = _mapper.Map<MensagemContato>(cadastrarMensagemDto);
 
             var mensagemContatoRegistrada = await _mensagemContatoRepository.CadastrarAsync(mensagemContato);
 
-            return _mapper.Map<VisualizarMensagemDto>(mensagemContatoRegistrada);
+            return _mapper.Map<MensagemContatoDto>(mensagemContatoRegistrada);
         }
 
-        public async Task<List<VisualizarMensagemDto>> BuscarTodasMensagensAsync()
+        public async Task<List<MensagemContatoDto>> BuscarTodasMensagensAsync()
         {
             var mensagens = await _mensagemContatoRepository.BuscarTodasAsync();
-            return _mapper.Map<List<VisualizarMensagemDto>>(mensagens);
+            return _mapper.Map<List<MensagemContatoDto>>(mensagens);
         }
 
-        public async Task<VisualizarMensagemDto> BuscarMensagemPorIdAsync(int id)
+        public async Task<MensagemContatoDto> BuscarMensagemPorIdAsync(int id)
         {
             var mensagem = await _mensagemContatoRepository.BuscarPorIdAsync(id);
-            return _mapper.Map<VisualizarMensagemDto>(mensagem);
+            return _mapper.Map<MensagemContatoDto>(mensagem);
         }
 
-        public async Task<VisualizarMensagemDto> AtualizarMensagemAsync(AtualizarMensagemDto atualizarMensagemDto)
+        public async Task<MensagemContatoDto> AtualizarMensagemAsync(MensagemContatoDto atualizarMensagemDto)
         {
             var mensagemExistente = await _mensagemContatoRepository.BuscarPorIdAsync(atualizarMensagemDto.Id);
 
             mensagemExistente = _mapper.Map<MensagemContato>(atualizarMensagemDto);
 
             var mensagemAtualizada = await _mensagemContatoRepository.AtualizarAsync(mensagemExistente);
-            return _mapper.Map<VisualizarMensagemDto>(mensagemAtualizada);
+            return _mapper.Map<MensagemContatoDto>(mensagemAtualizada);
         }
 
-        public async Task<VisualizarMensagemDto> RemoverMensagemAsync(int id)
+        public async Task<MensagemContatoDto> RemoverMensagemAsync(int id)
         {
             var mensagemRemovida = await _mensagemContatoRepository.RemoverAsync(id);
-            return _mapper.Map<VisualizarMensagemDto>(mensagemRemovida);
+            return _mapper.Map<MensagemContatoDto>(mensagemRemovida);
         }
     }
 }

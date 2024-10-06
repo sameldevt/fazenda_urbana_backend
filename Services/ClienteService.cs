@@ -8,12 +8,12 @@ namespace Services
 {
     public interface IClienteService
     {
-        Task<IEnumerable<VisualizarClienteDto>> BuscarTodosAsync();
-        Task<VisualizarClienteDto> BuscarPorIdAsync(int id);
-        Task<VisualizarClienteDto> BuscarPorEmailAsync(string email);   
-        Task<VisualizarClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
-        Task<VisualizarClienteDto> AtualizarAsync(AtualizarClienteDto cliente);
-        Task<VisualizarClienteDto> RemoverAsync(int id);
+        Task<IEnumerable<ClienteDto>> BuscarTodosAsync();
+        Task<ClienteDto> BuscarPorIdAsync(int id);
+        Task<ClienteDto> BuscarPorEmailAsync(string email);   
+        Task<ClienteDto> CadastrarAsync(CadastrarClienteDto cliente);
+        Task<ClienteDto> AtualizarAsync(ClienteDto cliente);
+        Task<ClienteDto> RemoverAsync(int id);
     }
 
     public class ClienteService : IClienteService
@@ -27,35 +27,35 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<VisualizarClienteDto>> BuscarTodosAsync()
+        public async Task<IEnumerable<ClienteDto>> BuscarTodosAsync()
         {
             var clientes = await _clienteRepository.BuscarTodosAsync();
 
-            return _mapper.Map<List<VisualizarClienteDto>>(clientes);
+            return _mapper.Map<List<ClienteDto>>(clientes);
         }
 
-        public async Task<VisualizarClienteDto> BuscarPorIdAsync(int id)
+        public async Task<ClienteDto> BuscarPorIdAsync(int id)
         {
             var cliente = await _clienteRepository.BuscarPorIdAsync(id);
 
-            return _mapper.Map<VisualizarClienteDto>(cliente);
+            return _mapper.Map<ClienteDto>(cliente);
         }
 
-        public async Task<VisualizarClienteDto> BuscarPorEmailAsync(string email)
+        public async Task<ClienteDto> BuscarPorEmailAsync(string email)
         {
             var cliente = await _clienteRepository.BuscarPorEmailAsync(email);
 
-            return _mapper.Map<VisualizarClienteDto>(cliente);
+            return _mapper.Map<ClienteDto>(cliente);
         }
 
-        public async Task<VisualizarClienteDto> CadastrarAsync(CadastrarClienteDto cadastrarClienteDto)
+        public async Task<ClienteDto> CadastrarAsync(CadastrarClienteDto cadastrarClienteDto)
         {
             var clienteCadastrado = await _clienteRepository.CadastrarAsync(_mapper.Map<Cliente>(cadastrarClienteDto));
 
-            return _mapper.Map<VisualizarClienteDto>(clienteCadastrado);
+            return _mapper.Map<ClienteDto>(clienteCadastrado);
         }
 
-        public async Task<VisualizarClienteDto> AtualizarAsync(AtualizarClienteDto atualizarClienteDto)
+        public async Task<ClienteDto> AtualizarAsync(ClienteDto atualizarClienteDto)
         {
             var clienteExistente = await _clienteRepository.BuscarPorIdAsync(atualizarClienteDto.Id);
 
@@ -63,13 +63,13 @@ namespace Services
 
             var clienteAtualizado = await _clienteRepository.AtualizarAsync(clienteExistente);
 
-            return _mapper.Map<VisualizarClienteDto>(clienteAtualizado); 
+            return _mapper.Map<ClienteDto>(clienteAtualizado); 
         }
 
-        public async Task<VisualizarClienteDto> RemoverAsync(int id)
+        public async Task<ClienteDto> RemoverAsync(int id)
         {
             var clienteRemovido = await _clienteRepository.RemoverAsync(id);
-            return _mapper.Map<VisualizarClienteDto>(clienteRemovido);
+            return _mapper.Map<ClienteDto>(clienteRemovido);
         }
     }
 

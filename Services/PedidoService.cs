@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using Model.Dtos;
 using Model.Entities;
+using Model.Enum;
 using Repositories;
 
 namespace Services
 {
     public interface IPedidoService
     {
-        Task<List<VisualizarPedidoDto>> BuscarTodosAsync();
-        Task<VisualizarPedidoDto> BuscarPorIdAsync(int id);
-        Task<VisualizarPedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto);
-        Task<VisualizarPedidoDto> AlterarStatusAsync(AlterarStatusPedidoDto alterarStatusPedidoDto);
-        Task<VisualizarPedidoDto> RemoverAsync(int id);
+        Task<List<PedidoDto>> BuscarTodosAsync();
+        Task<PedidoDto> BuscarPorIdAsync(int id);
+        Task<PedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto);
+        Task<PedidoDto> AlterarStatusAsync(int idPedido, StatusPedido status);
+        Task<PedidoDto> RemoverAsync(int id);
     }
 
     public class PedidoService : IPedidoService
@@ -25,44 +26,44 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<List<VisualizarPedidoDto>> BuscarTodosAsync()
+        public async Task<List<PedidoDto>> BuscarTodosAsync()
         {
             var pedidos = await _pedidoRepository.BuscarTodosAsync();
 
-            return _mapper.Map<List<VisualizarPedidoDto>>(pedidos);
+            return _mapper.Map<List<PedidoDto>>(pedidos);
         }
 
-        public async Task<VisualizarPedidoDto> BuscarPorIdAsync(int id)
+        public async Task<PedidoDto> BuscarPorIdAsync(int id)
         {
             var pedido = await _pedidoRepository.BuscarPorIdAsync(id);
             
-            return _mapper.Map<VisualizarPedidoDto>(pedido); 
+            return _mapper.Map<PedidoDto>(pedido); 
         }
 
-        public async Task<VisualizarPedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
+        public async Task<PedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
         {
             var pedido = await _pedidoRepository.CadastrarAsync(_mapper.Map<Pedido>(cadastrarPedidoDto));
 
-            return _mapper.Map<VisualizarPedidoDto>(pedido);
+            return _mapper.Map<PedidoDto>(pedido);
         }
 
-        public async Task<VisualizarPedidoDto> AlterarStatusAsync(AlterarStatusPedidoDto alterarStatusPedidoDto)
+        public async Task<PedidoDto> AlterarStatusAsync(int idPedido, StatusPedido status)
         {
-            var pedido = await _pedidoRepository.BuscarPorIdAsync(alterarStatusPedidoDto.Id);
+            var pedido = await _pedidoRepository.BuscarPorIdAsync(idPedido);
 
-            pedido = _mapper.Map<Pedido>(alterarStatusPedidoDto); 
+            pedido.Status = status;
 
             var pedidoAtualizado =  await _pedidoRepository.AlterarStatusAsync(pedido);
 
-            return _mapper.Map<VisualizarPedidoDto>(pedidoAtualizado);
+            return _mapper.Map<PedidoDto>(pedidoAtualizado);
 
         }
 
-        public async Task<VisualizarPedidoDto> RemoverAsync(int id)
+        public async Task<PedidoDto> RemoverAsync(int id)
         {
             var pedidoRemovido =  await _pedidoRepository.RemoverAsync(id);
 
-            return _mapper.Map<VisualizarPedidoDto>(pedidoRemovido);
+            return _mapper.Map<PedidoDto>(pedidoRemovido);
 
         }
     }
