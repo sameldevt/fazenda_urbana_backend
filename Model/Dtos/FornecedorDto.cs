@@ -12,12 +12,11 @@ namespace Model.Dtos
     public record CadastrarFornecedorDto
     {
         public string Nome { get; init; }
-        public string Senha { get; init; }
         public string CNPJ { get; init; }
         public string Website { get; init; }
         public DateTime DataCadastro { get; init; }
         public ContatoDto Contato { get; init; }
-        public ICollection<Endereco> Enderecos { get; init; }
+        public ICollection<EnderecoDto> Enderecos { get; init; }
 
         public CadastrarFornecedorDto() { }
     }

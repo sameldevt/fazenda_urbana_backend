@@ -11,11 +11,11 @@ namespace Model.Dtos
         public int QuantidadeEstoque { get; init; }
         public string ImagemUrl { get; set; }
         public CategoriaDto Categoria { get; init; }
-        public Nutrientes Nutrientes { get; set; }
+        public NutrientesDto Nutrientes { get; set; }
+        public FornecedorDto Fornecedor { get; set; }
 
         public ProdutoDto() { }
     }
-
 
     public record CadastrarProdutoDto
     {
@@ -24,19 +24,29 @@ namespace Model.Dtos
         public decimal PrecoQuilo { get; init; }
         public int QuantidadeEstoque { get; init; }
         public string ImagemUrl { get; set; }
-        public CategoriaDto Categoria { get; init; }
-        public Nutrientes Nutrientes { get; set; }
+        public NutrientesDto Nutrientes { get; set; }
+        public int CategoriaId { get; init; }
+        public int FornecedorId { get; set; }
 
         public CadastrarProdutoDto() { }
     }
 
     public record CategoriaDto
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
 
         public CategoriaDto() { }
+    }
+
+    public record CadastrarCategoriaDto
+    {
+        public string Nome { get; set; }
+        public string Descricao { get; set; }
+        public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
+        public CadastrarCategoriaDto() { }
     }
 
     public record NutrientesDto

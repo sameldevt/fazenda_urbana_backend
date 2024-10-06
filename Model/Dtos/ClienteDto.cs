@@ -13,7 +13,7 @@ namespace Model.Dtos
         public string Senha { get; init; }
         public DateTime DataCadastro { get; set; }
         public ContatoDto Contato { get; init; }
-        public ICollection<Endereco> Enderecos { get; init; }
+        public IEnumerable<Endereco> Enderecos { get; init; }
 
         public CadastrarClienteDto() { }
     }

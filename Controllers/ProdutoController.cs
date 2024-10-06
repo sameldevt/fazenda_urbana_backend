@@ -31,6 +31,14 @@ namespace Controllers
             return Ok(produto);
         }
 
+
+        [HttpPost("cadastrar-categoria")]
+        public async Task<ActionResult<CategoriaDto>> CadastrarCategoria([FromBody] CadastrarCategoriaDto cadastrarCategoriaDto)
+        {
+            var produto = await _produtoService.CadastrarCategoriaAsync(cadastrarCategoriaDto);
+            return Created(nameof(Cadastrar), produto);
+        }
+
         [HttpPost("cadastrar")]
         public async Task<ActionResult<ProdutoDto>> Cadastrar([FromBody] CadastrarProdutoDto cadastrarProdutoDto)
         {

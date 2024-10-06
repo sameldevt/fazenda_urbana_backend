@@ -2,6 +2,7 @@
 using Model.Dtos;
 using Model.Entities;
 using Repositories;
+using Logging;
 
 namespace Services
 {
@@ -10,6 +11,7 @@ namespace Services
         Task<ProdutoDto> BuscarPorIdAsync(int id);
         Task<ProdutoDto> BuscarPorNomeAsync(string nome);
         Task<List<ProdutoDto>> BuscarTodosAsync();
+        Task<CategoriaDto> CadastrarCategoriaAsync(CadastrarCategoriaDto cadastrarCategoriaDto);
         Task<ProdutoDto> CadastrarAsync(CadastrarProdutoDto produtoDto);
         Task<List<ProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos);
         Task<ProdutoDto> AtualizarAsync(ProdutoDto produtoDto);
@@ -48,17 +50,60 @@ namespace Services
             return _mapper.Map<ProdutoDto>(produto);
         }
 
+
+        public async Task<CategoriaDto> CadastrarCategoriaAsync(CadastrarCategoriaDto cadastrarCategoriaDto)
+        {
+            var categoria = await _produtoRepository.CadastrarCategoriaAsync(_mapper.Map<Categoria>(cadastrarCategoriaDto));
+
+            return _mapper.Map<CategoriaDto>(categoria);
+        }
+
         public async Task<ProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            var produto = await _produtoRepository.CadastrarAsync(_mapper.Map<Produto>(cadastrarProdutoDto));
+            var categoria = await VerificarCategoria(cadastrarProdutoDto.CategoriaId);
+
+            var fornecedor = await VerfificarFornecedor(cadastrarProdutoDto.FornecedorId);
+
+            var produtoParaInserir = _mapper.Map<Produto>(cadastrarProdutoDto);
+
+            produtoParaInserir.Categoria = categoria;
+            produtoParaInserir.Fornecedor = fornecedor;
+
+            var produto = await _produtoRepository.CadastrarAsync(produtoParaInserir);
 
             return _mapper.Map<ProdutoDto>(produto);
         }
+
         public async Task<List<ProdutoDto>> CadastrarVariosAsync(List<CadastrarProdutoDto> cadastrarProdutoDtos)
         {
-            var produtos = await _produtoRepository.CadastrarVariosAsync(_mapper.Map<List<Produto>>(cadastrarProdutoDtos));
+            var produtos = _mapper.Map<List<Produto>>(cadastrarProdutoDtos);
+            var produtosParaInserir = new List<Produto>();
 
-            return _mapper.Map<List<ProdutoDto>>(produtos);
+
+            foreach(Produto p in produtos)
+            {
+                try
+                {
+                    var categoria = await VerificarCategoria(p.CategoriaId);
+                    var fornecedor = await VerfificarFornecedor(p.FornecedorId);
+
+                    p.Categoria = categoria;
+                    p.Fornecedor = fornecedor;
+
+                    produtosParaInserir.Add(p);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarning($"alguem é nulo: {ex}");
+                    produtos.Remove(p);
+                    continue;
+                }
+            }
+           
+
+            var produtosCadastrados = await _produtoRepository.CadastrarVariosAsync(produtosParaInserir);
+
+            return _mapper.Map<List<ProdutoDto>>(produtosCadastrados);
         }
         public async Task<ProdutoDto> AtualizarAsync(ProdutoDto atualizarProdutoDto)
         {
@@ -77,5 +122,16 @@ namespace Services
 
             return _mapper.Map<ProdutoDto>(produto);
         }
+
+        private async Task<Categoria> VerificarCategoria(int id)
+        {
+            return await _produtoRepository.BuscarCategoriaPorIdAsync(id);
+        }
+
+        private async Task<Fornecedor> VerfificarFornecedor(int id)
+        {
+            return await _produtoRepository.BuscarFornecedorPorIdAsync(id);
+        }
+
     }
 }

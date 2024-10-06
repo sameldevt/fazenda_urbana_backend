@@ -48,6 +48,12 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey<Produto>(p => p.NutrientesId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Produto>()
+        .HasOne(p => p.Fornecedor)
+        .WithMany(n => n.Produtos)
+        .HasForeignKey(p => p.FornecedorId)
+        .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Cliente)
             .WithMany(c => c.Pedidos)

@@ -11,10 +11,13 @@ namespace Repositories
         Task<List<Produto>> BuscarTodosAsync();
         Task<Produto> BuscarPorNomeAsync(string nome);
         Task<Produto> BuscarPorIdAsync(int id);
+        Task<Categoria> CadastrarCategoriaAsync(Categoria categoria);
         Task<Produto> CadastrarAsync(Produto produto);
         Task<List<Produto>> CadastrarVariosAsync(List<Produto> produtos);
         Task<Produto> AtualizarAsync(Produto produto);
         Task<Produto> RemoverAsync(int id);
+        Task<Categoria> BuscarCategoriaPorIdAsync(int id);
+        Task<Fornecedor> BuscarFornecedorPorIdAsync(int id);
     }
 
     public class ProdutoRepository : IProdutoRepository
@@ -28,14 +31,18 @@ namespace Repositories
 
         public async Task<List<Produto>> BuscarTodosAsync()
         { 
-            var produto = await _context.Produtos.AsNoTracking().ToListAsync();
+            var produtos = await _context.Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Nutrientes)
+                .Include(p => p.Fornecedor)
+                .AsNoTracking().ToListAsync();
             
-            if(produto == null)
+            if(produtos == null)
             {
                 throw new ResourceNotFoundException("Nenhum produto encontrado.");
             }
-
-            return produto;
+            
+            return produtos;
         }
 
         public async Task<Produto> BuscarPorNomeAsync(string nome)
@@ -43,6 +50,7 @@ namespace Repositories
             var produto = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
+                .Include(p => p.Fornecedor)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Nome == nome);
             
@@ -71,6 +79,7 @@ namespace Repositories
             var produto =  await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
+                .Include(p => p.Fornecedor)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
             
@@ -80,7 +89,20 @@ namespace Repositories
             }
             return produto;
         }
-      
+
+        public async Task<Categoria> CadastrarCategoriaAsync(Categoria categoria)
+        {
+            try
+            {
+                _context.Categorias.Add(categoria);
+                await _context.SaveChangesAsync();
+                return categoria;
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseManipulationException($"Erro ao cadastrar categoria. Causa: ${ex}.");
+            }
+        }
         public async Task<Produto> CadastrarAsync(Produto produto)
         {
             try
@@ -170,5 +192,35 @@ namespace Repositories
                 throw new DatabaseManipulationException($"Erro cadastrar categoria. Causa: ${ex}.");
             }
         }
+
+        public async Task<Categoria> BuscarCategoriaPorIdAsync(int id)
+        {
+            var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Id == id);
+
+            if(categoria == null)
+            {
+                throw new ResourceNotFoundException($"Categoria com id {id} não encontrada.");
+
+            }
+
+            return categoria;
+        }
+
+        public async Task<Fornecedor> BuscarFornecedorPorIdAsync(int id)
+        {
+            var fornecedor = await _context.Fornecedores
+                .Include(f => f.Contato)          
+                .Include(f => f.Enderecos)
+                .SingleOrDefaultAsync(f => f.Id == id);
+
+            if (fornecedor == null)
+            {
+                throw new ResourceNotFoundException($"Fornecedor com id {id} não encontrado.");
+
+            }
+
+            return fornecedor;
+        }
+
     }
 }

@@ -38,9 +38,6 @@ namespace Services
 
             var senhaDesencriptada = AesEncryption.Decrypt(usuario.Senha);
 
-            Logger.LogInformation(senhaDesencriptada.ToString());
-            Logger.LogInformation(entrarUsuarioDto.Senha);
-
             if (senhaDesencriptada != entrarUsuarioDto.Senha)
             {
                 throw new InvalidCredentialsException("Senha inválida.");

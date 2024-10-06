@@ -72,20 +72,81 @@ namespace DtoMapping
             CreateMap<Endereco, EnderecoDto>();
 
             CreateMap<Produto, ProdutoDto>()
-                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new CategoriaDto
-                {
-                    Nome = src.Categoria.Nome,
-                    Descricao = src.Categoria.Descricao,
-                    DataCriacao = src.Categoria.DataCriacao
-                }))
-                .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new NutrientesDto
-                {
-                    Calorias = src.Nutrientes.Calorias,
-                    Proteinas = src.Nutrientes.Proteinas,
-                    Carboidratos = src.Nutrientes.Carboidratos,
-                    Fibras = src.Nutrientes.Fibras,
-                    Gorduras = src.Nutrientes.Gorduras
-                }));
+             .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new CategoriaDto
+             {
+                 Id = src.Categoria.Id,
+                 Nome = src.Categoria.Nome,
+                 Descricao = src.Categoria.Descricao,
+                 DataCriacao = src.Categoria.DataCriacao
+             }))
+             .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new NutrientesDto
+             {
+                 Calorias = src.Nutrientes.Calorias,
+                 Proteinas = src.Nutrientes.Proteinas,
+                 Carboidratos = src.Nutrientes.Carboidratos,
+                 Fibras = src.Nutrientes.Fibras,
+                 Gorduras = src.Nutrientes.Gorduras
+             }))
+             .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => new FornecedorDto
+             {
+                 Id = src.Fornecedor.Id,
+                 CNPJ = src.Fornecedor.CNPJ,
+                 Nome = src.Fornecedor.Nome,
+                 DataCadastro = src.Fornecedor.DataCadastro,
+                 Contato = new ContatoDto
+                 {
+                     Email = src.Fornecedor.Contato.Email,
+                     Telefone = src.Fornecedor.Contato.Telefone,
+                 },
+                 Enderecos = src.Fornecedor.Enderecos.Select(e => new EnderecoDto
+                 {
+                     Estado = e.Estado,
+                     CEP = e.CEP,
+                     Cidade = e.CEP,
+                     Complemento = e.Complemento,
+                     Numero = e.Numero,
+                     Logradouro = e.Logradouro
+                 }).ToList(),
+             }));
+
+            CreateMap<ProdutoDto, Produto>()
+              .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new Categoria
+              {
+                  Id = src.Categoria.Id,
+                  Nome = src.Categoria.Nome,
+                  Descricao = src.Categoria.Descricao,
+                  DataCriacao = src.Categoria.DataCriacao
+              }))
+              .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new Nutrientes
+              {
+                  Calorias = src.Nutrientes.Calorias,
+                  Proteinas = src.Nutrientes.Proteinas,
+                  Carboidratos = src.Nutrientes.Carboidratos,
+                  Fibras = src.Nutrientes.Fibras,
+                  Gorduras = src.Nutrientes.Gorduras
+              }))
+              .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => new Fornecedor
+              {
+                  Id = src.Fornecedor.Id,
+                  CNPJ = src.Fornecedor.CNPJ,
+                  Nome = src.Fornecedor.Nome,
+                  DataCadastro = src.Fornecedor.DataCadastro,
+                  Contato = new Contato
+                  {
+                      Email = src.Fornecedor.Contato.Email,
+                      Telefone = src.Fornecedor.Contato.Telefone,
+                  },
+                  Enderecos = src.Fornecedor.Enderecos.Select(e => new Endereco
+                  {
+                      Estado = e.Estado,
+                      CEP = e.CEP,
+                      Cidade = e.Cidade,
+                      Complemento = e.Complemento,
+                      Numero = e.Numero,
+                      Logradouro = e.Logradouro
+                  }).ToList(),
+              }));
+
 
             CreateMap<CadastrarProdutoDto, Produto>()
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new Nutrientes
@@ -96,31 +157,35 @@ namespace DtoMapping
                     Fibras = src.Nutrientes.Fibras,
                     Gorduras = src.Nutrientes.Gorduras
                 }))
-                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new Categoria
-                {
-                    Nome = src.Categoria.Nome,
-                    Descricao = src.Categoria.Descricao,
-                    DataCriacao = src.Categoria.DataCriacao
-                }));
+                .ForMember(dest => dest.Fornecedor, opt => opt.Ignore());
+
+            CreateMap<CadastrarCategoriaDto, Categoria>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<Categoria, CategoriaDto>();
 
             CreateMap<Nutrientes, NutrientesDto>();
 
-            CreateMap<MensagemContato, MensagemContatoDto>();
-
-            CreateMap<CadastrarMensagemContatoDto, MensagemContato>()
-                .ForMember(dest => dest.DataEnvio, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Respondido, opt => opt.MapFrom(src => false));
-
-            CreateMap<Fornecedor, FornecedorDto>()
-                .IncludeBase<Usuario, UsuarioDto>(); 
+            CreateMap<Fornecedor, FornecedorDto>();
 
             CreateMap<CadastrarFornecedorDto, Fornecedor>()
                 .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Produtos, opt => opt.Ignore()) 
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
-
+                .ForMember(dest => dest.Produtos, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
+                {
+                    Telefone = src.Contato.Telefone,
+                    Email = src.Contato.Email
+                }))
+                 .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos.Select(e => new Endereco
+                 {
+                     Logradouro = e.Logradouro,
+                     Numero = e.Numero,
+                     Cidade = e.Cidade,
+                     CEP = e.CEP,
+                     Complemento = e.Complemento,
+                     Estado = e.Estado
+                 })));
         }
     }
 }
