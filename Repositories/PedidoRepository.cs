@@ -27,7 +27,11 @@ namespace Repositories
 
         public async Task<List<Pedido>> BuscarTodosAsync()
         {
-            var pedidos = await _context.Pedidos.AsNoTracking().ToListAsync();
+            var pedidos = await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.Itens)
+                .AsNoTracking()
+                .ToListAsync();
 
             if (pedidos.IsNullOrEmpty())
             {
@@ -39,7 +43,10 @@ namespace Repositories
 
         public async Task<Pedido> BuscarPorIdAsync(int id)
         {
-            var pedido = await _context.Pedidos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            var pedido = await _context.Pedidos
+                .Include(p => p.Cliente)
+                 .Include(p => p.Itens)
+                 .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
 
             if (pedido == null)
             {

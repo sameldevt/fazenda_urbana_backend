@@ -17,6 +17,19 @@ namespace Model.Dtos
         public ProdutoDto() { }
     }
 
+    public record ProdutoPedidoDto
+    {
+        public string Nome { get; init; }
+        public string Descricao { get; init; }
+        public decimal PrecoQuilo { get; init; }
+        public string ImagemUrl { get; set; }
+        public int CategoriaId { get; init; }
+        public int FornecedorId { get; set; }
+        public NutrientesDto Nutrientes { get; set; }
+
+        public ProdutoPedidoDto() { }
+    }
+
     public record CadastrarProdutoDto
     {
         public string Nome { get; init; }

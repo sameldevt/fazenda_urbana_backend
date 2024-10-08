@@ -9,13 +9,39 @@
     "Parameters": [
       {
         "Name": "atualizarClienteDto",
-        "Type": "Model.Dtos.AtualizarClienteDto",
+        "Type": "Model.Dtos.ClienteDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.ClienteDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.ClienteController",
+    "Method": "BuscarPorEmail",
+    "RelativePath": "verdeviva/cliente/buscar-email",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.ClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -35,7 +61,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.VisualizarClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.ClienteDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -61,7 +87,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.ClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -87,7 +113,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.ClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -113,7 +139,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarClienteDto",
+        "Type": "Model.Dtos.ClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -133,13 +159,13 @@
     "Parameters": [
       {
         "Name": "atualizarMensagemDto",
-        "Type": "Model.Dtos.AtualizarMensagemDto",
+        "Type": "Model.Dtos.MensagemContatoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "Type": "Model.Dtos.CadastrarMensagemContatoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -159,7 +185,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarMensagemDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.CadastrarMensagemContatoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -185,7 +211,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "Type": "Model.Dtos.CadastrarMensagemContatoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -197,7 +223,7 @@
   },
   {
     "ContainingType": "Controllers.MensagemContatoController",
-    "Method": "RegistrarMensagemContato",
+    "Method": "CadastrarMensagemContato",
     "RelativePath": "verdeviva/contato/enviar-mensagem",
     "HttpMethod": "POST",
     "IsController": true,
@@ -205,13 +231,13 @@
     "Parameters": [
       {
         "Name": "registrarMensagemDto",
-        "Type": "Model.Dtos.RegistrarMensagemDto",
+        "Type": "Model.Dtos.CadastrarMensagemContatoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "Type": "Model.Dtos.CadastrarMensagemContatoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -237,7 +263,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarMensagemDto",
+        "Type": "Model.Dtos.CadastrarMensagemContatoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -257,13 +283,13 @@
     "Parameters": [
       {
         "Name": "atualizarFornecedorDto",
-        "Type": "Model.Dtos.AtualizarFornecedorDto",
+        "Type": "Model.Dtos.FornecedorDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarFornecedorDto",
+        "Type": "Model.Dtos.FornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -289,7 +315,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarFornecedorDto",
+        "Type": "Model.Dtos.FornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -315,7 +341,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarFornecedorDto",
+        "Type": "Model.Dtos.FornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -335,7 +361,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarFornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.FornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -361,7 +387,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarFornecedorDto",
+        "Type": "Model.Dtos.FornecedorDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -380,14 +406,19 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "alterarStatusPedidoDto",
-        "Type": "Model.Dtos.AlterarStatusPedidoDto",
-        "IsRequired": true
+        "Name": "idPedido",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarPedidoDto",
+        "Type": "Model.Dtos.PedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -407,7 +438,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarPedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.PedidoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -433,7 +464,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarPedidoDto",
+        "Type": "Model.Dtos.PedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -459,7 +490,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarPedidoDto",
+        "Type": "Model.Dtos.PedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -485,7 +516,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarPedidoDto",
+        "Type": "Model.Dtos.PedidoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -505,13 +536,33 @@
     "Parameters": [
       {
         "Name": "atualizarProdutoDto",
-        "Type": "Model.Dtos.AtualizarProdutoDto",
+        "Type": "Model.Dtos.ProdutoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.ProdutoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.ProdutoController",
+    "Method": "BuscarTodos",
+    "RelativePath": "verdeviva/produtos/buscar-todos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.ProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -537,7 +588,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.ProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -563,7 +614,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.ProdutoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -575,15 +626,47 @@
   },
   {
     "ContainingType": "Controllers.ProdutoController",
-    "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/produtos/listar-todos",
-    "HttpMethod": "GET",
+    "Method": "CadastrarCategoria",
+    "RelativePath": "verdeviva/produtos/cadastrar-categoria",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "cadastrarCategoriaDto",
+        "Type": "Model.Dtos.CadastrarCategoriaDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.VisualizarProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Model.Dtos.CategoriaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.ProdutoController",
+    "Method": "CadastrarVarios",
+    "RelativePath": "verdeviva/produtos/cadastrar-varios",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cadastrarProdutoDtos",
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.CadastrarProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Model.Dtos.ProdutoDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -609,7 +692,59 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Model.Dtos.VisualizarProdutoDto",
+        "Type": "Model.Dtos.ProdutoDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.UsuarioController",
+    "Method": "RecuperarSenha",
+    "RelativePath": "verdeviva/usuario/alterar-senha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "recuperarSenhaDto",
+        "Type": "Model.Dtos.RecuperarSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.ClienteDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.UsuarioController",
+    "Method": "CadastrarEndereco",
+    "RelativePath": "verdeviva/usuario/cadastrar-endereco",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cadastrarEnderecoDto",
+        "Type": "Model.Dtos.CadastrarEnderecoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.ClienteDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -633,23 +768,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Controllers.UsuarioController",
-    "Method": "RecuperarSenha",
-    "RelativePath": "verdeviva/usuario/recuperar-senha",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
+    "ReturnTypes": [
       {
-        "Name": "recuperarSenhaDto",
-        "Type": "Model.Dtos.RecuperarSenhaDto",
-        "IsRequired": true
+        "Type": "Model.Dtos.ClienteDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
       }
-    ],
-    "ReturnTypes": []
+    ]
   },
   {
     "ContainingType": "Controllers.UsuarioController",
@@ -661,10 +790,20 @@
     "Parameters": [
       {
         "Name": "registrarUsuarioDto",
-        "Type": "Model.Dtos.RegistrarUsuarioDto",
+        "Type": "Model.Dtos.CadastrarUsuarioDto",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.ClienteDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

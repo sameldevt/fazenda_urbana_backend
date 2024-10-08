@@ -11,6 +11,7 @@ namespace Repositories
         Task<List<Produto>> BuscarTodosAsync();
         Task<Produto> BuscarPorNomeAsync(string nome);
         Task<Produto> BuscarPorIdAsync(int id);
+        Task<List<Produto>> BuscarPorIdsAsync(IEnumerable<int> ids);
         Task<Categoria> CadastrarCategoriaAsync(Categoria categoria);
         Task<Produto> CadastrarAsync(Produto produto);
         Task<List<Produto>> CadastrarVariosAsync(List<Produto> produtos);
@@ -72,6 +73,24 @@ namespace Repositories
             }
 
             return categoria;
+        }
+
+        public async Task<List<Produto>> BuscarPorIdsAsync(IEnumerable<int> ids)
+        {
+            var produtos = await _context.Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Nutrientes)
+                .Include(p => p.Fornecedor)
+                .AsNoTracking()
+                .Where(p => ids.Contains(p.Id)) 
+                .ToListAsync();
+
+            if (!produtos.Any())
+            {
+                throw new ResourceNotFoundException("Nenhum produto encontrado para os IDs fornecidos.");
+            }
+
+            return produtos;
         }
 
         public async Task<Produto> BuscarPorIdAsync(int id)

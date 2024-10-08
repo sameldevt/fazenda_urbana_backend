@@ -68,9 +68,9 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<ItemPedido>()
             .HasOne(i => i.Produto)
-            .WithMany() // Se Produto não tem uma coleção de ItemPedido
+            .WithMany() 
             .HasForeignKey(i => i.ProdutoId)
-            .OnDelete(DeleteBehavior.Restrict); // Alterado para Restrict
+            .OnDelete(DeleteBehavior.Restrict); 
 
         modelBuilder.Entity<Fornecedor>()
             .HasMany(f => f.Produtos)

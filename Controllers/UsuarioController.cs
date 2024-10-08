@@ -37,5 +37,12 @@ namespace Controllers
             var response = await _usuarioService.RecuperarSenha(recuperarSenhaDto);
             return Ok(response);
         }
+
+        [HttpPost("cadastrar-endereco")]
+        public async Task<ActionResult<ClienteDto>> CadastrarEndereco([FromBody] CadastrarEnderecoDto cadastrarEnderecoDto)
+        {
+            var response = await _usuarioService.CadastrarEndereco(cadastrarEnderecoDto);
+            return Created(nameof(CadastrarEndereco),response);
+        }
     }
 }

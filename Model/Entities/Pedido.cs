@@ -33,8 +33,6 @@ namespace Model.Entities
 
         public string FormaPagamento { get; set; }
 
-        public string Observacoes { get; set; }
-
         public virtual ICollection<ItemPedido> Itens { get; set; } = new HashSet<ItemPedido>();
 
         public Pedido() { }
@@ -58,10 +56,6 @@ namespace Model.Entities
 
         [Required]
         public int Quantidade { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal PrecoUnitario { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

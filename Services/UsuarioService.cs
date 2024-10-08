@@ -14,6 +14,7 @@ namespace Services
         Task<ClienteDto> Registrar(CadastrarUsuarioDto registrarUsuarioDto);
         Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
         Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
+        Task<ClienteDto> CadastrarEndereco(CadastrarEnderecoDto cadastrarEnderecoDto);
     }
 
     public class UsuarioService : IUsuarioService
@@ -25,6 +26,23 @@ namespace Services
         {
             _clienteRepository = clienteRepository;
             _mapper = mapper;
+        }
+
+        public async Task<ClienteDto> CadastrarEndereco(CadastrarEnderecoDto cadastrarEnderecoDto)
+        {
+            var usuario = await VerificarExistenciaUsuario(cadastrarEnderecoDto.Email);
+
+            if (usuario == null)
+            {
+                throw new ResourceNotFoundException($"Usuário com e-mail {cadastrarEnderecoDto.Email} não encontrado.");
+            }
+
+            usuario.Enderecos.Add(_mapper.Map<Endereco>(cadastrarEnderecoDto));
+
+            await _clienteRepository.AtualizarSenhaAsync(usuario);
+
+            return _mapper.Map<ClienteDto>(usuario);
+
         }
 
         public async Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto)
