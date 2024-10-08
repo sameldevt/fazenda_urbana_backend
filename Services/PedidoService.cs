@@ -83,12 +83,10 @@ namespace Services
 
         private List<ItemPedido> GerarItensPedido(IEnumerable<ItemPedidoDto> itensDto, List<Produto> produtos)
         {
-            // Cria a lista de itens de pedido a partir dos DTOs, permitindo múltiplos itens com o mesmo ProdutoId
             var itensPedido = new List<ItemPedido>();
 
             foreach (var itemDto in itensDto)
             {
-                // Verifica se o produto existe
                 var produto = produtos.FirstOrDefault(p => p.Id == itemDto.ProdutoId);
 
                 if (produto != null)
@@ -100,11 +98,10 @@ namespace Services
                         SubTotal = itemDto.Quantidade * produto.PrecoQuilo
                     };
 
-                    itensPedido.Add(itemPedido); // Adiciona cada item de pedido à lista
+                    itensPedido.Add(itemPedido); 
                 }
                 else
                 {
-                    // Você pode lançar uma exceção ou lidar com o caso onde o produto não é encontrado
                     throw new Exception($"Produto com ID {itemDto.ProdutoId} não encontrado.");
                 }
             }

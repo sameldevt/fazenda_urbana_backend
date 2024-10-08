@@ -29,6 +29,7 @@ namespace Repositories
         {
             var pedidos = await _context.Pedidos
                 .Include(p => p.Cliente)
+                .ThenInclude(c => c.Contato)
                 .Include(p => p.Itens)
                 .AsNoTracking()
                 .ToListAsync();
@@ -86,9 +87,12 @@ namespace Repositories
 
         public async Task<Pedido> RemoverAsync(int id)
         {
-            var pedido = await _context.Pedidos.FindAsync(id);
+            var pedido = await _context.Pedidos
+                 .Include(p => p.Cliente)
+                  .Include(p => p.Itens)
+                  .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
 
-            if(pedido == null)
+            if (pedido == null)
             {
                 throw new ResourceNotFoundException($"Pedido com id {id} não encontrado.");
             }
