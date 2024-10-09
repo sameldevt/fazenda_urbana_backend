@@ -11,69 +11,68 @@ using Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do DbContext com SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .EnableSensitiveDataLogging() 
+           .LogTo(Console.WriteLine, LogLevel.Information));
 
-// Registro de repositórios
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IMensagemContatoRepository, MensagemContatoRepository>();
 
-// Registro de serviços com as interfaces correspondentes
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IMensagemContatoService, MensagemContatoService>();
 builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<IMensagemContatoService, MensagemContatoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
-// Configuração do AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile)); // Adicione aqui o seu perfil de mapeamento
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodos", builder =>
     {
-        builder.AllowAnyOrigin() // Permite qualquer origem (não recomendado em produção)
-               .AllowAnyMethod() // Permite todos os métodos HTTP (GET, POST, etc.)
-               .AllowAnyHeader(); // Permite todos os headers
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
 
-// Configuração do JSON para ignorar referências circulares sem gerar campos extras
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
-// Configuração do Swagger para documentação da API
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Fazenda Urbana VerdeViva", Version = "v1" });
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.KeepAliveTimeout = TimeSpan.FromDays(365); 
+});
+
 var app = builder.Build();
 
-// Middleware de tratamento global de exceções (deve ser adicionado antes de outras configurações de middleware)
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
-// Configuração do pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Fazenda Urbana VerdeViva v1"));
 }
 
-app.UseCors("PermitirTodos"); // Nome da política que deseja aplicar
+app.UseCors("PermitirTodos");
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllers();
