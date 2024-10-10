@@ -55,9 +55,14 @@ namespace Services
                 throw new ResourceNotFoundException($"Usuário com e-mail {entrarUsuarioDto.Email} não encontrado.");
             }
 
-            var senhaDesencriptada = AesEncryption.Decrypt(usuario.Senha);
+            //var senhaDesencriptada = AesEncryption.Decrypt(usuario.Senha);
 
-            if (senhaDesencriptada != entrarUsuarioDto.Senha)
+            //if (senhaDesencriptada != entrarUsuarioDto.Senha)
+            //{
+            //    throw new InvalidCredentialsException("Senha inválida.");
+            //}
+
+            if(usuario.Senha != entrarUsuarioDto.Senha)
             {
                 throw new InvalidCredentialsException("Senha inválida.");
             }
@@ -97,7 +102,8 @@ namespace Services
 
             usuario = _mapper.Map<Cliente>(registrarUsuarioDto);
 
-            usuario.Senha = AesEncryption.Encrypt(usuario.Senha);
+            //usuario.Senha = AesEncryption.Encrypt(usuario.Senha);
+            usuario.Senha = registrarUsuarioDto.Senha;
 
             await _clienteRepository.CadastrarAsync(usuario);
 
