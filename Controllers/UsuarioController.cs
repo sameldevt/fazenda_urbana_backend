@@ -44,5 +44,12 @@ namespace Controllers
             var response = await _usuarioService.CadastrarEndereco(cadastrarEnderecoDto);
             return Created(nameof(CadastrarEndereco),response);
         }
+
+        [HttpGet("buscar-pedidos")]
+        public async Task<ActionResult<List<PedidoDto>>> BuscarPedidos(int id)
+        {
+            var reponse = await _usuarioService.BuscarPedidos(id);
+            return Ok(reponse);
+        }
     }
 }

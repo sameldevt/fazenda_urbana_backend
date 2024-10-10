@@ -15,6 +15,7 @@ namespace Services
         Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
         Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
         Task<ClienteDto> CadastrarEndereco(CadastrarEnderecoDto cadastrarEnderecoDto);
+        Task<List<PedidoDto>> BuscarPedidos(int id);
     }
 
     public class UsuarioService : IUsuarioService
@@ -106,6 +107,13 @@ namespace Services
         private async Task<Cliente> VerificarExistenciaUsuario(string email)
         {
             return await _clienteRepository.BuscarPorEmailAsync(email);
+        }
+
+        public async Task<List<PedidoDto>> BuscarPedidos(int id)
+        {
+            var pedidos = await _clienteRepository.BuscarPedidosPorIdAsync(id);
+
+            return _mapper.Map<List<PedidoDto>>(pedidos);
         }
     }
 }

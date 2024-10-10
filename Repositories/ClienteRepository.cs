@@ -17,6 +17,7 @@ namespace Repositories
         Task<Cliente> AtualizarAsync(Cliente cliente);
         Task<Cliente> AtualizarSenhaAsync(Cliente cliente);
         Task<Cliente> RemoverAsync(int id);
+        Task<List<Pedido>> BuscarPedidosPorIdAsync(int id);
     }
 
     public class ClienteRepository : IClienteRepository
@@ -34,6 +35,7 @@ namespace Repositories
                 .AsNoTracking()
                 .Include(c => c.Contato)
                 .Include(c => c.Enderecos)
+                .Include(c => c.Pedidos)
                 .ToListAsync();
 
             if (clientes.IsNullOrEmpty()) 
@@ -49,6 +51,7 @@ namespace Repositories
             var cliente = await _context.Clientes
              .Include(c => c.Contato)
              .Include(c => c.Enderecos)
+             .Include(c => c.Pedidos)
              .AsNoTracking()
              .FirstOrDefaultAsync(c => c.Id == id);
 
@@ -93,6 +96,7 @@ namespace Repositories
             var cliente = await _context.Clientes
                 .Include(c => c.Contato)
                 .Include(c => c.Enderecos)
+                .Include(c => c.Pedidos)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cliente == null)
@@ -117,6 +121,7 @@ namespace Repositories
             var cliente = await _context.Clientes
               .Include(c => c.Contato)
               .Include(c => c.Enderecos)
+              .Include(c => c.Pedidos)
               .FirstOrDefaultAsync(c => c.Contato.Email == email);
 
             return cliente;
@@ -127,6 +132,7 @@ namespace Repositories
             var clienteBanco = await _context.Clientes
                 .Include(c => c.Contato)
                 .Include(c => c.Enderecos)
+                .Include(c => c.Pedidos)
                 .FirstOrDefaultAsync(c => c.Id == cliente.Id);
 
             try
@@ -139,6 +145,22 @@ namespace Repositories
             {
                 throw new DatabaseManipulationException($"Erro ao atualizar a senha do cliente. Causa: ${ex}.");
             }
+        }
+
+        public async Task<List<Pedido>> BuscarPedidosPorIdAsync(int id)
+        {
+            var pedidos = await _context.Pedidos
+                .AsNoTracking()
+                .Include(p => p.Itens)
+                .Where(p => p.ClienteId == id)
+                .ToListAsync();
+
+            if (pedidos.IsNullOrEmpty())
+            {
+                throw new ResourceNotFoundException($"Nenhum pedido encontrado para cliente com id {id}.");
+            }
+
+            return pedidos;
         }
     }
 

@@ -5,6 +5,7 @@ namespace Model.Dtos
     public record ClienteDto : UsuarioDto
     {
         public ClienteDto() { }
+        public IEnumerable<PedidoDto> Pedidos { get; set; }
     }
 
     public record CadastrarClienteDto
