@@ -16,6 +16,7 @@ namespace DtoMapping
             MapFornecedor();
             MapPedido();
             MapItemPedido();
+            MapFuncionario();
         }
 
         private void MapEndereco()
@@ -253,7 +254,21 @@ namespace DtoMapping
         {
             CreateMap<ItemPedidoDto, ItemPedido>();
             CreateMap<ItemPedido, ItemPedidoDto>();
+        }
 
+        private void MapFuncionario()
+        {
+            CreateMap<FuncionarioDto, Funcionario>();
+            CreateMap<CadastrarFuncionarioDto, Funcionario>()
+                .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
+                {
+                    Telefone = src.Contato.Telefone,
+                    Email = src.Contato.Email
+                }))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<Funcionario, FuncionarioDto>();
         }
     }
 }

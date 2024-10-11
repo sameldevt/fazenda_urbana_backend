@@ -36,6 +36,10 @@ public class ApplicationDbContext : DbContext
             .ToTable("Fornecedores")
             .HasBaseType<Usuario>();
 
+        modelBuilder.Entity<Funcionario>()
+            .ToTable("Funcionarios")
+            .HasBaseType<Usuario>();
+
         modelBuilder.Entity<Produto>()
             .HasOne(p => p.Categoria)
             .WithMany(c => c.Produtos)
