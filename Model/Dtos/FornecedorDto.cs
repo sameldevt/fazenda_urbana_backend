@@ -4,6 +4,7 @@ namespace Model.Dtos
 {
     public record FornecedorDto : UsuarioDto
     {
+        public string Website { get; init; }
         public string CNPJ { get; init; }
 
         public FornecedorDto() { }

@@ -17,6 +17,21 @@ namespace Model.Dtos
         public ProdutoDto() { }
     }
 
+    public record AtualizarProdutoDto
+    {
+        public int Id { get; init; }
+        public string Nome { get; init; }
+        public string Descricao { get; init; }
+        public decimal PrecoQuilo { get; init; }
+        public int QuantidadeEstoque { get; init; }
+        public string ImagemUrl { get; set; }
+        public int CategoriaId { get; init; }
+        public NutrientesDto Nutrientes { get; set; }
+        public int FornecedorId { get; set; }
+
+        public AtualizarProdutoDto() { }
+    }
+
     public record ProdutoPedidoDto
     {
         public string Nome { get; init; }
@@ -49,7 +64,7 @@ namespace Model.Dtos
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
-        public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
+        public DateTime DataCriacao { get; set; }
 
         public CategoriaDto() { }
     }

@@ -17,7 +17,7 @@ namespace Controllers
             _fornecedorService = fornecedorService;
         }
 
-        [HttpGet("listar-todos")]
+        [HttpGet("buscar-todos")]
         public async Task<ActionResult<List<FornecedorDto>>> BuscarTodos()
         {
             var fornecedores = await _fornecedorService.BuscarTodosAsync();

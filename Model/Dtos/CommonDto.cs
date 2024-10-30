@@ -21,7 +21,7 @@
 
     public record EnderecoDto
     {
-        public string Logradouro { get; init; }
+        public string Logradouro { get; init; } 
         public string Numero { get; init; }
         public string Cidade { get; init; }
         public string CEP { get; init; }

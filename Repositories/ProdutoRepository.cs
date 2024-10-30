@@ -10,6 +10,7 @@ namespace Repositories
     {
         Task<List<Produto>> BuscarTodosAsync();
         Task<Produto> BuscarPorNomeAsync(string nome);
+        Task<List<Categoria>> ListarCategoriasAsync();
         Task<Produto> BuscarPorIdAsync(int id);
         Task<List<Produto>> BuscarPorIdsAsync(IEnumerable<int> ids);
         Task<Categoria> CadastrarCategoriaAsync(Categoria categoria);
@@ -240,6 +241,5 @@ namespace Repositories
 
             return fornecedor;
         }
-
     }
 }

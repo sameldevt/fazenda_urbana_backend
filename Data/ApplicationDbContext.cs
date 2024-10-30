@@ -44,48 +44,48 @@ public class ApplicationDbContext : DbContext
             .HasOne(p => p.Categoria)
             .WithMany(c => c.Produtos)
             .HasForeignKey(p => p.CategoriaId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Produto>()
             .HasOne(p => p.Nutrientes)
             .WithOne(n => n.Produto)
             .HasForeignKey<Produto>(p => p.NutrientesId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Produto>()
         .HasOne(p => p.Fornecedor)
         .WithMany(n => n.Produtos)
         .HasForeignKey(p => p.FornecedorId)
-        .OnDelete(DeleteBehavior.Cascade);
+        .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Cliente)
             .WithMany(c => c.Pedidos)
             .HasForeignKey(p => p.ClienteId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ItemPedido>()
             .HasOne(i => i.Pedido)
             .WithMany(p => p.Itens)
             .HasForeignKey(i => i.PedidoId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ItemPedido>()
             .HasOne(i => i.Produto)
             .WithMany() 
             .HasForeignKey(i => i.ProdutoId)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Fornecedor>()
             .HasMany(f => f.Produtos)
             .WithOne(p => p.Fornecedor)
             .HasForeignKey(p => p.FornecedorId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Cliente>()
             .HasMany(c => c.Pedidos)
             .WithOne(p => p.Cliente)
             .HasForeignKey(p => p.ClienteId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

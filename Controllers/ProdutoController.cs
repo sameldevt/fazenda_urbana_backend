@@ -56,7 +56,7 @@ namespace Controllers
 
 
         [HttpPut("atualizar")]
-        public async Task<ActionResult<ProdutoDto>> Atualizar([FromBody] ProdutoDto atualizarProdutoDto)
+        public async Task<ActionResult<ProdutoDto>> Atualizar([FromBody] AtualizarProdutoDto atualizarProdutoDto)
         {
             var produtoAtualizado = await _produtoService.AtualizarAsync(atualizarProdutoDto);
             return Ok(produtoAtualizado);
@@ -67,6 +67,13 @@ namespace Controllers
         {
             var produtoRemovido = await _produtoService.RemoverAsync(id);
             return Ok(produtoRemovido);
+        }
+
+        [HttpGet("buscar-categorias")]
+        public async Task<ActionResult<CategoriaDto>> BuscarCategorias()
+        {
+            var categorias = await _produtoService.BuscarCategoriasAsync();
+            return Ok(categorias);
         }
     }
 

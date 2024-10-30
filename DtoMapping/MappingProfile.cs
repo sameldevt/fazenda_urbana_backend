@@ -17,16 +17,14 @@ namespace DtoMapping
             MapPedido();
             MapItemPedido();
             MapFuncionario();
+            MapNutrientes();
         }
 
         private void MapEndereco()
         {
             CreateMap<CadastrarEnderecoDto, Endereco>();
             CreateMap<Endereco, CadastrarEnderecoDto>();
-//            CreateMap<Endereco, EnderecoDto>();
-
             CreateMap<Endereco, EnderecoDto>();
-
         }
 
         private void MapCliente()
@@ -100,90 +98,19 @@ namespace DtoMapping
         private void MapProduto()
         {
             CreateMap<Produto, ProdutoDto>()
-                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) // AutoMapper cuidará da relação
-                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria))   // Similar para Categoria e Nutrientes
+                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) 
+                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria)) 
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
             CreateMap<ProdutoDto, Produto>()
-                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) // AutoMapper cuidará da relação
-                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria))   // Similar para Categoria e Nutrientes
+                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) 
+                .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria)) 
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
-            //CreateMap<Produto, ProdutoDto>()
-            // .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new CategoriaDto
-            // {
-            //     Id = src.Categoria.Id,
-            //     Nome = src.Categoria.Nome,
-            //     Descricao = src.Categoria.Descricao,
-            //     DataCriacao = src.Categoria.DataCriacao
-            // }))
-            // .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new NutrientesDto
-            // {
-            //     Calorias = src.Nutrientes.Calorias,
-            //     Proteinas = src.Nutrientes.Proteinas,
-            //     Carboidratos = src.Nutrientes.Carboidratos,
-            //     Fibras = src.Nutrientes.Fibras,
-            //     Gorduras = src.Nutrientes.Gorduras
-            // }))
-            // .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => new FornecedorDto
-            // {
-            //     Id = src.Fornecedor.Id,
-            //     CNPJ = src.Fornecedor.CNPJ,
-            //     Nome = src.Fornecedor.Nome,
-            //     DataCadastro = src.Fornecedor.DataCadastro,
-            //     Contato = new ContatoDto
-            //     {
-            //         Email = src.Fornecedor.Contato.Email,
-            //         Telefone = src.Fornecedor.Contato.Telefone,
-            //     },
-            //     Enderecos = src.Fornecedor.Enderecos.Select(e => new EnderecoDto
-            //     {
-            //         Estado = e.Estado,
-            //         CEP = e.CEP,
-            //         Cidade = e.CEP,
-            //         Complemento = e.Complemento,
-            //         Numero = e.Numero,
-            //         Logradouro = e.Logradouro
-            //     }).ToList(),
-            // }));
-
-            //CreateMap<ProdutoDto, Produto>()
-            //  .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => new Categoria
-            //  {
-            //      Id = src.Categoria.Id,
-            //      Nome = src.Categoria.Nome,
-            //      Descricao = src.Categoria.Descricao,
-            //      DataCriacao = src.Categoria.DataCriacao
-            //  }))
-            //  .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new Nutrientes
-            //  {
-            //      Calorias = src.Nutrientes.Calorias,
-            //      Proteinas = src.Nutrientes.Proteinas,
-            //      Carboidratos = src.Nutrientes.Carboidratos,
-            //      Fibras = src.Nutrientes.Fibras,
-            //      Gorduras = src.Nutrientes.Gorduras
-            //  }))
-            //  .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => new Fornecedor
-            //  {
-            //      Id = src.Fornecedor.Id,
-            //      CNPJ = src.Fornecedor.CNPJ,
-            //      Nome = src.Fornecedor.Nome,
-            //      DataCadastro = src.Fornecedor.DataCadastro,
-            //      Contato = new Contato
-            //      {
-            //          Email = src.Fornecedor.Contato.Email,
-            //          Telefone = src.Fornecedor.Contato.Telefone,
-            //      },
-            //      Enderecos = src.Fornecedor.Enderecos.Select(e => new Endereco
-            //      {
-            //          Estado = e.Estado,
-            //          CEP = e.CEP,
-            //          Cidade = e.Cidade,
-            //          Complemento = e.Complemento,
-            //          Numero = e.Numero,
-            //          Logradouro = e.Logradouro
-            //      }).ToList(),
-            //  }));
+            CreateMap<AtualizarProdutoDto, Produto>()
+                .ForMember(dest => dest.Fornecedor, opt => opt.Ignore())
+                .ForMember(dest => dest.Categoria, opt => opt.Ignore())
+                .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
             CreateMap<CadastrarProdutoDto, Produto>()
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => new Nutrientes
@@ -201,9 +128,6 @@ namespace DtoMapping
         {
             CreateMap<CadastrarCategoriaDto, Categoria>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-
-            //CreateMap<Categoria, CategoriaDto>();
-
             CreateMap<Categoria, CategoriaDto>();
         }
 
@@ -228,13 +152,10 @@ namespace DtoMapping
                     Estado = e.Estado
                 })));
 
-            //CreateMap<Fornecedor, FornecedorDto>();
-
             CreateMap<Fornecedor, FornecedorDto>()
                 .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos))
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => src.Contato));
 
-            //CreateMap<FornecedorDto, Fornecedor>();
             CreateMap<FornecedorDto, Fornecedor>()
                 .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos))
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => src.Contato));
@@ -269,6 +190,11 @@ namespace DtoMapping
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<Funcionario, FuncionarioDto>();
+        }
+
+        public void MapNutrientes()
+        {
+            CreateMap<NutrientesDto, Nutrientes>();
         }
     }
 }
