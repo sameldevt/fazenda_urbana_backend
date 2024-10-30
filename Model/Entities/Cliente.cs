@@ -8,7 +8,6 @@ namespace Model.Entities
     {
         [Required]
         public string Senha { get; set; }
-
         public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
         public Cliente() { }

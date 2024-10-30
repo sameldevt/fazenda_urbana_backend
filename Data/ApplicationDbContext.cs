@@ -21,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Fornecedor> Fornecedores { get; set; }
     public DbSet<MensagemContato> MensagensContato { get; set; }
+    public DbSet<Funcionario> Funcionarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

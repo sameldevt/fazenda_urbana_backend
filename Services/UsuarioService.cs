@@ -11,9 +11,12 @@ namespace Services
 {
     public interface IUsuarioService
     {
-        Task<ClienteDto> Registrar(CadastrarUsuarioDto registrarUsuarioDto);
-        Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto);
-        Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto);
+        Task<ClienteDto> RegistrarCliente(CadastrarUsuarioDto registrarUsuarioDto);
+        Task<ClienteDto> EntrarCliente(EntrarUsuarioDto entrarUsuarioDto);
+        Task<FuncionarioDto> RegistrarFuncionario(CadastrarFuncionarioDto cadastrarFuncionarioDto);
+        Task<FuncionarioDto> EntrarFuncionario(EntrarFuncionarioDto entrarFuncionarioDto);
+        Task<ClienteDto> RecuperarSenhaCliente(RecuperarSenhaDto recuperarSenhaDto);
+        Task<FuncionarioDto> RecuperarSenhaFuncionario(RecuperarSenhaDto recuperarSenhaDto);
         Task<ClienteDto> CadastrarEndereco(CadastrarEnderecoDto cadastrarEnderecoDto);
         Task<List<PedidoDto>> BuscarPedidos(int id);
     }
@@ -21,11 +24,13 @@ namespace Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly IFuncionarioRepository _funcionarioRepository;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IClienteRepository clienteRepository, IMapper mapper)
+        public UsuarioService(IClienteRepository clienteRepository, IFuncionarioRepository funcionarioRepository, IMapper mapper)
         {
             _clienteRepository = clienteRepository;
+            _funcionarioRepository = funcionarioRepository;
             _mapper = mapper;
         }
 
@@ -46,7 +51,7 @@ namespace Services
 
         }
 
-        public async Task<ClienteDto> Entrar(EntrarUsuarioDto entrarUsuarioDto)
+        public async Task<ClienteDto> EntrarCliente(EntrarUsuarioDto entrarUsuarioDto)
         {
             var usuario = await VerificarExistenciaUsuario(entrarUsuarioDto.Email);
 
@@ -70,7 +75,7 @@ namespace Services
             return _mapper.Map<ClienteDto>(usuario);
         }
 
-        public async Task<ClienteDto> RecuperarSenha(RecuperarSenhaDto recuperarSenhaDto)
+        public async Task<ClienteDto> RecuperarSenhaCliente(RecuperarSenhaDto recuperarSenhaDto)
         {
             var usuario = await VerificarExistenciaUsuario(recuperarSenhaDto.Email);
 
@@ -91,7 +96,7 @@ namespace Services
             return _mapper.Map<ClienteDto>(usuario);
         }
 
-        public async Task<ClienteDto> Registrar(CadastrarUsuarioDto registrarUsuarioDto)
+        public async Task<ClienteDto> RegistrarCliente(CadastrarUsuarioDto registrarUsuarioDto)
         {
             var usuario = await VerificarExistenciaUsuario(registrarUsuarioDto.Contato.Email);
 
@@ -110,6 +115,74 @@ namespace Services
             return _mapper.Map<ClienteDto>(usuario);
         }
 
+        public async Task<FuncionarioDto> EntrarFuncionario(EntrarFuncionarioDto entrarFuncionarioDto)
+        {
+            var usuario = await VerificarExistenciaFuncionario(entrarFuncionarioDto.Email);
+
+            if (usuario == null)
+            {
+                throw new ResourceNotFoundException($"Usuário com e-mail {entrarFuncionarioDto.Email} não encontrado.");
+            }
+
+            //var senhaDesencriptada = AesEncryption.Decrypt(usuario.Senha);
+
+            //if (senhaDesencriptada != entrarUsuarioDto.Senha)
+            //{
+            //    throw new InvalidCredentialsException("Senha inválida.");
+            //}
+
+            if (usuario.Senha != entrarFuncionarioDto.Senha)
+            {
+                throw new InvalidCredentialsException("Senha inválida.");
+            }
+
+            return _mapper.Map<FuncionarioDto>(usuario);
+        }
+
+        public async Task<FuncionarioDto> RegistrarFuncionario(CadastrarFuncionarioDto cadastrarFuncionarioDto)
+        {
+            var usuario = await VerificarExistenciaFuncionario(cadastrarFuncionarioDto.Contato.Email);
+
+            if (usuario != null)
+            {
+                throw new UserAlreadyRegisteredException("Usuário já registrado.");
+            }
+
+            usuario = _mapper.Map<Funcionario>(cadastrarFuncionarioDto);
+
+            //usuario.Senha = AesEncryption.Encrypt(usuario.Senha);
+            usuario.Senha = cadastrarFuncionarioDto.Senha;
+
+            await _funcionarioRepository.CadastrarAsync(usuario);
+
+            return _mapper.Map<FuncionarioDto>(usuario);
+        }
+
+        public async Task<FuncionarioDto> RecuperarSenhaFuncionario(RecuperarSenhaDto recuperarSenhaDto)
+        {
+            var funcionario = await VerificarExistenciaFuncionario(recuperarSenhaDto.Email);
+
+            if (funcionario == null)
+            {
+                throw new ResourceNotFoundException($"Funcionário com e-mail {recuperarSenhaDto.Email} não encontrado.");
+            }
+
+            if (funcionario.Contato.Email != recuperarSenhaDto.Email)
+            {
+                throw new InvalidCredentialsException("E-mail inválido.");
+            }
+
+            funcionario.Senha = recuperarSenhaDto.NovaSenha;
+
+            await _funcionarioRepository.AtualizarSenhaAsync(funcionario);
+
+            return _mapper.Map<FuncionarioDto>(funcionario);
+        }
+
+        private async Task<Funcionario> VerificarExistenciaFuncionario(string email)
+        {
+            return await _funcionarioRepository.BuscarPorEmailAsync(email);
+        }
         private async Task<Cliente> VerificarExistenciaUsuario(string email)
         {
             return await _clienteRepository.BuscarPorEmailAsync(email);
