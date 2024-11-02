@@ -24,7 +24,7 @@ jobs:
     # Construir a imagem Docker
     - name: Build Docker Image
       run: |
-        docker build -t sameldevt/verdeviva:latest .
+        docker build -f Containerfile -t sameldevt/verdeviva:latest .
         docker tag sameldevt/verdeviva:latest sameldevt/verdeviva:${{ github.sha }}
 
     # Push da imagem para o registro
