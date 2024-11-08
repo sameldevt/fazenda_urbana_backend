@@ -6,7 +6,7 @@ using Services;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/funcionario")]
+    [Route("funcionario")]
     public class FuncionarioController : ControllerBase
     {
         private readonly IFuncionarioService _funcionarioService;

@@ -6,7 +6,7 @@ using Model.Dtos;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/cliente")]
+    [Route("cliente")]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteService _clienteService;

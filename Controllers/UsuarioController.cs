@@ -54,7 +54,7 @@ namespace Controllers
     }
 
     [ApiController]
-    [Route("verdeviva/operador")]
+    [Route("operador")]
     public class OperadorController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;

@@ -7,7 +7,7 @@ using Exceptions;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/contato")]
+    [Route("contato")]
     public class MensagemContatoController : ControllerBase
     {
         private readonly IMensagemContatoService _mensagemContatoService;

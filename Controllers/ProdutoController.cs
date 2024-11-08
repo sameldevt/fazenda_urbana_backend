@@ -7,7 +7,7 @@ using Model.Dtos;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/produtos")]
+    [Route("produto")]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;

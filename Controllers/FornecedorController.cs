@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/fornecedores")]
+    [Route("fornecedor")]
     public class FornecedorController : ControllerBase
     {
         private readonly IFornecedorService _fornecedorService;

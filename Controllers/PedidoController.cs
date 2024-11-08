@@ -8,7 +8,7 @@ using Services;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/pedidos")]
+    [Route("pedido")]
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
