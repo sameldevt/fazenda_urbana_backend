@@ -127,13 +127,11 @@ namespace Services
 
                 if (produto != null)
                 {
-                    // Verifica se o estoque é suficiente
                     if (produto.QuantidadeEstoque < item.Quantidade)
                     {
                         throw new Exception($"Estoque insuficiente para o produto com ID {item.ProdutoId}.");
                     }
 
-                    // Atualiza a quantidade em estoque
                     produto.QuantidadeEstoque -= item.Quantidade;
                     await _produtoRepository.AtualizarAsync(produto);
                 }

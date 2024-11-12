@@ -7,7 +7,7 @@ using Services;
 namespace Controllers
 {
     [ApiController]
-    [Route("verdeviva/usuario")]
+    [Route("usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;

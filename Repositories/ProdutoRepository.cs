@@ -154,16 +154,22 @@ namespace Repositories
         {
             try
             {
-                _context.Produtos.Update(produto);
+                var existingEntity = _context.Produtos.Local.FirstOrDefault(p => p.Id == produto.Id);
+                if (existingEntity != null)
+                {
+                    _context.Entry(existingEntity).State = EntityState.Detached;
+                }
+
+                _context.Attach(produto).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return produto;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: ${ex}.");
+                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: {ex}.");
             }
-
         }
+
 
         public async Task<Produto> RemoverAsync(int id)
         {
