@@ -1,4 +1,6 @@
-﻿using Model.Dtos;
+﻿using AutoMapper;
+using Model.Dtos;
+using Model.Entities;
 using Repositories;
 
 namespace Services
@@ -15,35 +17,44 @@ namespace Services
     public class FuncionarioService : IFuncionarioService
     {
         private readonly IFuncionarioRepository _funcionarioRepository;
+        private readonly IMapper _mapper;
 
-        public FuncionarioService(IFuncionarioRepository funcionarioRepository)
+        public FuncionarioService(IFuncionarioRepository funcionarioRepository, IMapper mapper)
         {
             _funcionarioRepository = funcionarioRepository;
+            _mapper = mapper;
         }
 
-        public Task<FuncionarioDto> AtualizarAsync(FuncionarioDto funcionario)
+        public async Task<IEnumerable<FuncionarioDto>> BuscarTodosAsync()
         {
-            throw new NotImplementedException();
+            var funcionarios = await _funcionarioRepository.BuscarTodosAsync();
+            return _mapper.Map<List<FuncionarioDto>>(funcionarios);
         }
 
-        public Task<FuncionarioDto> BuscarPorIdAsync(int id)
+        public async Task<FuncionarioDto> BuscarPorIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var funcionario = await _funcionarioRepository.BuscarPorIdAsync(id);
+            return _mapper.Map<FuncionarioDto>(funcionario);
         }
 
-        public Task<IEnumerable<FuncionarioDto>> BuscarTodosAsync()
+        public async Task<FuncionarioDto> CadastrarAsync(CadastrarFuncionarioDto funcionarioDto)
         {
-            throw new NotImplementedException();
+            var funcionario = _mapper.Map<Funcionario>(funcionarioDto);
+            var funcionarioCadastrado = await _funcionarioRepository.CadastrarAsync(funcionario);
+            return _mapper.Map<FuncionarioDto>(funcionarioCadastrado);
         }
 
-        public Task<FuncionarioDto> CadastrarAsync(CadastrarFuncionarioDto funcionario)
+        public async Task<FuncionarioDto> AtualizarAsync(FuncionarioDto funcionarioDto)
         {
-            throw new NotImplementedException();
+            var funcionario = _mapper.Map<Funcionario>(funcionarioDto);
+            var funcionarioAtualizado = await _funcionarioRepository.AtualizarAsync(funcionario);
+            return _mapper.Map<FuncionarioDto>(funcionarioAtualizado);
         }
 
-        public Task<FuncionarioDto> RemoverAsync(int id)
+        public async Task<FuncionarioDto> RemoverAsync(int id)
         {
-            throw new NotImplementedException();
+            var funcionarioRemovido = await _funcionarioRepository.RemoverAsync(id);
+            return _mapper.Map<FuncionarioDto>(funcionarioRemovido);
         }
     }
 }
