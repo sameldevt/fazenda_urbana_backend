@@ -11,9 +11,17 @@ using Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
+Logger.Initialize();
+
+// Recupera e registra a string de conexão
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Logger.LogInformation($"Connection String: {connectionString}");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-           .EnableSensitiveDataLogging() 
+    options.UseSqlServer(connectionString)
+           .EnableSensitiveDataLogging()
            .LogTo(Console.WriteLine, LogLevel.Information));
 
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
@@ -56,7 +64,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.Limits.KeepAliveTimeout = TimeSpan.FromDays(365); 
+    options.Limits.KeepAliveTimeout = TimeSpan.FromDays(365);
 });
 
 var app = builder.Build();
@@ -79,6 +87,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Logger.Initialize();
+// Chama o Logger para registrar que a aplicação está sendo executada
+Logger.LogInformation("Aplicação iniciada");
 
 app.Run();

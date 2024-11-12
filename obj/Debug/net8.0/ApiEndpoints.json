@@ -2,7 +2,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Atualizar",
-    "RelativePath": "verdeviva/cliente/atualizar",
+    "RelativePath": "cliente/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -28,7 +28,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "BuscarPorEmail",
-    "RelativePath": "verdeviva/cliente/buscar-email",
+    "RelativePath": "cliente/buscar-email",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -54,7 +54,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/cliente/buscar-todos",
+    "RelativePath": "cliente/buscar-todos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -74,7 +74,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/cliente/buscar/{id}",
+    "RelativePath": "cliente/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -100,7 +100,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/cliente/cadastrar",
+    "RelativePath": "cliente/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -126,7 +126,7 @@
   {
     "ContainingType": "Controllers.ClienteController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/cliente/remover/{id}",
+    "RelativePath": "cliente/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -152,7 +152,7 @@
   {
     "ContainingType": "Controllers.MensagemContatoController",
     "Method": "AtualizarMensagemContato",
-    "RelativePath": "verdeviva/contato/atualizar",
+    "RelativePath": "contato/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -178,7 +178,7 @@
   {
     "ContainingType": "Controllers.MensagemContatoController",
     "Method": "BuscarTodasMensagens",
-    "RelativePath": "verdeviva/contato/buscar-todas",
+    "RelativePath": "contato/buscar-todas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -198,7 +198,7 @@
   {
     "ContainingType": "Controllers.MensagemContatoController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/contato/buscar/{id}",
+    "RelativePath": "contato/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -224,7 +224,7 @@
   {
     "ContainingType": "Controllers.MensagemContatoController",
     "Method": "CadastrarMensagemContato",
-    "RelativePath": "verdeviva/contato/enviar-mensagem",
+    "RelativePath": "contato/enviar-mensagem",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -250,7 +250,7 @@
   {
     "ContainingType": "Controllers.MensagemContatoController",
     "Method": "RemoverMensagemContato",
-    "RelativePath": "verdeviva/contato/remover/{id}",
+    "RelativePath": "contato/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -276,7 +276,7 @@
   {
     "ContainingType": "Controllers.FornecedorController",
     "Method": "Atualizar",
-    "RelativePath": "verdeviva/fornecedores/atualizar",
+    "RelativePath": "fornecedor/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -301,8 +301,28 @@
   },
   {
     "ContainingType": "Controllers.FornecedorController",
+    "Method": "BuscarTodos",
+    "RelativePath": "fornecedor/buscar-todos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.FornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.FornecedorController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/fornecedores/buscar/{id}",
+    "RelativePath": "fornecedor/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -328,7 +348,7 @@
   {
     "ContainingType": "Controllers.FornecedorController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/fornecedores/cadastrar",
+    "RelativePath": "fornecedor/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -353,28 +373,8 @@
   },
   {
     "ContainingType": "Controllers.FornecedorController",
-    "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/fornecedores/listar-todos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[Model.Dtos.FornecedorDto, fazenda_urbana, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Controllers.FornecedorController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/fornecedores/remover/{id}",
+    "RelativePath": "fornecedor/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -400,7 +400,7 @@
   {
     "ContainingType": "Controllers.FuncionarioController",
     "Method": "Atualizar",
-    "RelativePath": "verdeviva/funcionario/atualizar",
+    "RelativePath": "funcionario/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -426,7 +426,7 @@
   {
     "ContainingType": "Controllers.FuncionarioController",
     "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/funcionario/buscar-todos",
+    "RelativePath": "funcionario/buscar-todos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -446,7 +446,7 @@
   {
     "ContainingType": "Controllers.FuncionarioController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/funcionario/buscar/{id}",
+    "RelativePath": "funcionario/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -472,7 +472,7 @@
   {
     "ContainingType": "Controllers.FuncionarioController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/funcionario/cadastrar",
+    "RelativePath": "funcionario/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -498,7 +498,7 @@
   {
     "ContainingType": "Controllers.FuncionarioController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/funcionario/remover/{id}",
+    "RelativePath": "funcionario/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -522,9 +522,87 @@
     ]
   },
   {
+    "ContainingType": "Controllers.OperadorController",
+    "Method": "RecuperarSenha",
+    "RelativePath": "operador/alterar-senha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "recuperarSenhaDto",
+        "Type": "Model.Dtos.RecuperarSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.FuncionarioDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.OperadorController",
+    "Method": "Entrar",
+    "RelativePath": "operador/entrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entrarFuncionarioDto",
+        "Type": "Model.Dtos.EntrarFuncionarioDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.FuncionarioDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.OperadorController",
+    "Method": "Registrar",
+    "RelativePath": "operador/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cadastrarFuncionarioDto",
+        "Type": "Model.Dtos.CadastrarFuncionarioDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.FuncionarioDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Controllers.PedidoController",
     "Method": "AlterarStatus",
-    "RelativePath": "verdeviva/pedidos/alterar-status",
+    "RelativePath": "pedido/alterar-status",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -555,7 +633,7 @@
   {
     "ContainingType": "Controllers.PedidoController",
     "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/pedidos/buscar-todos",
+    "RelativePath": "pedido/buscar-todos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -575,7 +653,7 @@
   {
     "ContainingType": "Controllers.PedidoController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/pedidos/buscar/{id}",
+    "RelativePath": "pedido/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -601,7 +679,7 @@
   {
     "ContainingType": "Controllers.PedidoController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/pedidos/cadastrar",
+    "RelativePath": "pedido/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -627,7 +705,7 @@
   {
     "ContainingType": "Controllers.PedidoController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/pedidos/remover/{id}",
+    "RelativePath": "pedido/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -653,14 +731,14 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "Atualizar",
-    "RelativePath": "verdeviva/produtos/atualizar",
+    "RelativePath": "produto/atualizar",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "atualizarProdutoDto",
-        "Type": "Model.Dtos.ProdutoDto",
+        "Type": "Model.Dtos.AtualizarProdutoDto",
         "IsRequired": true
       }
     ],
@@ -678,8 +756,28 @@
   },
   {
     "ContainingType": "Controllers.ProdutoController",
+    "Method": "BuscarCategorias",
+    "RelativePath": "produto/buscar-categorias",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Model.Dtos.CategoriaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Controllers.ProdutoController",
     "Method": "BuscarTodos",
-    "RelativePath": "verdeviva/produtos/buscar-todos",
+    "RelativePath": "produto/buscar-todos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -699,7 +797,7 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "Buscar",
-    "RelativePath": "verdeviva/produtos/buscar/{id}",
+    "RelativePath": "produto/buscar/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -725,7 +823,7 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "Cadastrar",
-    "RelativePath": "verdeviva/produtos/cadastrar",
+    "RelativePath": "produto/cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -751,7 +849,7 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "CadastrarCategoria",
-    "RelativePath": "verdeviva/produtos/cadastrar-categoria",
+    "RelativePath": "produto/cadastrar-categoria",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -777,7 +875,7 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "CadastrarVarios",
-    "RelativePath": "verdeviva/produtos/cadastrar-varios",
+    "RelativePath": "produto/cadastrar-varios",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -803,7 +901,7 @@
   {
     "ContainingType": "Controllers.ProdutoController",
     "Method": "Remover",
-    "RelativePath": "verdeviva/produtos/remover/{id}",
+    "RelativePath": "produto/remover/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -829,7 +927,7 @@
   {
     "ContainingType": "Controllers.UsuarioController",
     "Method": "RecuperarSenha",
-    "RelativePath": "verdeviva/usuario/alterar-senha",
+    "RelativePath": "usuario/alterar-senha",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -855,7 +953,7 @@
   {
     "ContainingType": "Controllers.UsuarioController",
     "Method": "BuscarPedidos",
-    "RelativePath": "verdeviva/usuario/buscar-pedidos",
+    "RelativePath": "usuario/buscar-pedidos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -881,7 +979,7 @@
   {
     "ContainingType": "Controllers.UsuarioController",
     "Method": "CadastrarEndereco",
-    "RelativePath": "verdeviva/usuario/cadastrar-endereco",
+    "RelativePath": "usuario/cadastrar-endereco",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -907,7 +1005,7 @@
   {
     "ContainingType": "Controllers.UsuarioController",
     "Method": "Entrar",
-    "RelativePath": "verdeviva/usuario/entrar",
+    "RelativePath": "usuario/entrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -933,7 +1031,7 @@
   {
     "ContainingType": "Controllers.UsuarioController",
     "Method": "Registrar",
-    "RelativePath": "verdeviva/usuario/registrar",
+    "RelativePath": "usuario/registrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
