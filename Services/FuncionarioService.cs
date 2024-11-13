@@ -41,7 +41,7 @@ namespace Services
         {
             var funcionario = _mapper.Map<Funcionario>(funcionarioDto);
             var funcionarioCadastrado = await _funcionarioRepository.CadastrarAsync(funcionario);
-            return _mapper.Map<FuncionarioDto>(funcionario);
+            return _mapper.Map<FuncionarioDto>(funcionarioCadastrado);
         }
 
         public async Task<FuncionarioDto> AtualizarAsync(FuncionarioDto funcionarioDto)

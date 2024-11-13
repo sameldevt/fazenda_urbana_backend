@@ -6,11 +6,8 @@ namespace Model.Dtos
     public record FuncionarioDto : UsuarioDto
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
         public string Cargo { get; set; }
         public string NumeroRegistro { get; set; }
-        public ContatoDto Contato { get; init; }
-        public IEnumerable<Endereco> Enderecos { get; init; }
 
         public FuncionarioDto() { }
     }
