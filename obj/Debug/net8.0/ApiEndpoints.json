@@ -557,7 +557,7 @@
     "Parameters": [
       {
         "Name": "entrarFuncionarioDto",
-        "Type": "Model.Dtos.EntrarFuncionarioDto",
+        "Type": "Model.Dtos.EntrarOperadorDto",
         "IsRequired": true
       }
     ],
@@ -583,7 +583,7 @@
     "Parameters": [
       {
         "Name": "cadastrarFuncionarioDto",
-        "Type": "Model.Dtos.CadastrarFuncionarioDto",
+        "Type": "Model.Dtos.CadastrarOperadorDto",
         "IsRequired": true
       }
     ],

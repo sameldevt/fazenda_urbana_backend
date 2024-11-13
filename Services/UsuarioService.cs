@@ -13,8 +13,8 @@ namespace Services
     {
         Task<ClienteDto> RegistrarCliente(CadastrarUsuarioDto registrarUsuarioDto);
         Task<ClienteDto> EntrarCliente(EntrarUsuarioDto entrarUsuarioDto);
-        Task<FuncionarioDto> RegistrarFuncionario(CadastrarFuncionarioDto cadastrarFuncionarioDto);
-        Task<FuncionarioDto> EntrarFuncionario(EntrarFuncionarioDto entrarFuncionarioDto);
+        Task<FuncionarioDto> RegistrarFuncionario(CadastrarOperadorDto cadastrarFuncionarioDto);
+        Task<FuncionarioDto> EntrarFuncionario(EntrarOperadorDto entrarFuncionarioDto);
         Task<ClienteDto> RecuperarSenhaCliente(RecuperarSenhaDto recuperarSenhaDto);
         Task<FuncionarioDto> RecuperarSenhaFuncionario(RecuperarSenhaDto recuperarSenhaDto);
         Task<ClienteDto> CadastrarEndereco(CadastrarEnderecoDto cadastrarEnderecoDto);
@@ -115,7 +115,7 @@ namespace Services
             return _mapper.Map<ClienteDto>(usuario);
         }
 
-        public async Task<FuncionarioDto> EntrarFuncionario(EntrarFuncionarioDto entrarFuncionarioDto)
+        public async Task<FuncionarioDto> EntrarFuncionario(EntrarOperadorDto entrarFuncionarioDto)
         {
             var usuario = await VerificarExistenciaFuncionario(entrarFuncionarioDto.Email);
 
@@ -139,7 +139,7 @@ namespace Services
             return _mapper.Map<FuncionarioDto>(usuario);
         }
 
-        public async Task<FuncionarioDto> RegistrarFuncionario(CadastrarFuncionarioDto cadastrarFuncionarioDto)
+        public async Task<FuncionarioDto> RegistrarFuncionario(CadastrarOperadorDto cadastrarFuncionarioDto)
         {
             var usuario = await VerificarExistenciaFuncionario(cadastrarFuncionarioDto.Contato.Email);
 

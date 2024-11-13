@@ -65,14 +65,14 @@ namespace Controllers
         }
 
         [HttpPost("registrar")]
-        public async Task<ActionResult<FuncionarioDto>> Registrar([FromBody] CadastrarFuncionarioDto cadastrarFuncionarioDto)
+        public async Task<ActionResult<FuncionarioDto>> Registrar([FromBody] CadastrarOperadorDto cadastrarFuncionarioDto)
         {
             var response = await _usuarioService.RegistrarFuncionario(cadastrarFuncionarioDto);
             return Created(nameof(Registrar), response);
         }
 
         [HttpPost("entrar")]
-        public async Task<ActionResult<FuncionarioDto>> Entrar([FromBody] EntrarFuncionarioDto entrarFuncionarioDto)
+        public async Task<ActionResult<FuncionarioDto>> Entrar([FromBody] EntrarOperadorDto entrarFuncionarioDto)
         {
             var response = await _usuarioService.EntrarFuncionario(entrarFuncionarioDto);
             return Ok(response);
