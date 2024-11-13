@@ -7,7 +7,7 @@ namespace Model.Entities
     {
         [Required]
         public string Senha { get; set; }
-        public string Cargo { get; set; };
+        public string Cargo { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string NumeroRegistro { get; set; }
