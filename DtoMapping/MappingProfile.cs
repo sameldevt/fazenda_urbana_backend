@@ -92,6 +92,7 @@ namespace DtoMapping
                 })));
 
             CreateMap<Contato, ContatoDto>();
+            CreateMap<ContatoDto, Contato>();
             CreateMap<Nutrientes, NutrientesDto>();
         }
 
@@ -180,6 +181,8 @@ namespace DtoMapping
         private void MapFuncionario()
         {
             CreateMap<FuncionarioDto, Funcionario>();
+            CreateMap<Funcionario, FuncionarioDto>();
+
             CreateMap<CadastrarOperadorDto, Funcionario>()
                 .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
@@ -198,7 +201,6 @@ namespace DtoMapping
                 }))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            CreateMap<Funcionario, FuncionarioDto>();
         }
 
         public void MapNutrientes()
