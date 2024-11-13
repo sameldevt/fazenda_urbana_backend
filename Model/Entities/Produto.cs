@@ -20,7 +20,7 @@ namespace Model.Entities
         public decimal PrecoQuilo { get; set; }
 
         [Required]
-        public int QuantidadeEstoque { get; set; }
+        public decimal QuantidadeEstoque { get; set; }
 
         public string ImagemUrl { get; set; }
 

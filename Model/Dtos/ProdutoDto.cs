@@ -8,7 +8,7 @@ namespace Model.Dtos
         public string Nome { get; init; }
         public string Descricao { get; init; }
         public decimal PrecoQuilo { get; init; }
-        public int QuantidadeEstoque { get; init; }
+        public decimal QuantidadeEstoque { get; init; }
         public string ImagemUrl { get; set; }
         public CategoriaDto Categoria { get; init; }
         public NutrientesDto Nutrientes { get; set; }
@@ -23,7 +23,7 @@ namespace Model.Dtos
         public string Nome { get; init; }
         public string Descricao { get; init; }
         public decimal PrecoQuilo { get; init; }
-        public int QuantidadeEstoque { get; init; }
+        public decimal QuantidadeEstoque { get; init; }
         public string ImagemUrl { get; set; }
         public int CategoriaId { get; init; }
         public NutrientesDto Nutrientes { get; set; }
@@ -50,7 +50,7 @@ namespace Model.Dtos
         public string Nome { get; init; }
         public string Descricao { get; init; }
         public decimal PrecoQuilo { get; init; }
-        public int QuantidadeEstoque { get; init; }
+        public decimal QuantidadeEstoque { get; init; }
         public string ImagemUrl { get; set; }
         public NutrientesDto Nutrientes { get; set; }
         public int CategoriaId { get; init; }

@@ -55,7 +55,7 @@ namespace Model.Entities
         public virtual Produto Produto { get; set; }
 
         [Required]
-        public int Quantidade { get; set; }
+        public decimal Quantidade { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

@@ -34,7 +34,7 @@ namespace Model.Dtos
     public record ItemPedidoDto
     {
         public int ProdutoId { get; init; }
-        public int Quantidade { get; init; }
+        public decimal Quantidade { get; init; }
         public decimal SubTotal { get; init; }
 
         public ItemPedidoDto() { }
