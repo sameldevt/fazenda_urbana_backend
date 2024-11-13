@@ -36,9 +36,9 @@ namespace Model.Dtos
         public string Nome { get; init; }
         public string Senha { get; init; }
         public string Cargo { get; init; }
-        public string NumeroRegistro { get; init; }
         public DateTime DataRegistro { get; init; }
         public ContatoDto Contato { get; init; }
         public IEnumerable<EnderecoDto> Enderecos { get; init; }
+        public CadastrarFuncionarioDto() { }
     }
 }
