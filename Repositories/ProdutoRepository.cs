@@ -37,7 +37,7 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
-                .Where(p => p.QuantidadeEstoque > 0.1)
+                .Where(p => p.QuantidadeEstoque > 5)
                 .AsNoTracking().ToListAsync();
             
             if(!produtos.Any())
@@ -54,7 +54,7 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
-                .Where(p => p.QuantidadeEstoque > 0.1)
+                .Where(p => p.QuantidadeEstoque > 5)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Nome == nome);
             
@@ -85,7 +85,8 @@ namespace Repositories
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
                 .AsNoTracking()
-                .Where(p => ids.Contains(p.Id)) 
+                .Where(p => ids.Contains(p.Id))
+                .Where(p => p.QuantidadeEstoque > 5)
                 .ToListAsync();
 
             if (!produtos.Any())
@@ -102,6 +103,7 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
+                .Where(p => p.QuantidadeEstoque > 5)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
             
