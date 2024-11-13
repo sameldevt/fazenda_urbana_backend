@@ -191,6 +191,11 @@ namespace DtoMapping
 
             CreateMap<CadastrarFuncionarioDto, Funcionario>()
                 .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
+                {
+                    Telefone = src.Contato.Telefone,
+                    Email = src.Contato.Email
+                }))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<Funcionario, FuncionarioDto>();
