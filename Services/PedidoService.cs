@@ -4,6 +4,7 @@ using Model.Entities;
 using Model.Enum;
 using Repositories;
 using Logging;
+using Exceptions;
 
 namespace Services
 {
@@ -52,7 +53,7 @@ namespace Services
 
             await AtualizarEstoqueAsync(itensPedido);
 
-            var pedido = CriarPedido(cadastrarPedidoDto, cliente.Id, itensPedido);
+            var pedido = CriarPedido(cadastrarPedidoDto, cliente.Id, itensPedido, cadastrarPedidoDto.Total);
 
             pedido = await _pedidoRepository.CadastrarAsync(pedido);
 
@@ -105,14 +106,14 @@ namespace Services
             return itensPedido;
         }
 
-        private Pedido CriarPedido(CadastrarPedidoDto cadastrarPedidoDto, int clienteId, List<ItemPedido> itensPedido)
+        private Pedido CriarPedido(CadastrarPedidoDto cadastrarPedidoDto, int clienteId, List<ItemPedido> itensPedido, decimal total)
         {
             return new Pedido
             {
                 ClienteId = clienteId,
                 DataPedido = DateTime.Now,
                 Status = StatusPedido.AGUARDANDO_PAGAMENTO,
-                Total = itensPedido.Sum(item => item.SubTotal),
+                Total = total,
                 EnderecoEntrega = cadastrarPedidoDto.EnderecoEntrega,
                 FormaPagamento = cadastrarPedidoDto.FormaPagamento,
                 Itens = itensPedido
@@ -127,12 +128,15 @@ namespace Services
 
                 if (produto != null)
                 {
-                    if (produto.QuantidadeEstoque < item.Quantidade)
+                    if(item.Quantidade > 5)
                     {
-                        throw new Exception($"Estoque insuficiente para o produto com ID {item.ProdutoId}.");
+                        produto.QuantidadeEstoque -= (item.Quantidade / 1000);
+                    }
+                    else
+                    {
+                        produto.QuantidadeEstoque -= item.Quantidade;
                     }
 
-                    produto.QuantidadeEstoque -= item.Quantidade;
                     await _produtoRepository.AtualizarAsync(produto);
                 }
             }

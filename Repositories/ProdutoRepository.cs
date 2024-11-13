@@ -32,14 +32,15 @@ namespace Repositories
         }
 
         public async Task<List<Produto>> BuscarTodosAsync()
-        { 
+        {
             var produtos = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
+                .Where(p => p.QuantidadeEstoque > 0.1)
                 .AsNoTracking().ToListAsync();
             
-            if(produtos == null)
+            if(!produtos.Any())
             {
                 throw new ResourceNotFoundException("Nenhum produto encontrado.");
             }
@@ -53,6 +54,7 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
+                .Where(p => p.QuantidadeEstoque > 0.1)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Nome == nome);
             
