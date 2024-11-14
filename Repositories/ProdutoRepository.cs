@@ -159,34 +159,9 @@ namespace Repositories
         {
             try
             {
-                var produtoExistente = await _context.Produtos
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(p => p.Id == produto.Id);
-
-                if (produtoExistente == null)
-                {
-                    throw new ResourceNotFoundException($"Produto com ID {produto.Id} não encontrado.");
-                }
-
-                produtoExistente.Nome = produto.Nome;
-                produtoExistente.Descricao = produto.Descricao;
-                produtoExistente.PrecoQuilo = produto.PrecoQuilo;
-                produtoExistente.QuantidadeEstoque = produto.QuantidadeEstoque;
-                produtoExistente.ImagemUrl = produto.ImagemUrl;
-                produtoExistente.CategoriaId = produto.CategoriaId;
-
-                if (produto.Nutrientes != null)
-                {
-                    produtoExistente.Nutrientes.Calorias = produto.Nutrientes.Calorias;
-                    produtoExistente.Nutrientes.Proteinas = produto.Nutrientes.Proteinas;
-                    produtoExistente.Nutrientes.Carboidratos = produto.Nutrientes.Carboidratos;
-                    produtoExistente.Nutrientes.Fibras = produto.Nutrientes.Fibras;
-                    produtoExistente.Nutrientes.Gorduras = produto.Nutrientes.Gorduras;
-                }
-
+                _context.Produtos.Update(produto);
                 await _context.SaveChangesAsync();
-
-                return produtoExistente;
+                return produto;
             }
             catch (Exception ex)
             {

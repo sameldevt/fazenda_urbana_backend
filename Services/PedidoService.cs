@@ -73,7 +73,7 @@ namespace Services
             var productIds = itensDto.Select(i => i.ProdutoId).ToList();
             var produtos = await _produtoRepository.BuscarPorIdsAsync(productIds);
 
-            if (produtos == null || !produtos.Any())
+            if (!produtos.Any())
                 throw new Exception("Nenhum produto encontrado.");
 
             return produtos;
