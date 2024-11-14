@@ -100,20 +100,19 @@ namespace Repositories
 
         public async Task<Produto> BuscarPorIdAsync(int id)
         {
-            var produto =  await _context.Produtos
-                .AsNoTracking()
-                //.Include(p => p.Categoria)
+            var produto = await _context.Produtos
                 .Include(p => p.Nutrientes)
-                //.Include(p => p.Fornecedor)
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Id == id);
-            
-            if(produto == null)
+
+            if (produto == null)
             {
                 throw new ResourceNotFoundException($"Produto com id {id} não encontrado.");
             }
+
             return produto;
         }
+
 
         public async Task<Categoria> CadastrarCategoriaAsync(Categoria categoria)
         {
@@ -158,16 +157,18 @@ namespace Repositories
 
         public async Task<Produto> AtualizarAsync(Produto produto)
         {
-            try
+            var produtoExistente = await _context.Produtos
+                .FirstOrDefaultAsync(p => p.Id == produto.Id);
+
+            if (produtoExistente == null)
             {
-                _context.Produtos.Update(produto);
-                await _context.SaveChangesAsync();
-                return produto;
+                throw new ResourceNotFoundException($"Produto com id {produto.Id} não encontrado.");
             }
-            catch (Exception ex)
-            {
-                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: {ex.Message}");
-            }
+
+            _context.Produtos.Update(produto);
+            await _context.SaveChangesAsync();
+
+            return produto;
         }
 
         public async Task<Produto> RemoverAsync(int id)
