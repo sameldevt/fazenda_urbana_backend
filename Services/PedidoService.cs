@@ -138,7 +138,9 @@ namespace Services
                     }
 
                     await _produtoRepository.AtualizarAsync(produto);
+                    continue; 
                 }
+                Logger.LogInformation($"{item.ProdutoId} nao encontrado");
             }
         }
 
