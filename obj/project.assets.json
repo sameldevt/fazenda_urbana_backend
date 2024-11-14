@@ -4863,11 +4863,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\dev\\workspace\\visual-studio\\fazenda_urbana_backend\\fazenda_urbana.csproj",
+      "projectUniqueName": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\fazenda_urbana.csproj",
       "projectName": "fazenda_urbana",
-      "projectPath": "C:\\dev\\workspace\\visual-studio\\fazenda_urbana_backend\\fazenda_urbana.csproj",
+      "projectPath": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\fazenda_urbana.csproj",
       "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
-      "outputPath": "C:\\dev\\workspace\\visual-studio\\fazenda_urbana_backend\\obj\\",
+      "outputPath": "C:\\dev\\workspace\\vs\\fazenda_urbana_backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4964,7 +4964,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

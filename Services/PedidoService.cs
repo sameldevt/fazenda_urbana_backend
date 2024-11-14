@@ -46,74 +46,55 @@ namespace Services
 
         public async Task<PedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
         {
-            var cliente = await ObterClienteAsync(cadastrarPedidoDto.ClienteId);
-            var produtos = await ObterProdutosAsync(cadastrarPedidoDto.Itens);
+            var dummy = new CadastrarPedidoDto
+            {
+                ClienteId = 1,
+                Total = 100.0M,
+                EnderecoEntrega = "",
+                FormaPagamento = "cartao",
+                Itens = new List<ItemPedidoDto>()
+                {
+                    new ItemPedidoDto
+                    {
+                        ProdutoId = 4,
+                        Quantidade = 1,
+                        SubTotal = 100,
+                    },
+                    new ItemPedidoDto
+                    {
+                        ProdutoId = 5,
+                        Quantidade = 1,
+                        SubTotal = 100,
+                    },
+                    new ItemPedidoDto
+                    {
+                        ProdutoId = 6,
+                        Quantidade = 1,
+                        SubTotal = 100,
+                    },
+                }
+            };
 
-            var itensPedido = GerarItensPedido(cadastrarPedidoDto.Itens, produtos);
+            var cliente = await _clienteRepository.BuscarPorIdAsync(dummy.ClienteId);
+            var itensPedido = _mapper.Map<List<ItemPedido>>(dummy.Itens);
 
             await AtualizarEstoqueAsync(itensPedido);
 
-            var pedido = CriarPedido(cadastrarPedidoDto, cliente.Id, itensPedido, cadastrarPedidoDto.Total);
+            var pedido = CriarPedido(dummy, cliente.Id, itensPedido);
 
             pedido = await _pedidoRepository.CadastrarAsync(pedido);
 
             return _mapper.Map<PedidoDto>(pedido);
         }
 
-        private async Task<Cliente> ObterClienteAsync(int clienteId)
-        {
-            var cliente = await _clienteRepository.BuscarPorIdAsync(clienteId);
-            if (cliente == null)
-                throw new Exception("Cliente não encontrado.");
-            return cliente;
-        }
-
-        private async Task<List<Produto>> ObterProdutosAsync(IEnumerable<ItemPedidoDto> itensDto)
-        {
-            var productIds = itensDto.Select(i => i.ProdutoId).ToList();
-            var produtos = await _produtoRepository.BuscarPorIdsAsync(productIds);
-
-            if (!produtos.Any())
-                throw new Exception("Nenhum produto encontrado.");
-
-            return produtos;
-        }
-
-        private List<ItemPedido> GerarItensPedido(IEnumerable<ItemPedidoDto> itensDto, List<Produto> produtos)
-        {
-            var itensPedido = new List<ItemPedido>();
-
-            foreach (var itemDto in itensDto)
-            {
-                var produto = produtos.FirstOrDefault(p => p.Id == itemDto.ProdutoId);
-                if (produto != null)
-                {
-                    var itemPedido = new ItemPedido
-                    {
-                        ProdutoId = produto.Id,
-                        Quantidade = itemDto.Quantidade,
-                        SubTotal = itemDto.Quantidade * produto.PrecoQuilo
-                    };
-
-                    itensPedido.Add(itemPedido);
-                }
-                else
-                {
-                    throw new Exception($"Produto com ID {itemDto.ProdutoId} não encontrado.");
-                }
-            }
-
-            return itensPedido;
-        }
-
-        private Pedido CriarPedido(CadastrarPedidoDto cadastrarPedidoDto, int clienteId, List<ItemPedido> itensPedido, decimal total)
+        private Pedido CriarPedido(CadastrarPedidoDto cadastrarPedidoDto, int clienteId, List<ItemPedido> itensPedido)
         {
             return new Pedido
             {
                 ClienteId = clienteId,
                 DataPedido = DateTime.Now,
                 Status = StatusPedido.AGUARDANDO_PAGAMENTO,
-                Total = total,
+                Total = cadastrarPedidoDto.Total,
                 EnderecoEntrega = cadastrarPedidoDto.EnderecoEntrega,
                 FormaPagamento = cadastrarPedidoDto.FormaPagamento,
                 Itens = itensPedido
@@ -140,7 +121,6 @@ namespace Services
                     await _produtoRepository.AtualizarAsync(produto);
                     continue; 
                 }
-                Logger.LogInformation($"{item.ProdutoId} nao encontrado");
             }
         }
 

@@ -37,8 +37,9 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
+                .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
-                .AsNoTracking().ToListAsync();
+                .ToListAsync();
             
             if(!produtos.Any())
             {
@@ -54,8 +55,8 @@ namespace Repositories
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Include(p => p.Fornecedor)
-                .Where(p => p.QuantidadeEstoque > 5)
                 .AsNoTracking()
+                .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Nome == nome);
             
             if(produto == null)
@@ -100,11 +101,11 @@ namespace Repositories
         public async Task<Produto> BuscarPorIdAsync(int id)
         {
             var produto =  await _context.Produtos
-                .Include(p => p.Categoria)
+                //.Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Fornecedor)
-                .Where(p => p.QuantidadeEstoque > 5)
+                //.Include(p => p.Fornecedor)
                 .AsNoTracking()
+                .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Id == id);
             
             if(produto == null)
@@ -168,8 +169,6 @@ namespace Repositories
                 throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: {ex.Message}");
             }
         }
-
-
 
         public async Task<Produto> RemoverAsync(int id)
         {
@@ -236,9 +235,9 @@ namespace Repositories
         public async Task<Fornecedor> BuscarFornecedorPorIdAsync(int id)
         {
             var fornecedor = await _context.Fornecedores
-                .AsNoTracking()
                 .Include(f => f.Contato)          
                 .Include(f => f.Enderecos)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(f => f.Id == id);
 
             if (fornecedor == null)
