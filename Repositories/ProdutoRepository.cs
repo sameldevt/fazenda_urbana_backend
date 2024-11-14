@@ -101,10 +101,10 @@ namespace Repositories
         public async Task<Produto> BuscarPorIdAsync(int id)
         {
             var produto =  await _context.Produtos
+                .AsNoTracking()
                 //.Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 //.Include(p => p.Fornecedor)
-                .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Id == id);
             
