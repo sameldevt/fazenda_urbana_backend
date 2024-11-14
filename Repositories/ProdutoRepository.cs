@@ -154,30 +154,52 @@ namespace Repositories
                 throw new DatabaseManipulationException($"Erro ao cadastrar produto. Causa: ${ex}.");
             }
         }
+
         public async Task<Produto> AtualizarAsync(Produto produto)
         {
             try
             {
-                var existingEntity = _context.Produtos.Local.FirstOrDefault(p => p.Id == produto.Id);
-                if (existingEntity != null)
+                var produtoExistente = await _context.Produtos
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == produto.Id);
+
+                if (produtoExistente == null)
                 {
-                    _context.Entry(existingEntity).State = EntityState.Detached;
+                    throw new ResourceNotFoundException($"Produto com ID {produto.Id} não encontrado.");
                 }
 
-                _context.Attach(produto).State = EntityState.Modified;
+                produtoExistente.Nome = produto.Nome;
+                produtoExistente.Descricao = produto.Descricao;
+                produtoExistente.PrecoQuilo = produto.PrecoQuilo;
+                produtoExistente.QuantidadeEstoque = produto.QuantidadeEstoque;
+                produtoExistente.ImagemUrl = produto.ImagemUrl;
+                produtoExistente.CategoriaId = produto.CategoriaId;
+
+                if (produto.Nutrientes != null)
+                {
+                    produtoExistente.Nutrientes.Calorias = produto.Nutrientes.Calorias;
+                    produtoExistente.Nutrientes.Proteinas = produto.Nutrientes.Proteinas;
+                    produtoExistente.Nutrientes.Carboidratos = produto.Nutrientes.Carboidratos;
+                    produtoExistente.Nutrientes.Fibras = produto.Nutrientes.Fibras;
+                    produtoExistente.Nutrientes.Gorduras = produto.Nutrientes.Gorduras;
+                }
+
                 await _context.SaveChangesAsync();
-                return produto;
+
+                return produtoExistente;
             }
             catch (Exception ex)
             {
-                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: {ex}.");
+                throw new DatabaseManipulationException($"Erro ao atualizar produto. Causa: {ex.Message}");
             }
         }
 
 
+
         public async Task<Produto> RemoverAsync(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            var produto = await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+
             if (produto == null)
             {
                 throw new ResourceNotFoundException($"Produto com id {id} não encontrado.");
@@ -197,7 +219,7 @@ namespace Repositories
 
         public async Task<Categoria> BuscarCategoriaPorNome(string nome)
         {
-            var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Nome == nome);
+            var categoria = await _context.Categorias.AsNoTracking().SingleOrDefaultAsync(p => p.Nome == nome);
 
             if (categoria == null)
             {
@@ -225,7 +247,7 @@ namespace Repositories
 
         public async Task<Categoria> BuscarCategoriaPorIdAsync(int id)
         {
-            var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Id == id);
+            var categoria = await _context.Categorias.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
 
             if(categoria == null)
             {
@@ -239,6 +261,7 @@ namespace Repositories
         public async Task<Fornecedor> BuscarFornecedorPorIdAsync(int id)
         {
             var fornecedor = await _context.Fornecedores
+                .AsNoTracking()
                 .Include(f => f.Contato)          
                 .Include(f => f.Enderecos)
                 .SingleOrDefaultAsync(f => f.Id == id);
