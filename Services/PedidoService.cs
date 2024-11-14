@@ -46,41 +46,12 @@ namespace Services
 
         public async Task<PedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
         {
-            var dummy = new CadastrarPedidoDto
-            {
-                ClienteId = 1,
-                Total = 100.0M,
-                EnderecoEntrega = "",
-                FormaPagamento = "cartao",
-                Itens = new List<ItemPedidoDto>()
-                {
-                    new ItemPedidoDto
-                    {
-                        ProdutoId = 4,
-                        Quantidade = 1,
-                        SubTotal = 100,
-                    },
-                    new ItemPedidoDto
-                    {
-                        ProdutoId = 5,
-                        Quantidade = 1,
-                        SubTotal = 100,
-                    },
-                    new ItemPedidoDto
-                    {
-                        ProdutoId = 6,
-                        Quantidade = 1,
-                        SubTotal = 100,
-                    },
-                }
-            };
-
-            var cliente = await _clienteRepository.BuscarPorIdAsync(dummy.ClienteId);
-            var itensPedido = _mapper.Map<List<ItemPedido>>(dummy.Itens);
+            var cliente = await _clienteRepository.BuscarPorIdAsync(cadastrarPedidoDto.ClienteId);
+            var itensPedido = _mapper.Map<List<ItemPedido>>(cadastrarPedidoDto.Itens);
 
             await AtualizarEstoqueAsync(itensPedido);
 
-            var pedido = CriarPedido(dummy, cliente.Id, itensPedido);
+            var pedido = CriarPedido(cadastrarPedidoDto, cliente.Id, itensPedido);
 
             pedido = await _pedidoRepository.CadastrarAsync(pedido);
 
