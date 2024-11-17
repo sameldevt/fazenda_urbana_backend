@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fazenda_urbana")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c64187b112e7be67a29691d12ae0b4cd2e2b5765")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b762f622e823f734c9fc6ce9549ae687a4184bcc")]
 [assembly: System.Reflection.AssemblyProductAttribute("fazenda_urbana")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fazenda_urbana")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

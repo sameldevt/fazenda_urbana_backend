@@ -63,12 +63,10 @@ namespace Services
         {
             var categoria = await VerificarCategoria(cadastrarProdutoDto.CategoriaId);
 
-            var fornecedor = await VerfificarFornecedor(cadastrarProdutoDto.FornecedorId);
-
             var produtoParaInserir = _mapper.Map<Produto>(cadastrarProdutoDto);
 
             produtoParaInserir.Categoria = categoria;
-            produtoParaInserir.Fornecedor = fornecedor;
+            produtoParaInserir.Colheitas = _mapper.Map<ICollection<Colheita>>(cadastrarProdutoDto.Colheitas);
 
             var produto = await _produtoRepository.CadastrarAsync(produtoParaInserir);
 
@@ -86,11 +84,9 @@ namespace Services
                 try
                 {
                     var categoria = await VerificarCategoria(p.CategoriaId);
-                    var fornecedor = await VerfificarFornecedor(p.FornecedorId);
 
                     p.Categoria = categoria;
-                    p.Fornecedor = fornecedor;
-
+                    
                     produtosParaInserir.Add(p);
                 }
                 catch (Exception ex)

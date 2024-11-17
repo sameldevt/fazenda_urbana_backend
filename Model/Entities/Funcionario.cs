@@ -12,6 +12,10 @@ namespace Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string NumeroRegistro { get; set; }
 
+        [Required]
+        public int FazendaId { get; set; }
+        public Fazenda Fazenda { get; set; }
+
         public Funcionario() { }
     }
 }

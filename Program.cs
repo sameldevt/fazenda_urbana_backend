@@ -30,6 +30,11 @@ builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IMensagemContatoRepository, MensagemContatoRepository>();
+builder.Services.AddScoped<IColheitaRepository, ColheitaRepository>();
+builder.Services.AddScoped<ICulturaRepository, CulturaRepository>();
+builder.Services.AddScoped<IEquipamentoRepository, EquipamentoRepository>();
+builder.Services.AddScoped<IFazendaRepository, FazendaRepository>();
+builder.Services.AddScoped<IInsumoRepository, InsumoRepository>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IMensagemContatoService, MensagemContatoService>();
@@ -38,6 +43,11 @@ builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IColheitaService, ColheitaService>();
+builder.Services.AddScoped<ICulturaService, CulturaService>();
+builder.Services.AddScoped<IEquipamentoService, EquipamentoService>();
+builder.Services.AddScoped<IFazendaService, FazendaService>();
+builder.Services.AddScoped<IInsumoService, InsumoService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

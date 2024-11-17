@@ -2,10 +2,9 @@
 {
     public enum StatusPedido
     {
-        ENTREGUE,
-        EM_TRANSITO,
-        PAGO,
-        AGUARDANDO_PAGAMENTO,
-
+        Entregue,
+        EmTransito,
+        Pago,
+        AguardandoPagamento
     }
 }

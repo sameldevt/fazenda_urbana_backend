@@ -3,6 +3,7 @@ using Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Model.Dtos;
 using Exceptions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Repositories
 {
@@ -36,12 +37,12 @@ namespace Repositories
             var produtos = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Fornecedor)
+                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .ToListAsync();
             
-            if(!produtos.Any())
+            if(produtos.IsNullOrEmpty())
             {
                 throw new ResourceNotFoundException("Nenhum produto encontrado.");
             }
@@ -54,7 +55,7 @@ namespace Repositories
             var produto = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Fornecedor)
+                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Nome == nome);
@@ -84,7 +85,7 @@ namespace Repositories
             var produtos = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Fornecedor)
+                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => ids.Contains(p.Id))
                 .Where(p => p.QuantidadeEstoque > 5)
@@ -102,8 +103,10 @@ namespace Repositories
         {
             var produto = await _context.Produtos
                 .Include(p => p.Nutrientes)
+                .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Id == id);
+
 
             if (produto == null)
             {

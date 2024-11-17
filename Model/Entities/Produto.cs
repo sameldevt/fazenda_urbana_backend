@@ -24,10 +24,7 @@ namespace Model.Entities
 
         public string ImagemUrl { get; set; }
 
-        [Required]
-        public int FornecedorId { get; set; }
-
-        public virtual Fornecedor Fornecedor { get; set; }
+        public ICollection<Colheita> Colheitas { get; set; }
 
         [Required]
         public int CategoriaId { get; set; }

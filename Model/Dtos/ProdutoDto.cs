@@ -12,7 +12,6 @@ namespace Model.Dtos
         public string ImagemUrl { get; set; }
         public CategoriaDto Categoria { get; init; }
         public NutrientesDto Nutrientes { get; set; }
-        public FornecedorDto Fornecedor { get; set; }
 
         public ProdutoDto() { }
     }
@@ -27,7 +26,6 @@ namespace Model.Dtos
         public string ImagemUrl { get; set; }
         public int CategoriaId { get; init; }
         public NutrientesDto Nutrientes { get; set; }
-        public int FornecedorId { get; set; }
 
         public AtualizarProdutoDto() { }
     }
@@ -39,7 +37,6 @@ namespace Model.Dtos
         public decimal PrecoQuilo { get; init; }
         public string ImagemUrl { get; set; }
         public int CategoriaId { get; init; }
-        public int FornecedorId { get; set; }
         public NutrientesDto Nutrientes { get; set; }
 
         public ProdutoPedidoDto() { }
@@ -54,7 +51,7 @@ namespace Model.Dtos
         public string ImagemUrl { get; set; }
         public NutrientesDto Nutrientes { get; set; }
         public int CategoriaId { get; init; }
-        public int FornecedorId { get; set; }
+        public ICollection<ColheitaDto> Colheitas { get; set; }
 
         public CadastrarProdutoDto() { }
     }

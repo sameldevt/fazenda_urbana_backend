@@ -64,7 +64,7 @@ namespace Services
             {
                 ClienteId = clienteId,
                 DataPedido = DateTime.Now,
-                Status = StatusPedido.AGUARDANDO_PAGAMENTO,
+                Status = StatusPedido.AguardandoPagamento,
                 Total = cadastrarPedidoDto.Total,
                 EnderecoEntrega = cadastrarPedidoDto.EnderecoEntrega,
                 FormaPagamento = cadastrarPedidoDto.FormaPagamento,

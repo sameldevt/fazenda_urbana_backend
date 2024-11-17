@@ -18,6 +18,48 @@ namespace DtoMapping
             MapItemPedido();
             MapFuncionario();
             MapNutrientes();
+            MapMensagemContato();
+            MapColheita();
+            MapCultura();
+            MapFazenda();
+            MapEquipamento();
+            MapInsumo();
+        }
+
+        private void MapInsumo()
+        {
+            CreateMap<CadastrarInsumoDto, Insumo>();
+            CreateMap<InsumoDto, Insumo>();
+            CreateMap<Insumo, Insumo>();
+        }
+
+        private void MapMensagemContato()
+        {
+            CreateMap<CadastrarMensagemContatoDto, MensagemContato>();
+            CreateMap<MensagemContatoDto, MensagemContato>();
+            CreateMap<MensagemContato, MensagemContatoDto>();
+        }
+
+        private void MapColheita()
+        {
+            CreateMap<CadastrarColheitaDto, Colheita>();
+            CreateMap<Colheita, CadastrarColheitaDto>();
+            CreateMap<ColheitaDto, Colheita>();
+        }
+
+        private void MapCultura()
+        {
+            CreateMap<CadastrarCulturaDto, Cultura>();
+            CreateMap<Cultura, CulturaDto>();
+            CreateMap<CulturaDto, Cultura>();
+        }
+
+        private void MapFazenda()
+        {
+            CreateMap<CadastrarFazendaDto, Fazenda>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<Fazenda, FazendaDto>();
+            CreateMap<FazendaDto, Fazenda>();
         }
 
         private void MapEndereco()
@@ -27,8 +69,17 @@ namespace DtoMapping
             CreateMap<Endereco, EnderecoDto>();
         }
 
+        private void MapEquipamento()
+        {
+            CreateMap<CadastrarEquipamentoDto, Equipamento>();
+            CreateMap<EquipamentoDto, Equipamento>();
+            CreateMap<Equipamento, EquipamentoDto>();
+        }
+
         private void MapCliente()
         {
+            CreateMap<ClienteDto, Cliente>();
+
             CreateMap<Cliente, ClienteDto>()
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new ContatoDto
                 {
@@ -99,17 +150,15 @@ namespace DtoMapping
         private void MapProduto()
         {
             CreateMap<Produto, ProdutoDto>()
-                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) 
                 .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria)) 
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
             CreateMap<ProdutoDto, Produto>()
-                .ForMember(dest => dest.Fornecedor, opt => opt.MapFrom(src => src.Fornecedor)) 
                 .ForMember(dest => dest.Categoria, opt => opt.MapFrom(src => src.Categoria)) 
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
             CreateMap<AtualizarProdutoDto, Produto>()
-                .ForMember(dest => dest.Fornecedor, opt => opt.Ignore())
+                .ForMember(dest => dest.Colheitas, opt => opt.Ignore())
                 .ForMember(dest => dest.Categoria, opt => opt.Ignore())
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
@@ -122,7 +171,7 @@ namespace DtoMapping
                     Fibras = src.Nutrientes.Fibras,
                     Gorduras = src.Nutrientes.Gorduras
                 }))
-                .ForMember(dest => dest.Fornecedor, opt => opt.Ignore());
+                .ForMember(dest => dest.Colheitas, opt => opt.Ignore());
         }
 
         private void MapCategoria()
@@ -136,7 +185,6 @@ namespace DtoMapping
         {
             CreateMap<CadastrarFornecedorDto, Fornecedor>()
                 .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Produtos, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new Contato
                 {

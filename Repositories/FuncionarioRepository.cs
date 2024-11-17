@@ -45,6 +45,7 @@ namespace Repositories
             var funcionarioBanco = await _context.Funcionarios
                             .Include(f => f.Contato)
                             .Include(f => f.Enderecos)
+                            .Include(f => f.Fazenda)
                             .FirstOrDefaultAsync(f => f.Id == funcionario.Id);
 
             try
@@ -62,10 +63,11 @@ namespace Repositories
         public async Task<Funcionario> BuscarPorIdAsync(int id)
         {
             var funcionario = await _context.Funcionarios
-            .Include(f => f.Contato)
-            .Include(f => f.Enderecos)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(f => f.Id == id);
+                        .Include(f => f.Contato)
+                        .Include(f => f.Enderecos)
+                        .Include(f => f.Fazenda)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(f => f.Id == id);
 
             if (funcionario == null)
             {
@@ -78,10 +80,11 @@ namespace Repositories
         public async Task<IEnumerable<Funcionario>> BuscarTodosAsync()
         {
             var funcionarios = await _context.Funcionarios
-                .AsNoTracking()
-                .Include(f => f.Contato)
-                .Include(f => f.Enderecos)
-                .ToListAsync();
+                        .AsNoTracking()
+                        .Include(f => f.Contato)
+                        .Include(f => f.Enderecos)
+                        .Include(f => f.Fazenda)
+                        .ToListAsync();
 
             if (funcionarios.IsNullOrEmpty())
             {
@@ -110,6 +113,7 @@ namespace Repositories
             var funcionario = await _context.Funcionarios
                           .Include(c => c.Contato)
                           .Include(c => c.Enderecos)
+                          .Include(f => f.Fazenda)
                           .FirstOrDefaultAsync(c => c.Id == id);
 
             if (funcionario == null)
@@ -132,9 +136,10 @@ namespace Repositories
         public async Task<Funcionario> BuscarPorEmailAsync(string email)
         {
             var funcionario = await _context.Funcionarios
-              .Include(f => f.Contato)
-              .Include(f => f.Enderecos)
-              .FirstOrDefaultAsync(f => f.Contato.Email == email);
+                      .Include(f => f.Contato)
+                      .Include(f => f.Enderecos)
+                      .Include(f => f.Fazenda)
+                      .FirstOrDefaultAsync(f => f.Contato.Email == email);
 
             return funcionario;
         }
