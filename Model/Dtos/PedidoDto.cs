@@ -6,7 +6,7 @@ namespace Model.Dtos
     public record PedidoDto
     {
         public int Id { get; init; }
-        public ClienteDto Cliente { get; init; }
+        public int ClienteId { get; init; }
         public DateTime DataPedido { get; init; }
         public DateTime DataEntrega { get; init; }
         public StatusPedido Status { get; init; }
