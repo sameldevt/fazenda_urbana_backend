@@ -62,5 +62,10 @@ namespace Model.Entities
         public decimal SubTotal { get; set; }
 
         public ItemPedido() { }
+
+        public override string ToString()
+        {
+            return $"{Quantidade}";
+        }
     }
 }

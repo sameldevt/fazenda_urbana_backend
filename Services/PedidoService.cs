@@ -46,6 +46,7 @@ namespace Services
 
         public async Task<PedidoDto> CadastrarAsync(CadastrarPedidoDto cadastrarPedidoDto)
         {
+            Logger.LogError(cadastrarPedidoDto.ToString());
             var cliente = await _clienteRepository.BuscarPorIdAsync(cadastrarPedidoDto.ClienteId);
             var itensPedido = _mapper.Map<List<ItemPedido>>(cadastrarPedidoDto.Itens);
 
@@ -80,7 +81,7 @@ namespace Services
 
                 if (produto != null)
                 {
-                    if(item.Quantidade > 5)
+                    if(item.Quantidade < 1)
                     {
                         produto.QuantidadeEstoque -= (item.Quantidade / 1000);
                     }

@@ -1,3 +1,4 @@
+using AutoMapper.Internal.Mappers;
 using Model.Entities;
 using Model.Enum;
 
@@ -38,5 +39,10 @@ namespace Model.Dtos
         public decimal SubTotal { get; init; }
 
         public ItemPedidoDto() { }
+
+        public override string ToString()
+        {
+            return $"{ProdutoId}, {Quantidade}, {SubTotal}";
+        }
     }
 }
