@@ -194,7 +194,7 @@ namespace Repositories
 
         public async Task<Categoria> BuscarCategoriaPorNome(string nome)
         {
-            var categoria = await _context.Categorias.AsNoTracking().SingleOrDefaultAsync(p => p.Nome == nome);
+            var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Nome == nome);
 
             if (categoria == null)
             {
@@ -222,7 +222,7 @@ namespace Repositories
 
         public async Task<Categoria> BuscarCategoriaPorIdAsync(int id)
         {
-            var categoria = await _context.Categorias.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
+            var categoria = await _context.Categorias.SingleOrDefaultAsync(p => p.Id == id);
 
             if(categoria == null)
             {

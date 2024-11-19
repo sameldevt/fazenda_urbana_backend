@@ -45,6 +45,7 @@ namespace DtoMapping
             CreateMap<CadastrarColheitaDto, Colheita>();
             CreateMap<Colheita, CadastrarColheitaDto>();
             CreateMap<ColheitaDto, Colheita>();
+            CreateMap<Colheita, ColheitaDto>();
         }
 
         private void MapCultura()

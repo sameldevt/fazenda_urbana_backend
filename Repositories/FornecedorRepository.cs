@@ -28,6 +28,8 @@ namespace Repositories
         public async Task<List<Fornecedor>> BuscarTodosAsync()
         {
             var fornecedores = await _context.Fornecedores.AsNoTracking()
+                .Include(f => f.Enderecos)
+                .Include(f => f.Contato)
                 .Include(f => f.Insumos)
                 .Include(f => f.Equipamentos)
                 .ToListAsync();
@@ -43,6 +45,8 @@ namespace Repositories
         public async Task<Fornecedor> BuscarPorIdAsync(int id)
         {
             var fornecedor = await _context.Fornecedores.AsNoTracking()
+                .Include(f => f.Enderecos)
+                .Include(f => f.Contato)
                 .Include(f => f.Insumos)
                 .Include(f => f.Equipamentos)
                 .FirstOrDefaultAsync(f => f.Id == id);

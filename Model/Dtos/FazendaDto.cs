@@ -8,6 +8,7 @@ namespace Model.Dtos
     public record FazendaDto
     {
         public int Id { get; set; }
+
         public string Nome { get; set; }
 
         public string Localizacao { get; set; }
@@ -46,11 +47,17 @@ namespace Model.Dtos
     public record ColheitaDto
     {
         public int Id { get; set; }
+
         public DateTime DataInicio { get; set; }
+
         public DateTime DataFim { get; set; }
+
         public decimal AreaColhida { get; set; }
+
         public decimal QuantidadeColhida { get; set; }
+
         public int ProdutoId { get; set; }
+
         public int CulturaId { get; set; }
 
         public ColheitaDto() { }
@@ -87,6 +94,8 @@ namespace Model.Dtos
         public DateTime DataPlantio { get; set; }
 
         public DateTime DataColheitaPrevista { get; set; }
+        
+        public int ProdutoId { get; set; }
 
         public int FazendaId { get; set; }
 
@@ -106,7 +115,9 @@ namespace Model.Dtos
         public DateTime DataColheitaPrevista { get; set; }
 
         public int FazendaId { get; set; }
+
         public int ProdutoId { get; set; }
+        
         public CadastrarCulturaDto() { }
     }
 }
