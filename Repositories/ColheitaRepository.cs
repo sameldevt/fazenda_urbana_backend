@@ -43,7 +43,6 @@ namespace Repositories
                 .AsNoTracking()
                 .Include(c => c.Produto)
                 .Include(c => c.Cultura)
-                .Include(c => c.Fazenda)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if (colheita == null)
@@ -60,7 +59,6 @@ namespace Repositories
                 .AsNoTracking()
                 .Include(c => c.Produto)
                 .Include(c => c.Cultura)
-                .Include(c => c.Fazenda)
                 .ToListAsync();
 
             if (colheitas.IsNullOrEmpty())

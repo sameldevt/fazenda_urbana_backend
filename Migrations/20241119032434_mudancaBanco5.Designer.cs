@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241117171504_mudancaBanco")]
-    partial class mudancaBanco
+    [Migration("20241119032434_mudancaBanco5")]
+    partial class mudancaBanco5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,7 +79,7 @@ namespace Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("Colheitas");
+                    b.ToTable("Colheitas", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.Contato", b =>
@@ -124,15 +124,43 @@ namespace Migrations
                     b.Property<DateTime>("DataPlantio")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FazendaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Culturas");
+                    b.HasIndex("FazendaId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("Culturas", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.CulturaInsumo", b =>
+                {
+                    b.Property<int>("CulturaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InsumoId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("CulturaId", "InsumoId");
+
+                    b.HasIndex("InsumoId");
+
+                    b.ToTable("CulturaInsumo");
                 });
 
             modelBuilder.Entity("Model.Entities.Endereco", b =>
@@ -190,8 +218,14 @@ namespace Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FazendaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("FornecedorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocalizacaoAtual")
                         .IsRequired()
@@ -217,9 +251,42 @@ namespace Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FazendaId");
+
                     b.HasIndex("FornecedorId");
 
-                    b.ToTable("Equipamentos");
+                    b.ToTable("Equipamentos", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.Fazenda", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Area")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DataFundacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Localizacao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroEstufas")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fazendas", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.Insumo", b =>
@@ -249,6 +316,9 @@ namespace Migrations
                     b.Property<int>("FornecedorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -263,7 +333,7 @@ namespace Migrations
 
                     b.HasIndex("FornecedorId");
 
-                    b.ToTable("Insumo");
+                    b.ToTable("Insumos", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.ItemPedido", b =>
@@ -486,6 +556,9 @@ namespace Migrations
                     b.Property<string>("Cargo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FazendaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NumeroRegistro")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("nvarchar(max)");
@@ -494,21 +567,23 @@ namespace Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.HasIndex("FazendaId");
+
                     b.ToTable("Funcionarios", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.Colheita", b =>
                 {
                     b.HasOne("Model.Entities.Cultura", "Cultura")
-                        .WithMany()
+                        .WithMany("Colheitas")
                         .HasForeignKey("CulturaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Produto", "Produto")
-                        .WithMany("Colheitas")
+                        .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cultura");
@@ -527,6 +602,44 @@ namespace Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Model.Entities.Cultura", b =>
+                {
+                    b.HasOne("Model.Entities.Fazenda", "Fazenda")
+                        .WithMany("Culturas")
+                        .HasForeignKey("FazendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fazenda");
+
+                    b.Navigation("Produto");
+                });
+
+            modelBuilder.Entity("Model.Entities.CulturaInsumo", b =>
+                {
+                    b.HasOne("Model.Entities.Cultura", "Cultura")
+                        .WithMany("CulturaInsumos")
+                        .HasForeignKey("CulturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Insumo", "Insumo")
+                        .WithMany("CulturaInsumos")
+                        .HasForeignKey("InsumoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cultura");
+
+                    b.Navigation("Insumo");
+                });
+
             modelBuilder.Entity("Model.Entities.Endereco", b =>
                 {
                     b.HasOne("Model.Entities.Usuario", "Usuario")
@@ -540,11 +653,19 @@ namespace Migrations
 
             modelBuilder.Entity("Model.Entities.Equipamento", b =>
                 {
+                    b.HasOne("Model.Entities.Fazenda", "Fazenda")
+                        .WithMany("Equipamentos")
+                        .HasForeignKey("FazendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Model.Entities.Fornecedor", "Fornecedor")
                         .WithMany("Equipamentos")
                         .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Fazenda");
 
                     b.Navigation("Fornecedor");
                 });
@@ -554,7 +675,7 @@ namespace Migrations
                     b.HasOne("Model.Entities.Fornecedor", "Fornecedor")
                         .WithMany("Insumos")
                         .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Fornecedor");
@@ -565,13 +686,13 @@ namespace Migrations
                     b.HasOne("Model.Entities.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pedido");
@@ -584,7 +705,7 @@ namespace Migrations
                     b.HasOne("Model.Entities.Cliente", "Cliente")
                         .WithMany("Pedidos")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -595,13 +716,13 @@ namespace Migrations
                     b.HasOne("Model.Entities.Categoria", "Categoria")
                         .WithMany("Produtos")
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Nutrientes", "Nutrientes")
                         .WithOne("Produto")
                         .HasForeignKey("Model.Entities.Produto", "NutrientesId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -629,16 +750,45 @@ namespace Migrations
 
             modelBuilder.Entity("Model.Entities.Funcionario", b =>
                 {
+                    b.HasOne("Model.Entities.Fazenda", "Fazenda")
+                        .WithMany("Funcionarios")
+                        .HasForeignKey("FazendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Model.Entities.Usuario", null)
                         .WithOne()
                         .HasForeignKey("Model.Entities.Funcionario", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Fazenda");
                 });
 
             modelBuilder.Entity("Model.Entities.Categoria", b =>
                 {
                     b.Navigation("Produtos");
+                });
+
+            modelBuilder.Entity("Model.Entities.Cultura", b =>
+                {
+                    b.Navigation("Colheitas");
+
+                    b.Navigation("CulturaInsumos");
+                });
+
+            modelBuilder.Entity("Model.Entities.Fazenda", b =>
+                {
+                    b.Navigation("Culturas");
+
+                    b.Navigation("Equipamentos");
+
+                    b.Navigation("Funcionarios");
+                });
+
+            modelBuilder.Entity("Model.Entities.Insumo", b =>
+                {
+                    b.Navigation("CulturaInsumos");
                 });
 
             modelBuilder.Entity("Model.Entities.Nutrientes", b =>
@@ -649,11 +799,6 @@ namespace Migrations
             modelBuilder.Entity("Model.Entities.Pedido", b =>
                 {
                     b.Navigation("Itens");
-                });
-
-            modelBuilder.Entity("Model.Entities.Produto", b =>
-                {
-                    b.Navigation("Colheitas");
                 });
 
             modelBuilder.Entity("Model.Entities.Usuario", b =>

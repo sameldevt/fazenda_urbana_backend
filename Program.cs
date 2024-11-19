@@ -15,7 +15,6 @@ builder.Configuration.AddEnvironmentVariables();
 
 Logger.Initialize();
 
-// Recupera e registra a string de conexão
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Logger.LogInformation($"Connection String: {connectionString}");
 
@@ -97,7 +96,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Chama o Logger para registrar que a aplicação está sendo executada
 Logger.LogInformation("Aplicação iniciada");
 
 app.Run();

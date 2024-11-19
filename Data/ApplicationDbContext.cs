@@ -63,12 +63,6 @@ public class ApplicationDbContext : DbContext
             .ToTable("Equipamentos");
 
         modelBuilder.Entity<Produto>()
-            .HasMany(p => p.Colheitas)
-            .WithOne(c => c.Produto)
-            .HasForeignKey(c => c.ProdutoId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<Produto>()
             .HasOne(p => p.Categoria)
             .WithMany(c => c.Produtos)
             .HasForeignKey(p => p.CategoriaId)
@@ -79,6 +73,12 @@ public class ApplicationDbContext : DbContext
             .WithOne(n => n.Produto)
             .HasForeignKey<Produto>(p => p.NutrientesId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Colheita>()
+             .HasOne(c => c.Produto)
+             .WithMany()
+             .HasForeignKey(c => c.ProdutoId)
+             .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<Pedido>()
             .HasOne(p => p.Cliente)
@@ -96,18 +96,6 @@ public class ApplicationDbContext : DbContext
             .HasOne(i => i.Produto)
             .WithMany() 
             .HasForeignKey(i => i.ProdutoId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<UsoInsumo>()
-            .HasOne(u => u.Insumo)
-            .WithMany()
-            .HasForeignKey(i => i.InsumoId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<UsoInsumo>()
-            .HasOne(u => u.Cultura)
-            .WithMany()
-            .HasForeignKey(i => i.CulturaId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Fornecedor>()
@@ -141,7 +129,7 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Fazenda>()
-            .HasMany(f => f.Colheitas)
+            .HasMany(f => f.Culturas)
             .WithOne(c => c.Fazenda)
             .HasForeignKey(f => f.FazendaId)
             .OnDelete(DeleteBehavior.NoAction);
@@ -149,6 +137,24 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Colheita>()
             .HasOne(c => c.Cultura)
             .WithMany(c => c.Colheitas)
+            .HasForeignKey(c => c.CulturaId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Colheita>()
+            .HasOne(c => c.Cultura)
+            .WithMany(c => c.Colheitas)
+            .HasForeignKey(c => c.CulturaId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Cultura>()
+            .HasOne(c => c.Produto)
+            .WithMany()
+            .HasForeignKey(i => i.ProdutoId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Cultura>()
+            .HasMany(c => c.Colheitas)
+            .WithOne(c => c.Cultura)
             .HasForeignKey(c => c.CulturaId)
             .OnDelete(DeleteBehavior.NoAction);
 
@@ -169,5 +175,18 @@ public class ApplicationDbContext : DbContext
             .WithMany(f => f.Equipamentos)
             .HasForeignKey(e => e.FornecedorId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<CulturaInsumo>()
+            .HasKey(ci => new { ci.CulturaId, ci.InsumoId });
+
+        modelBuilder.Entity<CulturaInsumo>()
+            .HasOne(ci => ci.Cultura)
+            .WithMany(c => c.CulturaInsumos)
+            .HasForeignKey(ci => ci.CulturaId);
+
+        modelBuilder.Entity<CulturaInsumo>()
+            .HasOne(ci => ci.Insumo)
+            .WithMany(i => i.CulturaInsumos)
+            .HasForeignKey(ci => ci.InsumoId);
     }
 }

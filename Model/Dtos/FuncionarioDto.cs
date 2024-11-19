@@ -5,9 +5,9 @@ namespace Model.Dtos
 {
     public record FuncionarioDto : UsuarioDto
     {
-        public int Id { get; set; }
         public string Cargo { get; set; }
         public string NumeroRegistro { get; set; }
+        public int FazendaId { get; set; }
 
         public FuncionarioDto() { }
     }
@@ -24,6 +24,7 @@ namespace Model.Dtos
     {
         public string Nome { get; init; }
         public string Senha { get; init; }
+        public int FazendaId { get; set; }
         public ContatoDto Contato { get; init; }
         public CadastrarOperadorDto() { }
     }
@@ -33,6 +34,7 @@ namespace Model.Dtos
         public string Nome { get; init; }
         public string Senha { get; init; }
         public string Cargo { get; init; }
+        public int FazendaId { get; set; }
         public DateTime DataRegistro { get; init; }
         public ContatoDto Contato { get; init; }
         public IEnumerable<EnderecoDto> Enderecos { get; init; }

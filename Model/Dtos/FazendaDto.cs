@@ -20,11 +20,13 @@ namespace Model.Dtos
 
         public ICollection<EquipamentoDto> Equipamentos { get; set; }
 
-        public ICollection<ColheitaDto> Colheitas { get; set; }
+        public ICollection<CulturaDto> Culturas { get; set; }
 
         public int NumeroEstufas { get; set; }
 
         public bool Ativo { get; set; }
+
+        public FazendaDto() { }
     }
 
     public record CadastrarFazendaDto
@@ -35,7 +37,6 @@ namespace Model.Dtos
         public DateTime DataFundacao { get; set; }
         public ICollection<int> FuncionariosIds { get; set; }
         public ICollection<int> EquipamentosIds { get; set; }
-        public ICollection<int> ColheitasIds { get; set; }
         public int NumeroEstufas { get; set; }
         public bool Ativo { get; set; }
 
@@ -51,7 +52,8 @@ namespace Model.Dtos
         public decimal QuantidadeColhida { get; set; }
         public int ProdutoId { get; set; }
         public int CulturaId { get; set; }
-        public CulturaDto Cultura { get; set; }
+
+        public ColheitaDto() { }
     }
 
     public record CadastrarColheitaDto
@@ -67,6 +69,8 @@ namespace Model.Dtos
         public int ProdutoId { get; set; }
 
         public int CulturaId { get; set; }
+
+        public CadastrarColheitaDto() { }
     }
     
 
@@ -84,6 +88,8 @@ namespace Model.Dtos
 
         public DateTime DataColheitaPrevista { get; set; }
 
+        public int FazendaId { get; set; }
+
         public CulturaDto() { }
     }
 
@@ -99,6 +105,8 @@ namespace Model.Dtos
 
         public DateTime DataColheitaPrevista { get; set; }
 
+        public int FazendaId { get; set; }
+        public int ProdutoId { get; set; }
         public CadastrarCulturaDto() { }
     }
 }

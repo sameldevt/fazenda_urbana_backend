@@ -30,7 +30,7 @@ namespace DtoMapping
         {
             CreateMap<CadastrarInsumoDto, Insumo>();
             CreateMap<InsumoDto, Insumo>();
-            CreateMap<Insumo, Insumo>();
+            CreateMap<Insumo, InsumoDto>();
         }
 
         private void MapMensagemContato()
@@ -158,7 +158,6 @@ namespace DtoMapping
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
             CreateMap<AtualizarProdutoDto, Produto>()
-                .ForMember(dest => dest.Colheitas, opt => opt.Ignore())
                 .ForMember(dest => dest.Categoria, opt => opt.Ignore())
                 .ForMember(dest => dest.Nutrientes, opt => opt.MapFrom(src => src.Nutrientes));
 
@@ -170,8 +169,7 @@ namespace DtoMapping
                     Carboidratos = src.Nutrientes.Carboidratos,
                     Fibras = src.Nutrientes.Fibras,
                     Gorduras = src.Nutrientes.Gorduras
-                }))
-                .ForMember(dest => dest.Colheitas, opt => opt.Ignore());
+                }));
         }
 
         private void MapCategoria()

@@ -24,11 +24,8 @@ namespace Model.Entities
 
         [Required]
         public string Nome { get; set; }
-
         public string Descricao { get; set; }
-
         public string ImagemUrl { get; set; }
-
 
         [Required]
         public string Categoria { get; set; }
@@ -52,6 +49,8 @@ namespace Model.Entities
         public int FornecedorId { get; set; }
 
         public Fornecedor Fornecedor { get; set; }
+
+        public ICollection<CulturaInsumo> CulturaInsumos { get; set; }
 
         public Insumo() { }
     }

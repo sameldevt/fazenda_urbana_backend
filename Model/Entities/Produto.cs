@@ -24,8 +24,6 @@ namespace Model.Entities
 
         public string ImagemUrl { get; set; }
 
-        public ICollection<Colheita> Colheitas { get; set; }
-
         [Required]
         public int CategoriaId { get; set; }
 

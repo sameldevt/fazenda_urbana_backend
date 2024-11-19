@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241117195438_mudancaBanco5")]
-    partial class mudancaBanco5
+    [Migration("20241119032749_mudancaBanco6")]
+    partial class mudancaBanco6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,9 +67,6 @@ namespace Migrations
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FazendaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
@@ -79,8 +76,6 @@ namespace Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CulturaId");
-
-                    b.HasIndex("FazendaId");
 
                     b.HasIndex("ProdutoId");
 
@@ -129,15 +124,43 @@ namespace Migrations
                     b.Property<DateTime>("DataPlantio")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FazendaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FazendaId");
+
+                    b.HasIndex("ProdutoId");
+
                     b.ToTable("Culturas", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.CulturaInsumo", b =>
+                {
+                    b.Property<int>("CulturaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InsumoId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantidade")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("CulturaId", "InsumoId");
+
+                    b.HasIndex("InsumoId");
+
+                    b.ToTable("CulturaInsumo");
                 });
 
             modelBuilder.Entity("Model.Entities.Endereco", b =>
@@ -200,6 +223,9 @@ namespace Migrations
 
                     b.Property<int>("FornecedorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocalizacaoAtual")
                         .IsRequired()
@@ -289,6 +315,9 @@ namespace Migrations
 
                     b.Property<int>("FornecedorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -474,32 +503,6 @@ namespace Migrations
                     b.ToTable("Produtos");
                 });
 
-            modelBuilder.Entity("Model.Entities.UsoInsumo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CulturaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InsumoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Quantidade")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CulturaId");
-
-                    b.HasIndex("InsumoId");
-
-                    b.ToTable("UsoInsumo");
-                });
-
             modelBuilder.Entity("Model.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -574,24 +577,16 @@ namespace Migrations
                     b.HasOne("Model.Entities.Cultura", "Cultura")
                         .WithMany("Colheitas")
                         .HasForeignKey("CulturaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Model.Entities.Fazenda", "Fazenda")
-                        .WithMany("Colheitas")
-                        .HasForeignKey("FazendaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Produto", "Produto")
-                        .WithMany("Colheitas")
+                        .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cultura");
-
-                    b.Navigation("Fazenda");
 
                     b.Navigation("Produto");
                 });
@@ -605,6 +600,44 @@ namespace Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Model.Entities.Cultura", b =>
+                {
+                    b.HasOne("Model.Entities.Fazenda", "Fazenda")
+                        .WithMany("Culturas")
+                        .HasForeignKey("FazendaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Fazenda");
+
+                    b.Navigation("Produto");
+                });
+
+            modelBuilder.Entity("Model.Entities.CulturaInsumo", b =>
+                {
+                    b.HasOne("Model.Entities.Cultura", "Cultura")
+                        .WithMany("CulturaInsumos")
+                        .HasForeignKey("CulturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Insumo", "Insumo")
+                        .WithMany("CulturaInsumos")
+                        .HasForeignKey("InsumoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cultura");
+
+                    b.Navigation("Insumo");
                 });
 
             modelBuilder.Entity("Model.Entities.Endereco", b =>
@@ -623,13 +656,13 @@ namespace Migrations
                     b.HasOne("Model.Entities.Fazenda", "Fazenda")
                         .WithMany("Equipamentos")
                         .HasForeignKey("FazendaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Fornecedor", "Fornecedor")
                         .WithMany("Equipamentos")
                         .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Fazenda");
@@ -642,7 +675,7 @@ namespace Migrations
                     b.HasOne("Model.Entities.Fornecedor", "Fornecedor")
                         .WithMany("Insumos")
                         .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Fornecedor");
@@ -653,13 +686,13 @@ namespace Migrations
                     b.HasOne("Model.Entities.Pedido", "Pedido")
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pedido");
@@ -672,7 +705,7 @@ namespace Migrations
                     b.HasOne("Model.Entities.Cliente", "Cliente")
                         .WithMany("Pedidos")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -683,37 +716,18 @@ namespace Migrations
                     b.HasOne("Model.Entities.Categoria", "Categoria")
                         .WithMany("Produtos")
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Nutrientes", "Nutrientes")
                         .WithOne("Produto")
                         .HasForeignKey("Model.Entities.Produto", "NutrientesId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
 
                     b.Navigation("Nutrientes");
-                });
-
-            modelBuilder.Entity("Model.Entities.UsoInsumo", b =>
-                {
-                    b.HasOne("Model.Entities.Cultura", "Cultura")
-                        .WithMany()
-                        .HasForeignKey("CulturaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Model.Entities.Insumo", "Insumo")
-                        .WithMany()
-                        .HasForeignKey("InsumoId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Cultura");
-
-                    b.Navigation("Insumo");
                 });
 
             modelBuilder.Entity("Model.Entities.Cliente", b =>
@@ -739,7 +753,7 @@ namespace Migrations
                     b.HasOne("Model.Entities.Fazenda", "Fazenda")
                         .WithMany("Funcionarios")
                         .HasForeignKey("FazendaId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Entities.Usuario", null)
@@ -759,15 +773,22 @@ namespace Migrations
             modelBuilder.Entity("Model.Entities.Cultura", b =>
                 {
                     b.Navigation("Colheitas");
+
+                    b.Navigation("CulturaInsumos");
                 });
 
             modelBuilder.Entity("Model.Entities.Fazenda", b =>
                 {
-                    b.Navigation("Colheitas");
+                    b.Navigation("Culturas");
 
                     b.Navigation("Equipamentos");
 
                     b.Navigation("Funcionarios");
+                });
+
+            modelBuilder.Entity("Model.Entities.Insumo", b =>
+                {
+                    b.Navigation("CulturaInsumos");
                 });
 
             modelBuilder.Entity("Model.Entities.Nutrientes", b =>
@@ -778,11 +799,6 @@ namespace Migrations
             modelBuilder.Entity("Model.Entities.Pedido", b =>
                 {
                     b.Navigation("Itens");
-                });
-
-            modelBuilder.Entity("Model.Entities.Produto", b =>
-                {
-                    b.Navigation("Colheitas");
                 });
 
             modelBuilder.Entity("Model.Entities.Usuario", b =>

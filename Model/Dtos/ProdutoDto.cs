@@ -51,7 +51,6 @@ namespace Model.Dtos
         public string ImagemUrl { get; set; }
         public NutrientesDto Nutrientes { get; set; }
         public int CategoriaId { get; init; }
-        public ICollection<ColheitaDto> Colheitas { get; set; }
 
         public CadastrarProdutoDto() { }
     }

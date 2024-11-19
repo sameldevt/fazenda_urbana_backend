@@ -43,7 +43,7 @@ namespace Repositories
                            .AsNoTracking()
                            .Include(f => f.Funcionarios)
                            .Include(f => f.Equipamentos)
-                           .Include(f => f.Colheitas)
+                           .Include(f => f.Culturas)
                            .FirstOrDefaultAsync(i => i.Id == id);
 
             if (fazenda == null)
@@ -60,7 +60,7 @@ namespace Repositories
                            .AsNoTracking()
                            .Include(f => f.Funcionarios)
                            .Include(f => f.Equipamentos)
-                           .Include(f => f.Colheitas)
+                           .Include(f => f.Culturas)
                            .ToListAsync();
 
             if (fazendas.IsNullOrEmpty())

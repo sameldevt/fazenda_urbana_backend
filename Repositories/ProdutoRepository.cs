@@ -37,7 +37,6 @@ namespace Repositories
             var produtos = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .ToListAsync();
@@ -55,7 +54,6 @@ namespace Repositories
             var produto = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Nome == nome);
@@ -85,7 +83,6 @@ namespace Repositories
             var produtos = await _context.Produtos
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
-                .Include(p => p.Colheitas)
                 .AsNoTracking()
                 .Where(p => ids.Contains(p.Id))
                 .Where(p => p.QuantidadeEstoque > 5)

@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="DtoMapping\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 </Project>

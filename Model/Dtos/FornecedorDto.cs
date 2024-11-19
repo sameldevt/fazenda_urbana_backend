@@ -104,6 +104,8 @@ namespace Model.Dtos
 
         public int FornecedorId { get; set; }
 
+        public int FazendaId { get; set; }
+
         public EquipamentoDto() { }
 
     }
@@ -131,6 +133,8 @@ namespace Model.Dtos
         public string LocalizacaoAtual { get; set; }
 
         public int FornecedorId { get; set; }
+
+        public int FazendaId { get; set; }
 
         public CadastrarEquipamentoDto() { }
     }

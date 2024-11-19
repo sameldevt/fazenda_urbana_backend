@@ -21,11 +21,13 @@ namespace Services
 
     public class ProdutoService : IProdutoService
     {
+        private readonly IColheitaService _colheitaService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IMapper _mapper;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper)
+        public ProdutoService(IColheitaService colheitaService, IProdutoRepository produtoRepository, IMapper mapper)
         {
+            _colheitaService = colheitaService;
             _produtoRepository = produtoRepository;
             _mapper = mapper;
         }
@@ -61,12 +63,9 @@ namespace Services
 
         public async Task<ProdutoDto> CadastrarAsync(CadastrarProdutoDto cadastrarProdutoDto)
         {
-            var categoria = await VerificarCategoria(cadastrarProdutoDto.CategoriaId);
+            await VerificarCategoria(cadastrarProdutoDto.CategoriaId);
 
             var produtoParaInserir = _mapper.Map<Produto>(cadastrarProdutoDto);
-
-            produtoParaInserir.Categoria = categoria;
-            produtoParaInserir.Colheitas = _mapper.Map<ICollection<Colheita>>(cadastrarProdutoDto.Colheitas);
 
             var produto = await _produtoRepository.CadastrarAsync(produtoParaInserir);
 

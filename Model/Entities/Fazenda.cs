@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Model.Enum;
+using Services;
 
 namespace Model.Entities
 {
@@ -22,7 +23,7 @@ namespace Model.Entities
 
         public ICollection<Equipamento> Equipamentos { get; set; }
 
-        public ICollection<Colheita> Colheitas { get; set; }
+        public ICollection<Cultura> Culturas { get; set; }
 
         public int NumeroEstufas { get; set; }
 
@@ -55,11 +56,6 @@ namespace Model.Entities
 
         public Cultura Cultura { get; set; }
 
-        [Required]
-        public int FazendaId { get; set; }
-
-        public Fazenda Fazenda { get; set; }
-
         public Colheita() { }
     }
 
@@ -83,30 +79,34 @@ namespace Model.Entities
         [Required]
         public DateTime DataColheitaPrevista { get; set; }
 
+        [Required]
+        public int ProdutoId { get; set; }
+
+        public Produto Produto { get; set; }
+
         public ICollection<Colheita> Colheitas { get; set; }
+
+        public ICollection<CulturaInsumo> CulturaInsumos { get; set; }
+
+        [Required]
+        public int FazendaId { get; set; }
+
+        public Fazenda Fazenda { get; set; } 
 
         public Cultura() { }
     }
 
-    public class UsoInsumo
+    public class CulturaInsumo
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required]
         public int CulturaId { get; set; }
-
         public Cultura Cultura { get; set; }
 
         [Required]
         public int InsumoId { get; set; }
-
         public Insumo Insumo { get; set; }
 
-        [Required]
         public decimal Quantidade { get; set; }
-
-        public UsoInsumo() { }
     }
+
 }
