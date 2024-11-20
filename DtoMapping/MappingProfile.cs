@@ -79,7 +79,9 @@ namespace DtoMapping
 
         private void MapCliente()
         {
-            CreateMap<ClienteDto, Cliente>();
+            CreateMap<ClienteDto, Cliente>()
+                .ForMember(dest => dest.Pedidos, opt => opt.Ignore())
+                .ForMember(dest => dest.Enderecos, opt => opt.Ignore());
 
             CreateMap<Cliente, ClienteDto>()
                 .ForMember(dest => dest.Contato, opt => opt.MapFrom(src => new ContatoDto
@@ -227,7 +229,19 @@ namespace DtoMapping
 
         private void MapFuncionario()
         {
-            CreateMap<FuncionarioDto, Funcionario>();
+            CreateMap<FuncionarioDto, Funcionario>()
+                .ForMember(dest => dest.FazendaId, opt => opt.Ignore())
+                .ForMember(dest => dest.Contato, opt => opt.Ignore())
+                  .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos.Select(e => new Endereco
+                  {
+                      Logradouro = e.Logradouro,
+                      Numero = e.Numero,
+                      Cidade = e.Cidade,
+                      CEP = e.CEP,
+                      Complemento = e.Complemento,
+                      Estado = e.Estado
+                  })));
+
             CreateMap<Funcionario, FuncionarioDto>();
 
             CreateMap<CadastrarOperadorDto, Funcionario>()

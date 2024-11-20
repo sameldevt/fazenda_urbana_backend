@@ -35,6 +35,7 @@ namespace Repositories
         public async Task<List<Produto>> BuscarTodosAsync()
         {
             var produtos = await _context.Produtos
+                .AsNoTracking()
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Where(p => p.QuantidadeEstoque > 5)
@@ -79,6 +80,7 @@ namespace Repositories
         public async Task<List<Produto>> BuscarPorIdsAsync(IEnumerable<int> ids)
         {
             var produtos = await _context.Produtos
+                .AsNoTracking()
                 .Include(p => p.Categoria)
                 .Include(p => p.Nutrientes)
                 .Where(p => ids.Contains(p.Id))
@@ -96,6 +98,7 @@ namespace Repositories
         public async Task<Produto> BuscarPorIdAsync(int id)
         {
             var produto = await _context.Produtos
+                .AsNoTracking()
                 .Include(p => p.Nutrientes)
                 .Where(p => p.QuantidadeEstoque > 5)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -153,14 +156,6 @@ namespace Repositories
 
         public async Task<Produto> AtualizarAsync(Produto produto)
         {
-            var produtoExistente = await _context.Produtos
-                .FirstOrDefaultAsync(p => p.Id == produto.Id);
-
-            if (produtoExistente == null)
-            {
-                throw new ResourceNotFoundException($"Produto com id {produto.Id} não encontrado.");
-            }
-
             _context.Produtos.Update(produto);
             await _context.SaveChangesAsync();
 
